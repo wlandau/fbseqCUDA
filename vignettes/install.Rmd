@@ -1,0 +1,63 @@
+---
+title: "`heterosisCUDA` package installation guide"
+author: Will Landau, Dr. Jarad Niemi
+date: 2015
+output: 
+  rmarkdown::html_vignette:
+    number_sections: true
+    toc: true
+vignette: >
+  \VignetteEngine{knitr::rmarkdown}
+  \VignetteIndexEntry{`heterosisCUDA` package installation guide}
+  \usepackage[utf8]{inputenc}
+---
+
+# Purpose
+
+`heterosisCUDA` is the internal engine of the [`heterosis` package](https://github.com/wlandau/heterosis), and it is implemented in [CUDA](http://www.nvidia.com/object/cuda_home_new.html) to provide necessary acceleration for the underlying Markov chain Monte Carlo (MCMC) procedure. `heterosis` and `heterosisCUDA` are kept separate for convenience. For example, you can set up input with `heterosis` and without `heterosisCUDA` on a low-end laptop, run the MCMC remotely with both `heterosis` and `heterosisCUDA` on a CUDA-enabled [cloud computing enterprise](http://www.nvidia.com/object/gpu-cloud-computing-services.html) such as [Amazon Web Services](http://aws.amazon.com/ec2/instance-types/), and analyze the output locally with `heterosis` and without `heterosisCUDA`. `heterosisCUDA` is not meant to be directly accessed by the user, so there are no usage instructions. However, it is important to understand the system requirements and installation instructions below.
+
+# System requirements
+
+- R $\ge$ 3.2.0
+- R packages `methods` and `knitr`, available through the [Comprehensive R Archive Network (CRAN](https://cran.r-project.org/).
+- R package `heterosis`, available through GitHub. (See the `heterosis` package installation vignette).
+- A CUDA-enabled NVIDIA graphics processing unit (GPU) with compute capability 2.0 or greater.
+- CUDA version 6.0 or greater.
+
+More information about CUDA is available through [NVIDIA](http://www.nvidia.com/object/cuda_home_new.html). If your computer does not have these features, you can rent GPU time from [cloud computing enterprises](http://www.nvidia.com/object/gpu-cloud-computing-services.html) such as [Amazon Web Services](http://aws.amazon.com/ec2/instance-types/). 
+
+# Installation
+
+## Option 1: install directly from GitHub.
+
+For this option, you need the `devtools` package, available from CRAN. Just open R and run 
+
+```{r, eval=F}
+library(devtools)
+install_github("wlandau/heterosisCUDA")
+```
+If the installation fails and reports CUDA-related errors, you may have to modify `src/Makevars` in the package source. `CUDA_HOME` should be set to your installation of CUDA, very commonly `/usr/local/cuda` (the default). Alternatively, file paths that use `/`'s may need to use `\`'s for Windows machines. If you need to make either adjustment, try option 2.
+
+## Option 2: install from the source.
+
+Open a command line program such as Terminal in Mac/Linux and enter the following commands.
+
+```
+git clone git@github.com:wlandau/heterosis.git
+git clone git@github.com:wlandau/heterosisCUDA.git
+
+```
+
+In your current working directory (check with `pwd`), open  `heterosisCUDA/src/Makevars` in a text editor. The top line should read 
+
+```
+CUDA_HOME = /usr/local/cuda
+```
+Make sure `CUDA_HOME` points to your installation of CUDA. In addition, if you use Windows, you may need to go through the rest of `Makevars` to replace `/`'s with `\`'s in file paths. Next, run 
+
+```
+R CMD build heterosisCUDA
+R CMD INSTALL heterosisCUDA_0.0.tar.gz
+```
+
+You may have to replace `heterosisCUDA_0.0.tar.gz` by the name of whatever tarball comes out of `R CMD build`.
