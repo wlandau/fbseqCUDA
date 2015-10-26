@@ -17,7 +17,7 @@ __global__ void tauRho_kernel2(chain_t *dd){
   args.shape = dd->aRho[0] + dd->N * dd->nuRho[0] * 0.5;
   args.rate = dd->bRho[0] + dd->nuRho[0] * dd->aux[0] * 0.5;
   args.upperbound = CUDART_INF;
-  dd->tauRho[0] = sqrt(stepping_out_slice(dd, args));
+  dd->tauRho[0] = slice(dd, args);
 }
 
 void tauRhoSample(SEXP hh, chain_t *hd, chain_t *dd){

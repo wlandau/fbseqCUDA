@@ -4,7 +4,7 @@
 __global__ void rho_kernel1(chain_t *dd, int n){
   int g = IDX;
   if(g < dd->G)
-    dd->aux[g] = dd->eps[I(n, g)] * dd->eps[I(n, g)] / (dd->gam[g] * dd->gam[g]);
+    dd->aux[g] = dd->epsilon[I(n, g)] * dd->epsilon[I(n, g)] / (dd->gamma[g] * dd->gamma[g]);
 }
 
 __global__ void rho_kernel2(chain_t *dd, int n, double sum){ // single thread
@@ -16,7 +16,7 @@ __global__ void rho_kernel2(chain_t *dd, int n, double sum){ // single thread
   args.shape = (dd->G + dd->nuRho[0]) * 0.5;
   args.scale = 0.5 * (dd->nuRho[0] * dd->tauRho[0] * dd->tauRho[0] + sum);
   args.upperbound = CUDART_INF;
-  dd->rho[n] = sqrt(stepping_out_slice(dd, args));
+  dd->rho[n] = slice(dd, args);
 }
 
 void rhoSample(SEXP hh, chain_t *hd, chain_t *dd){

@@ -20,7 +20,7 @@ __global__ void nuRho_kernel2(chain_t *dd){
   args.C = (double) dd->N;
   args.D = dd->dRho[0];
 
-  dd->nuRho[0] = stepping_out_slice(dd, args);
+  dd->nuRho[0] = slice(dd, args);
 }
 
 void nuRhoSample(SEXP hh, chain_t *hd, chain_t *dd){
