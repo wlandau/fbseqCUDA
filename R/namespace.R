@@ -1,4 +1,4 @@
-#' @useDynLib heterosisCUDA
+#' @useDynLib fbseqCUDA
 #' @import methods
-#' @import heterosis
+#' @import fbseq
 NULL

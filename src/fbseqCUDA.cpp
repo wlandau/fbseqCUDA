@@ -12,55 +12,37 @@
 #include "utils/curand_usage.h"
 #include "utils/reset_starts.h"
 
-#include "approx_gibbs_step/approx_gibbs_step_args.h"
-#include "approx_gibbs_step/approx_gibbs_step_targets.h"
-#include "approx_gibbs_step/stepping_out_slice.h"
+#include "slice/args.h"
+#include "slice/targets.h"
+#include "slice/slice.h"
 
-#include "gibbs/phi.h"
-#include "gibbs/alp.h"
-#include "gibbs/del.h"
-#include "gibbs/rho.h"
-#include "gibbs/gam.h"
-#include "gibbs/xiPhi.h"
-#include "gibbs/xiAlp.h"
-#include "gibbs/xiDel.h"
-#include "gibbs/eps.h"
+#include "gibbs/beta.h"
+#include "gibbs/epsilon.h"
+#include "gibbs/gamma.h"
+#include "gibbs/nuGamma.h"
 #include "gibbs/nuRho.h"
-#include "gibbs/nuGam.h"
+#include "gibbs/omega.h"
+#include "gibbs/rho.h"
+#include "gibbs/tauGamma.h"
 #include "gibbs/tauRho.h"
-#include "gibbs/tauGam.h"
-#include "gibbs/sigAlp.h"
-#include "gibbs/sigDel.h"
-#include "gibbs/sigPhi.h"
-#include "gibbs/theAlp.h"
-#include "gibbs/theDel.h"
-#include "gibbs/thePhi.h"
+#include "gibbs/theta.h"
+#include "gibbs/xi.h"
 
 void iteration(SEXP hh, chain_t *hd, chain_t *dd){
-  epsSample(hh, hd, dd);
+  epsilonSample(hh, hd, dd);
+  gammaSample(hh, hd, dd);
   rhoSample(hh, hd, dd);
-  gamSample(hh, hd, dd);
 
-  phiSample(hh, hd, dd);
-  alpSample(hh, hd, dd);
-  delSample(hh, hd, dd);
+  betaSample(hh, hd, dd);
+  thetaSample(hh, hd, dd);
+  omegaSample(hh, hd, dd);
+  xiSample(hh, hd, dd);
 
-  xiPhiSample(hh, hd, dd);
-  xiAlpSample(hh, hd, dd);
-  xiDelSample(hh, hd, dd);
-
-  nuRhoSample(hh, hd, dd);
-  nuGamSample(hh, hd, dd);
+  tauGammaSample(hh, hd, dd);
   tauRhoSample(hh, hd, dd);
-  tauGamSample(hh, hd, dd);
 
-  thePhiSample(hh, hd, dd);
-  theAlpSample(hh, hd, dd);
-  theDelSample(hh, hd, dd);
-
-  sigPhiSample(hh, hd, dd);
-  sigAlpSample(hh, hd, dd);
-  sigDelSample(hh, hd, dd);
+  nuGammaSample(hh, hd, dd);
+  nuRhoSample(hh, hd, dd);
 }
 
 void burnin(SEXP hh, chain_t *hd, chain_t *dd){
@@ -126,7 +108,7 @@ void end(SEXP hh, chain_t *hd, chain_t *dd){
   cudaDeviceReset();
 }
 
-extern "C" SEXP heterosisCUDA(SEXP hh){
+extern "C" SEXP fbseqCUDA(SEXP hh){
   if(li(hh, "verbose")[0])
     Rprintf("Loading MCMC on GPU %d.\n", getDevice());
 
