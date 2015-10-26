@@ -1,7 +1,7 @@
-#ifndef ALP_H
-#define ALP_H
+#ifndef BETA_H
+#define BETA_H
 
-__global__ void alp_kernel1(chain_t *dd){
+__global__ void beta_kernel1(chain_t *dd){
   int g = IDX, n;
   double D0[3] = {0.0, 0.0, 0.0};
 
@@ -10,7 +10,7 @@ __global__ void alp_kernel1(chain_t *dd){
 
   approx_gibbs_args_t args;
   args.idx = g;
-  args.x0 = dd->alp[g];
+  args.x0 = dd->beta[g];
   args.target_type = LTARGET_BASIC;
   args.step_width = STEP_WIDTH;
   args.max_steps = MAX_STEPS;
@@ -23,8 +23,8 @@ __global__ void alp_kernel1(chain_t *dd){
       args.A += (double) dd->counts[I(n, g)];
   }
 
-  args.B = 1.0/(2.0 * dd->sigAlp[0] * dd->sigAlp[0] * dd->xiAlp[g]);
-  args.C = dd->theAlp[0];
+  args.B = 1.0/(2.0 * dd->omega[0] * dd->omega[0] * dd->xi[g]);
+  args.C = dd->theta[0];
 
   for(n = 0; n < dd->N; ++n)
     D0[dd->group[n] - 1] += exp(dd->eps[I(n, g)]);
@@ -34,12 +34,12 @@ __global__ void alp_kernel1(chain_t *dd){
 
   args.E = exp(dd->phi[g] + dd->del[g]) * D0[1];
 
-  dd->alp[g] = stepping_out_slice(dd, args);
+  dd->beta[g] = stepping_out_slice(dd, args);
 }
 
-void alpSample(SEXP hh, chain_t *hd, chain_t *dd){
-  if(!(vi(le(hh, "updates"), "alp"))) return;
-  alp_kernel1<<<GRID, BLOCK>>>(dd);
+void betaSample(SEXP hh, chain_t *hd, chain_t *dd){
+  if(!(vi(le(hh, "updates"), "beta"))) return;
+  beta_kernel1<<<GRID, BLOCK>>>(dd);
 }
 
-#endif // ALP_H
+#endif // BETA_H
