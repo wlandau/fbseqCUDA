@@ -3,107 +3,77 @@
 
 typedef struct {
 
-  int *counts;
-  int *group;
+  int *counts,
+      *countSums_g,
+      *countSums_n,
+      *design,
+      G,
+      L,
+      N,
+      *seeds;
 
-  int *sums_n;
-  int *sums_g;
+  double *aGamma,
+         *aRho,
+         *bGamma,
+         *bRho,
+         *c,
+         *dGamma,
+         *dRho,
+         *k,
+         *r,
+         *s,
 
-  int N;
-  int G;
+         *beta,
+         *epsilon,
+         *gamma,
+         *nuGamma,
+         *nuRho,
+         *omega,
+         *rho,
+         *tauGamma,
+         *tauRho,
+         *theta,
+         *xi,
 
-  double mphtol;
-  int *seeds;
+         *betaStart,
+         *epsilonStart,
+         *gammaStart,
+         *nuGammaStart,
+         *nuRhoStart,
+         *omegaStart,
+         *rhoStart,
+         *tauGammaStart,
+         *tauRhoStart,
+         *thetaStart,
+         *xiStart,
 
-  double *hph;
-  double *lph;
-  double *mph;
+         *betaPostMean,
+         *epsilonPostMean,
+         *gammaPostMean,
+         *nuGammaPostMean,
+         *nuRhoPostMean,
+         *omegaPostMean,
+         *rhoPostMean,
+         *tauGammaPostMean,
+         *tauRhoPostMean,
+         *thetaPostMean,
+         *xiPostMean,
 
-  double *dRho;
-  double *dGam;
-  double *aRho;
-  double *aGam;
-  double *bRho;
-  double *bGam;
-  double *cPhi;
-  double *cAlp;
-  double *cDel;
-  double *sPhi;
-  double *sAlp;
-  double *sDel;
-  double *kPhi;
-  double *kAlp;
-  double *kDel;
-  double *rPhi;
-  double *rAlp;
-  double *rDel;
+         *betaPostMeanSquare,
+         *epsilonPostMeanSquare,
+         *gammaPostMeanSquare,
+         *nuGammaPostMeanSquare,
+         *nuRhoPostMeanSquare,
+         *omegaPostMeanSquare,
+         *rhoPostMeanSquare,
+         *tauGammaPostMeanSquare,
+         *tauRhoPostMeanSquare,
+         *thetaPostMeanSquare,
+         *xiPostMeanSquare,
 
-  double *nuRho;
-  double *nuGam;
-  double *tauRho;
-  double *tauGam;
-  double *thePhi;
-  double *theAlp;
-  double *theDel;
-  double *sigPhi;
-  double *sigAlp;
-  double *sigDel;
-
-  double *phi;
-  double *alp;
-  double *del;
-  double *rho;
-  double *gam;
-  double *xiPhi;
-  double *xiAlp;
-  double *xiDel;
-  double *eps;
-
-  double *nuRhoPostMean;
-  double *nuGamPostMean;
-  double *tauRhoPostMean;
-  double *tauGamPostMean;
-  double *thePhiPostMean;
-  double *theAlpPostMean;
-  double *theDelPostMean;
-  double *sigPhiPostMean;
-  double *sigAlpPostMean;
-  double *sigDelPostMean;
-
-  double *phiPostMean;
-  double *alpPostMean;
-  double *delPostMean;
-  double *rhoPostMean;
-  double *gamPostMean;
-  double *xiPhiPostMean;
-  double *xiAlpPostMean;
-  double *xiDelPostMean;
-  double *epsPostMean;
-
-  double *nuRhoPostMeanSq;
-  double *nuGamPostMeanSq;
-  double *tauRhoPostMeanSq;
-  double *tauGamPostMeanSq;
-  double *thePhiPostMeanSq;
-  double *theAlpPostMeanSq;
-  double *theDelPostMeanSq;
-  double *sigPhiPostMeanSq;
-  double *sigAlpPostMeanSq;
-  double *sigDelPostMeanSq;
-
-  double *phiPostMeanSq;
-  double *alpPostMeanSq;
-  double *delPostMeanSq;
-  double *rhoPostMeanSq;
-  double *gamPostMeanSq;
-  double *xiPhiPostMeanSq;
-  double *xiAlpPostMeanSq;
-  double *xiDelPostMeanSq;
-  double *epsPostMeanSq;
+         *aux;
 
   curandState_t *states;
-  double *aux;
-
 } chain_t;
 
 #endif // CHAIN_H

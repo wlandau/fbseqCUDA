@@ -2,6 +2,7 @@
 #define ELEMENT_H
 
 #define I(n, g) ((n) * (dd->G) + (g))
+#define Idesign(l, n) ((l) * (dd->N) + (n))
 
 int index(SEXP obj, const char *str){
   int i = -1;

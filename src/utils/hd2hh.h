@@ -3,104 +3,76 @@
 
 void hd2hh(SEXP hh, chain_t *hd, int m){
 
-  int nreturn,
+  int l,
       greturn,
-      N = li(hh, "N")[0],
+      nreturn,
       G = li(hh, "G")[0],
-      Nreturn = li(hh, "Nreturn")[0],
+      L = li(hh, "L")[0],
+      N = li(hh, "N")[0],
       Greturn = li(hh, "Greturn")[0],
-      NreturnEps = li(hh, "NreturnEps")[0],
+      Nreturn = li(hh, "Nreturn")[0],
       GreturnEps = li(hh, "GreturnEps")[0],
-      *samples_return = li(hh, "samples_return"),
-      *features_return = li(hh, "features_return"),
-      *samples_return_eps = li(hh, "samples_return_eps"),
-      *features_return_eps = li(hh, "features_return_eps");
+      NreturnEps = li(hh, "NreturnEps")[0],
+      *genes_return = li(hh, "genes_return"),
+      *libraries_return = li(hh, "libraries_return"),
+      *genes_return_eps = li(hh, "genes_return_eps"),
+      *libraries_return_eps = li(hh, "libraries_return_eps");
 
-  SEXP returns = le(hh, "returns");
+  SEXP parameter_sets_return = le(hh, "parameter_sets_return");
 
-  if(vi(returns, "nuRho"))
-    CUDA_CALL(cudaMemcpy(lr(hh, "nuRho") + m, hd->nuRho, sizeof(double), cudaMemcpyDeviceToHost));
+  if(vi(parameter_sets_return, "beta"))
+    for(l = 0; l < L; ++l)
+      for(greturn = 0; greturn < Greturn; ++greturn)
+        CUDA_CALL(cudaMemcpy(lr(hh, "beta") + m*L*Greturn + l*Greturn + greturn,
+                             hd->beta + (libraries_return[l]-1)*G + genes_return[greturn]-1,
+                             sizeof(double), cudaMemcpyDeviceToHost));
 
-  if(vi(returns, "nuGam"))
-    CUDA_CALL(cudaMemcpy(lr(hh, "nuGam") + m, hd->nuGam, sizeof(double), cudaMemcpyDeviceToHost));
-
-  if(vi(returns, "tauRho"))
-    CUDA_CALL(cudaMemcpy(lr(hh, "tauRho") + m, hd->tauRho, sizeof(double), cudaMemcpyDeviceToHost));
-
-  if(vi(returns, "tauGam"))
-    CUDA_CALL(cudaMemcpy(lr(hh, "tauGam") + m, hd->tauGam, sizeof(double), cudaMemcpyDeviceToHost));
-
-  if(vi(returns, "thePhi"))
-    CUDA_CALL(cudaMemcpy(lr(hh, "thePhi") + m, hd->thePhi, sizeof(double), cudaMemcpyDeviceToHost));
-
-  if(vi(returns, "theAlp"))
-    CUDA_CALL(cudaMemcpy(lr(hh, "theAlp") + m, hd->theAlp, sizeof(double), cudaMemcpyDeviceToHost));
-
-  if(vi(returns, "theDel"))
-    CUDA_CALL(cudaMemcpy(lr(hh, "theDel") + m, hd->theDel, sizeof(double), cudaMemcpyDeviceToHost));
-
-  if(vi(returns, "sigPhi"))
-    CUDA_CALL(cudaMemcpy(lr(hh, "sigPhi") + m, hd->sigPhi, sizeof(double), cudaMemcpyDeviceToHost));
-
-  if(vi(returns, "sigAlp"))
-    CUDA_CALL(cudaMemcpy(lr(hh, "sigAlp") + m, hd->sigAlp, sizeof(double), cudaMemcpyDeviceToHost));
-
-  if(vi(returns, "sigDel"))
-    CUDA_CALL(cudaMemcpy(lr(hh, "sigDel") + m, hd->sigDel, sizeof(double), cudaMemcpyDeviceToHost));
-
-  if(vi(returns, "rho"))
-    for(nreturn = 0; nreturn < Nreturn; ++nreturn)
-      CUDA_CALL(cudaMemcpy(lr(hh, "rho") + m*Nreturn + nreturn,
-                           hd->rho + samples_return[nreturn]-1,
-                           sizeof(double), cudaMemcpyDeviceToHost));
-
-  if(vi(returns, "phi"))
-    for(greturn = 0; greturn < Greturn; ++greturn)
-      CUDA_CALL(cudaMemcpy(lr(hh, "phi") + m*Greturn + greturn,
-                           hd->phi + features_return[greturn]-1,
-                           sizeof(double), cudaMemcpyDeviceToHost));
-
-  if(vi(returns, "alp"))
-    for(greturn = 0; greturn < Greturn; ++greturn)
-      CUDA_CALL(cudaMemcpy(lr(hh, "alp") + m*Greturn + greturn,
-                           hd->alp + features_return[greturn]-1,
-                           sizeof(double), cudaMemcpyDeviceToHost));
-
-  if(vi(returns, "del"))
-    for(greturn = 0; greturn < Greturn; ++greturn)
-      CUDA_CALL(cudaMemcpy(lr(hh, "del") + m*Greturn + greturn,
-                           hd->del + features_return[greturn]-1,
-                           sizeof(double), cudaMemcpyDeviceToHost));
-
-  if(vi(returns, "gam"))
-    for(greturn = 0; greturn < Greturn; ++greturn)
-      CUDA_CALL(cudaMemcpy(lr(hh, "gam") + m*Greturn + greturn,
-                           hd->gam + features_return[greturn]-1,
-                           sizeof(double), cudaMemcpyDeviceToHost));
-
-  if(vi(returns, "xiPhi"))
-    for(greturn = 0; greturn < Greturn; ++greturn)
-      CUDA_CALL(cudaMemcpy(lr(hh, "xiPhi") + m*Greturn + greturn,
-                           hd->xiPhi + features_return[greturn]-1,
-                           sizeof(double), cudaMemcpyDeviceToHost));
-
-  if(vi(returns, "xiAlp"))
-    for(greturn = 0; greturn < Greturn; ++greturn)
-      CUDA_CALL(cudaMemcpy(lr(hh, "xiAlp") + m*Greturn + greturn,
-                           hd->xiAlp + features_return[greturn]-1,
-                           sizeof(double), cudaMemcpyDeviceToHost));
-
-  if(vi(returns, "xiDel"))
-    for(greturn = 0; greturn < Greturn; ++greturn)
-      CUDA_CALL(cudaMemcpy(lr(hh, "xiDel") + m*Greturn + greturn,
-                           hd->xiDel + features_return[greturn]-1,
-                           sizeof(double), cudaMemcpyDeviceToHost));
-
-  if(vi(returns, "eps"))
+  if(vi(parameter_sets_return, "epsilon"))
     for(nreturn = 0; nreturn < NreturnEps; ++nreturn)
       for(greturn = 0; greturn < GreturnEps; ++greturn)
-        CUDA_CALL(cudaMemcpy(lr(hh, "eps") + m*NreturnEps*GreturnEps + nreturn*GreturnEps + greturn,
-                             hd->eps + (samples_return_eps[nreturn]-1)*G + features_return_eps[greturn]-1,
+        CUDA_CALL(cudaMemcpy(lr(hh, "epsilon") + m*NreturnEps*GreturnEps + nreturn*GreturnEps + greturn,
+                             hd->epsilon + (libraries_return_eps[nreturn]-1)*G + genes_return_eps[greturn]-1,
+                             sizeof(double), cudaMemcpyDeviceToHost));
+
+  if(vi(parameter_sets_return, "gamma"))
+    for(greturn = 0; greturn < Greturn; ++greturn)
+      CUDA_CALL(cudaMemcpy(lr(hh, "gamma") + m*Greturn + greturn,
+                           hd->gamma + genes_return[greturn]-1,
+                           sizeof(double), cudaMemcpyDeviceToHost));
+
+  if(vi(parameter_sets_return, "nuGamma"))
+    CUDA_CALL(cudaMemcpy(lr(hh, "nuGamma") + m, hd->nuGamma, sizeof(double), cudaMemcpyDeviceToHost));
+
+  if(vi(parameter_sets_return, "nuRho"))
+    CUDA_CALL(cudaMemcpy(lr(hh, "nuRho") + m, hd->nuRho, sizeof(double), cudaMemcpyDeviceToHost));
+
+  if(vi(parameter_sets_return, "omega"))
+    for(l = 0; l < L; ++l)
+      CUDA_CALL(cudaMemcpy(lr(hh, "omega") + m*L + l, hd->omega + l,
+                           sizeof(double), cudaMemcpyDeviceToHost));
+
+  if(vi(parameter_sets_return, "rho"))
+    for(nreturn = 0; nreturn < Nreturn; ++nreturn)
+      CUDA_CALL(cudaMemcpy(lr(hh, "rho") + m*Nreturn + nreturn,
+                           hd->rho + libraries_return[nreturn]-1,
+                           sizeof(double), cudaMemcpyDeviceToHost));
+
+  if(vi(parameter_sets_return, "tauGamma"))
+    CUDA_CALL(cudaMemcpy(lr(hh, "tauGamma") + m, hd->tauGamma, sizeof(double), cudaMemcpyDeviceToHost));
+
+  if(vi(parameter_sets_return, "tauRho"))
+    CUDA_CALL(cudaMemcpy(lr(hh, "tauRho") + m, hd->tauRho, sizeof(double), cudaMemcpyDeviceToHost));
+
+  if(vi(parameter_sets_return, "theta"))
+    for(l = 0; l < L; ++l)
+      CUDA_CALL(cudaMemcpy(lr(hh, "theta") + m*L + l, hd->theta + l,
+                           sizeof(double), cudaMemcpyDeviceToHost));
+
+  if(vi(parameter_sets_return, "xi"))
+    for(l = 0; l < L; ++l)
+      for(greturn = 0; greturn < Greturn; ++greturn)
+        CUDA_CALL(cudaMemcpy(lr(hh, "xi") + m*L*Greturn + l*Greturn + greturn,
+                             hd->xi + (libraries_return[l]-1)*G + genes_return[greturn]-1,
                              sizeof(double), cudaMemcpyDeviceToHost));
 }
 

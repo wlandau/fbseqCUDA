@@ -2,60 +2,53 @@
 #define ESTIMATES_H
 
 __global__ void initialize_estimates_kernel1(chain_t *dd){
-  int n;
+  int l, n;
+
+  dd->nuGammaPostMean[0] = 0.0;
   dd->nuRhoPostMean[0] = 0.0;
-  dd->nuGamPostMean[0] = 0.0;
+  dd->tauGammaPostMean[0] = 0.0;
   dd->tauRhoPostMean[0] = 0.0;
-  dd->tauGamPostMean[0] = 0.0;
-  dd->thePhiPostMean[0] = 0.0;
-  dd->theAlpPostMean[0] = 0.0;
-  dd->theDelPostMean[0] = 0.0;
-  dd->sigPhiPostMean[0] = 0.0;
-  dd->sigAlpPostMean[0] = 0.0;
-  dd->sigDelPostMean[0] = 0.0;
+
+  for(l = 0; l < dd->L; ++l){
+    dd->omegaPostMean[l] = 0.0;
+    dd->thetaPostMean[l] = 0.0;
+  }
+
   for(n = 0; n < dd->N; ++n)
     dd->rhoPostMean[n] = 0.0;
 
-  dd->nuRhoPostMeanSq[0] = 0.0;
-  dd->nuGamPostMeanSq[0] = 0.0;
-  dd->tauRhoPostMeanSq[0] = 0.0;
-  dd->tauGamPostMeanSq[0] = 0.0;
-  dd->thePhiPostMeanSq[0] = 0.0;
-  dd->theAlpPostMeanSq[0] = 0.0;
-  dd->theDelPostMeanSq[0] = 0.0;
-  dd->sigPhiPostMeanSq[0] = 0.0;
-  dd->sigAlpPostMeanSq[0] = 0.0;
-  dd->sigDelPostMeanSq[0] = 0.0;
+  dd->nuGammaPostMeanSquare[0] = 0.0;
+  dd->nuRhoPostMeanSquare[0] = 0.0;
+  dd->tauGammaPostMeanSquare[0] = 0.0;
+  dd->tauRhoPostMeanSquare[0] = 0.0;
+
+  for(l = 0; l < dd->L; ++l){
+    dd->omegaPostMeanSquare[l] = 0.0;
+    dd->thetaPostMeanSquare[l] = 0.0;
+  }
+
   for(n = 0; n < dd->N; ++n)
-    dd->rhoPostMeanSq[n] = 0.0;
+    dd->rhoPostMeanSquare[n] = 0.0;
 }
 
 __global__ void initialize_estimates_kernel2(chain_t *dd){
-  int id = IDX, n;
+  int id = IDX, l, n;
   if(id < dd->G){
-    dd->hph[id] = 0.0;
-    dd->lph[id] = 0.0;
-    dd->mph[id] = 0.0;
-
-    dd->phiPostMean[id] = 0.0;
-    dd->alpPostMean[id] = 0.0;
-    dd->delPostMean[id] = 0.0;
-    dd->gamPostMean[id] = 0.0;
-    dd->xiPhiPostMean[id] = 0.0;
-    dd->xiAlpPostMean[id] = 0.0;
-    dd->xiDelPostMean[id] = 0.0;
+    dd->gammaPostMean[id] = 0.0;
+    for(l = 0; l < dd->L; ++l){
+      dd->betaPostMean[I(l, id)] = 0.0;
+      dd->xiPostMean[I(l, id)] = 0.0;
+    }
     for(n = 0; n < dd->N; ++n)
-      dd->epsPostMean[I(n, id)] = 0.0;
+      dd->epsilonPostMean[I(n, id)] = 0.0;
 
-    dd->phiPostMeanSq[id] = 0.0;
-    dd->alpPostMeanSq[id] = 0.0;
-    dd->delPostMeanSq[id] = 0.0;
-    dd->gamPostMeanSq[id] = 0.0;
-    dd->xiPhiPostMeanSq[id] = 0.0;
-    dd->xiAlpPostMeanSq[id] = 0.0;
-    dd->xiDelPostMeanSq[id] = 0.0;
+    dd->gammaPostMeanSquare[id] = 0.0;
+    for(l = 0; l < dd->L; ++l){
+      dd->betaPostMeanSquare[I(l, id)] = 0.0;
+      dd->xiPostMeansquare[I(l, id)] = 0.0;
+    }
     for(n = 0; n < dd->N; ++n)
-      dd->epsPostMeanSq[I(n, id)] = 0.0;
+      dd->epsilonPostMeanSquare[I(n, id)] = 0.0;
   }
 }
 
@@ -65,60 +58,53 @@ void initialize_estimates(SEXP hh,chain_t *dd){
 }
 
 __global__ void update_estimates_kernel1(chain_t *dd){
-  int n;
+  int l, n;
+
+  dd->nuGammaPostMean[0] += dd->nuGamma[0];
   dd->nuRhoPostMean[0] += dd->nuRho[0];
-  dd->nuGamPostMean[0] += dd->nuGam[0];
+  dd->tauGammaPostMean[0] += dd->tauGamma[0];
   dd->tauRhoPostMean[0] += dd->tauRho[0];
-  dd->tauGamPostMean[0] += dd->tauGam[0];
-  dd->thePhiPostMean[0] += dd->thePhi[0];
-  dd->theAlpPostMean[0] += dd->theAlp[0];
-  dd->theDelPostMean[0] += dd->theDel[0];
-  dd->sigPhiPostMean[0] += dd->sigPhi[0];
-  dd->sigAlpPostMean[0] += dd->sigAlp[0];
-  dd->sigDelPostMean[0] += dd->sigDel[0];
+
+  for(l = 0; l < dd->L; ++l){
+    dd->omegaPostMean[l] += dd->omega[l];
+    dd->thetaPostMean[l] += dd->theta[l];
+  }
+
   for(n = 0; n < dd->N; ++n)
     dd->rhoPostMean[n] += dd->rho[n];
 
-  dd->nuRhoPostMeanSq[0] += dd->nuRho[0]*dd->nuRho[0];
-  dd->nuGamPostMeanSq[0] += dd->nuGam[0]*dd->nuGam[0];
-  dd->tauRhoPostMeanSq[0] += dd->tauRho[0]*dd->tauRho[0];
-  dd->tauGamPostMeanSq[0] += dd->tauGam[0]*dd->tauGam[0];
-  dd->thePhiPostMeanSq[0] += dd->thePhi[0]*dd->thePhi[0];
-  dd->theAlpPostMeanSq[0] += dd->theAlp[0]*dd->theAlp[0];
-  dd->theDelPostMeanSq[0] += dd->theDel[0]*dd->theDel[0];;
-  dd->sigPhiPostMeanSq[0] += dd->sigPhi[0]*dd->sigPhi[0];
-  dd->sigAlpPostMeanSq[0] += dd->sigAlp[0]*dd->sigAlp[0];
-  dd->sigDelPostMeanSq[0] += dd->sigDel[0]*dd->sigDel[0];
+  dd->nuGammaPostMeanSquare[0] += dd->nuGamma[0]*dd->nuGamma[0];
+  dd->nuRhoPostMeanSquare[0] += dd->nuRho[0]*dd->nuRho[0];
+  dd->tauGammaPostMeanSquare[0] += dd->tauGamma[0]*dd->tauGamma[0];
+  dd->tauRhoPostMeanSquare[0] += dd->tauRho[0]*dd->tauRho[0];
+
+  for(l = 0; l < dd->L; ++l){
+    dd->omegaPostMeanSquare[l] += dd->omega[l]*dd->omega[l];
+    dd->thetaPostMeanSquare[l] += dd->theta[l]*dd->theta[l];
+  }
+
   for(n = 0; n < dd->N; ++n)
-    dd->rhoPostMeanSq[n] += dd->rho[n]*dd->rho[n];
+    dd->rhoPostMeanSquare[n] += dd->rho[n]*dd->rho[n];
 }
 
 __global__ void update_estimates_kernel2(chain_t *dd){
-  int id = IDX, n;
+  int id = IDX, l, n;
   if(id < dd->G){
-    dd->hph[id] += (dd->alp[id] + dd->del[id]) >  fabs(dd->alp[id] - dd->del[id]);
-    dd->lph[id] += (dd->alp[id] + dd->del[id]) < -fabs(dd->alp[id] - dd->del[id]);
-    dd->mph[id] += fabs(dd->alp[id] + dd->del[id]) > dd->mphtol;
-
-    dd->phiPostMean[id] += dd->phi[id];
-    dd->alpPostMean[id] += dd->alp[id];
-    dd->delPostMean[id] += dd->del[id];
-    dd->gamPostMean[id] += dd->gam[id];
-    dd->xiPhiPostMean[id] += dd->xiPhi[id];
-    dd->xiAlpPostMean[id] += dd->xiAlp[id];
-    dd->xiDelPostMean[id] += dd->xiDel[id];
+    dd->gammaPostMean[id] += dd->gamma[id];
+    for(l = 0; l < dd->L; ++l){
+      dd->betaPostMean[I(l, id)] += dd->beta[I(l, id)];
+      dd->xiPostMean[I(l, id)] += dd->xi[I(l, id)];
+    }
     for(n = 0; n < dd->N; ++n)
-      dd->epsPostMean[I(n, id)] += dd->eps[I(n, id)];
+      dd->epsilonPostMean[I(n, id)] += dd->epsilon[I(n, id)];
 
-    dd->phiPostMeanSq[id] += dd->phi[id]*dd->phi[id];
-    dd->alpPostMeanSq[id] += dd->alp[id]*dd->alp[id];
-    dd->delPostMeanSq[id] += dd->del[id]*dd->del[id];
-    dd->gamPostMeanSq[id] += dd->gam[id]*dd->gam[id];
-    dd->xiPhiPostMeanSq[id] += dd->xiPhi[id]*dd->xiPhi[id];
-    dd->xiAlpPostMeanSq[id] += dd->xiAlp[id]*dd->xiAlp[id];
-    dd->xiDelPostMeanSq[id] += dd->xiDel[id]*dd->xiDel[id];
+    dd->gammaPostMeanSquare[id] += dd->gamma[id]*dd->gamma[id];
+    for(l = 0; l < dd->L; ++l){
+      dd->betaPostMeanSquare[I(l, id)] += dd->beta[I(l, id)]*dd->beta[I(l, id)];
+      dd->xiPostMeansquare[I(l, id)] += dd->xi[I(l, id)]*dd->xi[I(l, id)];
+    }
     for(n = 0; n < dd->N; ++n)
-      dd->epsPostMeanSq[I(n, id)] += dd->eps[I(n, id)]*dd->eps[I(n, id)];
+      dd->epsilonPostMeanSquare[I(n, id)] += dd->epsilon[I(n, id)]*dd->epsilon[I(n, id)];
   }
 }
 
@@ -127,117 +113,91 @@ void update_estimates(SEXP hh, chain_t *dd){
   update_estimates_kernel2<<<GRID, BLOCK>>>(dd);
 }
 
-__global__ void scale_estimates_kernel1(chain_t *dd, double M){
-  int n;
-  dd->nuRhoPostMean[0] /= M;
-  dd->nuGamPostMean[0] /= M;
-  dd->tauRhoPostMean[0] /= M;
-  dd->tauGamPostMean[0] /= M;
-  dd->thePhiPostMean[0] /= M;
-  dd->theAlpPostMean[0] /= M;
-  dd->theDelPostMean[0] /= M;
-  dd->sigPhiPostMean[0] /= M;
-  dd->sigAlpPostMean[0] /= M;
-  dd->sigDelPostMean[0] /= M;
-  for(n = 0; n < dd->N; ++n)
-    dd->rhoPostMean[n] /= M;
+__global__ void scale_estimates_kernel1(chain_t *dd, double iterations){
+  int l, n;
 
-  dd->nuRhoPostMeanSq[0] /= M;
-  dd->nuGamPostMeanSq[0] /= M;
-  dd->tauRhoPostMeanSq[0] /= M;
-  dd->tauGamPostMeanSq[0] /= M;
-  dd->thePhiPostMeanSq[0] /= M;
-  dd->theAlpPostMeanSq[0] /= M;
-  dd->theDelPostMeanSq[0] /= M;
-  dd->sigPhiPostMeanSq[0] /= M;
-  dd->sigAlpPostMeanSq[0] /= M;
-  dd->sigDelPostMeanSq[0] /= M;
+  dd->nuGammaPostMean[0]/= iterations;
+  dd->nuRhoPostMean[0]/= iterations;
+  dd->tauGammaPostMean[0]/= iterations;
+  dd->tauRhoPostMean[0]/= iterations;
+
+  for(l = 0; l < dd->L; ++l){
+    dd->omegaPostMean[l]/= iterations;
+    dd->thetaPostMean[l]/= iterations;
+  }
+
   for(n = 0; n < dd->N; ++n)
-    dd->rhoPostMeanSq[n] /= M;
+    dd->rhoPostMean[n]/= iterations;
+
+  dd->nuGammaPostMeanSquare[0]/= iterations;
+  dd->nuRhoPostMeanSquare[0]/= iterations;
+  dd->tauGammaPostMeanSquare[0]/= iterations;
+  dd->tauRhoPostMeanSquare[0]/= iterations;
+
+  for(l = 0; l < dd->L; ++l){
+    dd->omegaPostMeanSquare[l]/= iterations;
+    dd->thetaPostMeanSquare[l]/= iterations;
+  }
+
+  for(n = 0; n < dd->N; ++n)
+    dd->rhoPostMeanSquare[n]/= iterations;
 }
 
-__global__ void scale_estimates_kernel2(chain_t *dd, double M){
-  int id = IDX, n;
+__global__ void scale_estimates_kernel2(chain_t *dd, double iterations){
+  int id = IDX, l, n;
   if(id < dd->G){
-    dd->hph[id] /= M;
-    dd->lph[id] /= M;
-    dd->mph[id] /= M;
-
-    dd->phiPostMean[id] /= M;
-    dd->alpPostMean[id] /= M;
-    dd->delPostMean[id] /= M;
-    dd->gamPostMean[id] /= M;
-    dd->xiPhiPostMean[id] /= M;
-    dd->xiAlpPostMean[id] /= M;
-    dd->xiDelPostMean[id] /= M;
+    dd->gammaPostMean[id]/= iterations;
+    for(l = 0; l < dd->L; ++l){
+      dd->betaPostMean[I(l, id)]/= iterations;
+      dd->xiPostMean[I(l, id)]/= iterations;
+    }
     for(n = 0; n < dd->N; ++n)
-      dd->epsPostMean[I(n, id)] /= M;
+      dd->epsilonPostMean[I(n, id)]/= iterations;
 
-    dd->phiPostMeanSq[id] /= M;
-    dd->alpPostMeanSq[id] /= M;
-    dd->delPostMeanSq[id] /= M;
-    dd->gamPostMeanSq[id] /= M;
-    dd->xiPhiPostMeanSq[id] /= M;
-    dd->xiAlpPostMeanSq[id] /= M;
-    dd->xiDelPostMeanSq[id] /= M;
+    dd->gammaPostMeanSquare[id]/= iterations;
+    for(l = 0; l < dd->L; ++l){
+      dd->betaPostMeanSquare[I(l, id)]/= iterations;
+      dd->xiPostMeansquare[I(l, id)]/= iterations;
+    }
     for(n = 0; n < dd->N; ++n)
-      dd->epsPostMeanSq[I(n, id)] /= M;
+      dd->epsilonPostMeanSquare[I(n, id)]/= iterations;
   }
 }
 
 void scale_estimates(SEXP hh, chain_t *dd){
-  double M = (double) li(hh, "M")[0];
-  scale_estimates_kernel1<<<1, 1>>>(dd, M);
-  scale_estimates_kernel2<<<GRID, BLOCK>>>(dd, M);
+  double iterations = (double) li(hh, "iterations")[0];
+  scale_estimates_kernel1<<<1, 1>>>(dd, iterations);
+  scale_estimates_kernel2<<<GRID, BLOCK>>>(dd, iterations);
 }
 
 void save_estimates(SEXP hh, chain_t *hd){
   int N = (double) li(hh, "N")[0],
+      L = (double) li(hh, "L")[0],
       G = (double) li(hh, "G")[0];
 
-  CUDA_CALL(cudaMemcpy(lr(hh, "hph"), hd->hph, G * sizeof(double), cudaMemcpyDeviceToHost));
-  CUDA_CALL(cudaMemcpy(lr(hh, "lph"), hd->lph, G * sizeof(double), cudaMemcpyDeviceToHost));
-  CUDA_CALL(cudaMemcpy(lr(hh, "mph"), hd->mph, G * sizeof(double), cudaMemcpyDeviceToHost));
-
+  CUDA_CALL(cudaMemcpy(lr(hh, "betaPostMean"), hd->betaPostMean, L * G * sizeof(double), cudaMemcpyDeviceToHost));
+  CUDA_CALL(cudaMemcpy(lr(hh, "epsilonPostMean"), hd->epsilonPostMean, N * G * sizeof(double), cudaMemcpyDeviceToHost));
+  CUDA_CALL(cudaMemcpy(lr(hh, "gammaPostMean"), hd->gammaPostMean, G * sizeof(double), cudaMemcpyDeviceToHost));
+  CUDA_CALL(cudaMemcpy(lr(hh, "nuGammaPostMean"), hd->nuGammaPostMean, sizeof(double), cudaMemcpyDeviceToHost));
   CUDA_CALL(cudaMemcpy(lr(hh, "nuRhoPostMean"), hd->nuRhoPostMean, sizeof(double), cudaMemcpyDeviceToHost));
-  CUDA_CALL(cudaMemcpy(lr(hh, "nuGamPostMean"), hd->nuGamPostMean, sizeof(double), cudaMemcpyDeviceToHost));
-  CUDA_CALL(cudaMemcpy(lr(hh, "tauRhoPostMean"), hd->tauRhoPostMean, sizeof(double), cudaMemcpyDeviceToHost));
-  CUDA_CALL(cudaMemcpy(lr(hh, "tauGamPostMean"), hd->tauGamPostMean, sizeof(double), cudaMemcpyDeviceToHost));
-  CUDA_CALL(cudaMemcpy(lr(hh, "thePhiPostMean"), hd->thePhiPostMean, sizeof(double), cudaMemcpyDeviceToHost));
-  CUDA_CALL(cudaMemcpy(lr(hh, "theAlpPostMean"), hd->theAlpPostMean, sizeof(double), cudaMemcpyDeviceToHost));
-  CUDA_CALL(cudaMemcpy(lr(hh, "theDelPostMean"), hd->theDelPostMean, sizeof(double), cudaMemcpyDeviceToHost));
-  CUDA_CALL(cudaMemcpy(lr(hh, "sigPhiPostMean"), hd->sigPhiPostMean, sizeof(double), cudaMemcpyDeviceToHost));
-  CUDA_CALL(cudaMemcpy(lr(hh, "sigAlpPostMean"), hd->sigAlpPostMean, sizeof(double), cudaMemcpyDeviceToHost));
-  CUDA_CALL(cudaMemcpy(lr(hh, "sigDelPostMean"), hd->sigDelPostMean, sizeof(double), cudaMemcpyDeviceToHost));
-  CUDA_CALL(cudaMemcpy(lr(hh, "phiPostMean"), hd->phiPostMean, G * sizeof(double), cudaMemcpyDeviceToHost));
-  CUDA_CALL(cudaMemcpy(lr(hh, "alpPostMean"), hd->alpPostMean, G * sizeof(double), cudaMemcpyDeviceToHost));
-  CUDA_CALL(cudaMemcpy(lr(hh, "delPostMean"), hd->delPostMean, G * sizeof(double), cudaMemcpyDeviceToHost));
+  CUDA_CALL(cudaMemcpy(lr(hh, "omegaPostMean"), hd->omegaPostMean, L * sizeof(double), cudaMemcpyDeviceToHost));
   CUDA_CALL(cudaMemcpy(lr(hh, "rhoPostMean"), hd->rhoPostMean, N * sizeof(double), cudaMemcpyDeviceToHost));
-  CUDA_CALL(cudaMemcpy(lr(hh, "gamPostMean"), hd->gamPostMean, G * sizeof(double), cudaMemcpyDeviceToHost));
-  CUDA_CALL(cudaMemcpy(lr(hh, "xiPhiPostMean"), hd->xiPhiPostMean, G * sizeof(double), cudaMemcpyDeviceToHost));
-  CUDA_CALL(cudaMemcpy(lr(hh, "xiAlpPostMean"), hd->xiAlpPostMean, G * sizeof(double), cudaMemcpyDeviceToHost));
-  CUDA_CALL(cudaMemcpy(lr(hh, "xiDelPostMean"), hd->xiDelPostMean, G * sizeof(double), cudaMemcpyDeviceToHost));
-  CUDA_CALL(cudaMemcpy(lr(hh, "epsPostMean"), hd->epsPostMean, N * G * sizeof(double), cudaMemcpyDeviceToHost));
+  CUDA_CALL(cudaMemcpy(lr(hh, "tauGammaPostMean"), hd->tauGammaPostMean, sizeof(double), cudaMemcpyDeviceToHost));
+  CUDA_CALL(cudaMemcpy(lr(hh, "tauRhoPostMean"), hd->tauRhoPostMean, sizeof(double), cudaMemcpyDeviceToHost));
+  CUDA_CALL(cudaMemcpy(lr(hh, "thetaPostMean"), hd->thetaPostMean, L * sizeof(double), cudaMemcpyDeviceToHost));
+  CUDA_CALL(cudaMemcpy(lr(hh, "xiPostMean"), hd->xiPostMean, L * G * sizeof(double), cudaMemcpyDeviceToHost));
 
-  CUDA_CALL(cudaMemcpy(lr(hh, "nuRhoPostMeanSq"), hd->nuRhoPostMeanSq, sizeof(double), cudaMemcpyDeviceToHost));
-  CUDA_CALL(cudaMemcpy(lr(hh, "nuGamPostMeanSq"), hd->nuGamPostMeanSq, sizeof(double), cudaMemcpyDeviceToHost));
-  CUDA_CALL(cudaMemcpy(lr(hh, "tauRhoPostMeanSq"), hd->tauRhoPostMeanSq, sizeof(double), cudaMemcpyDeviceToHost));
-  CUDA_CALL(cudaMemcpy(lr(hh, "tauGamPostMeanSq"), hd->tauGamPostMeanSq, sizeof(double), cudaMemcpyDeviceToHost));
-  CUDA_CALL(cudaMemcpy(lr(hh, "thePhiPostMeanSq"), hd->thePhiPostMeanSq, sizeof(double), cudaMemcpyDeviceToHost));
-  CUDA_CALL(cudaMemcpy(lr(hh, "theAlpPostMeanSq"), hd->theAlpPostMeanSq, sizeof(double), cudaMemcpyDeviceToHost));
-  CUDA_CALL(cudaMemcpy(lr(hh, "theDelPostMeanSq"), hd->theDelPostMeanSq, sizeof(double), cudaMemcpyDeviceToHost));
-  CUDA_CALL(cudaMemcpy(lr(hh, "sigPhiPostMeanSq"), hd->sigPhiPostMeanSq, sizeof(double), cudaMemcpyDeviceToHost));
-  CUDA_CALL(cudaMemcpy(lr(hh, "sigAlpPostMeanSq"), hd->sigAlpPostMeanSq, sizeof(double), cudaMemcpyDeviceToHost));
-  CUDA_CALL(cudaMemcpy(lr(hh, "sigDelPostMeanSq"), hd->sigDelPostMeanSq, sizeof(double), cudaMemcpyDeviceToHost));
-  CUDA_CALL(cudaMemcpy(lr(hh, "phiPostMeanSq"), hd->phiPostMeanSq, G * sizeof(double), cudaMemcpyDeviceToHost));
-  CUDA_CALL(cudaMemcpy(lr(hh, "alpPostMeanSq"), hd->alpPostMeanSq, G * sizeof(double), cudaMemcpyDeviceToHost));
-  CUDA_CALL(cudaMemcpy(lr(hh, "delPostMeanSq"), hd->delPostMeanSq, G * sizeof(double), cudaMemcpyDeviceToHost));
-  CUDA_CALL(cudaMemcpy(lr(hh, "rhoPostMeanSq"), hd->rhoPostMeanSq, N * sizeof(double), cudaMemcpyDeviceToHost));
-  CUDA_CALL(cudaMemcpy(lr(hh, "gamPostMeanSq"), hd->gamPostMeanSq, G * sizeof(double), cudaMemcpyDeviceToHost));
-  CUDA_CALL(cudaMemcpy(lr(hh, "xiPhiPostMeanSq"), hd->xiPhiPostMeanSq, G * sizeof(double), cudaMemcpyDeviceToHost));
-  CUDA_CALL(cudaMemcpy(lr(hh, "xiAlpPostMeanSq"), hd->xiAlpPostMeanSq, G * sizeof(double), cudaMemcpyDeviceToHost));
-  CUDA_CALL(cudaMemcpy(lr(hh, "xiDelPostMeanSq"), hd->xiDelPostMeanSq, G * sizeof(double), cudaMemcpyDeviceToHost));
-  CUDA_CALL(cudaMemcpy(lr(hh, "epsPostMeanSq"), hd->epsPostMeanSq, N * G * sizeof(double), cudaMemcpyDeviceToHost));
+  CUDA_CALL(cudaMemcpy(lr(hh, "betaPostMeanSquare"), hd->betaPostMeanSquare, L * G * sizeof(double), cudaMemcpyDeviceToHost));
+  CUDA_CALL(cudaMemcpy(lr(hh, "epsilonPostMeanSquare"), hd->epsilonPostMeanSquare, N * G * sizeof(double), cudaMemcpyDeviceToHost));
+  CUDA_CALL(cudaMemcpy(lr(hh, "gammaPostMeanSquare"), hd->gammaPostMeanSquare, G * sizeof(double), cudaMemcpyDeviceToHost));
+  CUDA_CALL(cudaMemcpy(lr(hh, "nuGammaPostMeanSquare"), hd->nuGammaPostMeanSquare, sizeof(double), cudaMemcpyDeviceToHost));
+  CUDA_CALL(cudaMemcpy(lr(hh, "nuRhoPostMeanSquare"), hd->nuRhoPostMeanSquare, sizeof(double), cudaMemcpyDeviceToHost));
+  CUDA_CALL(cudaMemcpy(lr(hh, "omegaPostMeanSquare"), hd->omegaPostMeanSquare, L * sizeof(double), cudaMemcpyDeviceToHost));
+  CUDA_CALL(cudaMemcpy(lr(hh, "rhoPostMeanSquare"), hd->rhoPostMeanSquare, N * sizeof(double), cudaMemcpyDeviceToHost));
+  CUDA_CALL(cudaMemcpy(lr(hh, "tauGammaPostMeanSquare"), hd->tauGammaPostMeanSquare, sizeof(double), cudaMemcpyDeviceToHost));
+  CUDA_CALL(cudaMemcpy(lr(hh, "tauRhoPostMeanSquare"), hd->tauRhoPostMeanSquare, sizeof(double), cudaMemcpyDeviceToHost));
+  CUDA_CALL(cudaMemcpy(lr(hh, "thetaPostMeanSquare"), hd->thetaPostMeanSquare, L * sizeof(double), cudaMemcpyDeviceToHost));
+  CUDA_CALL(cudaMemcpy(lr(hh, "xiPostMeanSquare"), hd->xiPostMeanSquare, L * G * sizeof(double), cudaMemcpyDeviceToHost));
 }
 
 void finish_estimates(SEXP hh, chain_t *hd, chain_t *dd){
