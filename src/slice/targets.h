@@ -32,8 +32,8 @@ __device__ double ltarget_inv_gamma(chain_t *dd, args_t args, double x){
 
 __device__ double ltarget_nu(chain_t *dd, args_t args, double x){
   double ret = -CUDART_INF;
-  if(x > 0.0 && x < args.D)
-    ret = args.C * (-lgamma(0.5*x) + 0.5*x*log(args.A*x) - args.B*x);
+  if(x > 0.0 & x < args.D)
+    ret = args.C * (-lgamma(0.5 * x) + 0.5 * x * log(args.A*x)) - args.B*x;
   if(isnan(ret))
     ret = -CUDART_INF;
   return ret;
