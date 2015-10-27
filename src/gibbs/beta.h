@@ -1,45 +1,51 @@
 #ifndef BETA_H
 #define BETA_H
 
-__global__ void beta_kernel1(chain_t *dd){
+__device__ void beta_coef(chain_t *dd, int l, int g, int x){
+  int i, n;
+  double aux, out = 0.0;
+  for(n = 0; n < dd->N; ++n)
+    if(dd->design[Idesign(l, n)] == x){
+      aux = dd->epsilon[I(n, g)];
+      for(i = 0; i < dd->L; ++l)
+        if(i != l)
+          aux += dd->design[Idesign(i, n)] * dd->beta[I(i, g)]
+      out += exp(aux);
+    }
+  return out;
+}
+
+__global__ void beta_kernel1(chain_t *dd, int l){
   int g = IDX, n;
-  double D0[3] = {0.0, 0.0, 0.0};
 
   if(g >= dd->G)
     return;
 
   approx_gibbs_args_t args;
   args.idx = g;
-  args.x0 = dd->beta[g];
+  args.x0 = dd->beta[I(l, g)];
   args.target_type = LTARGET_BASIC;
   args.step_width = STEP_WIDTH;
   args.max_steps = MAX_STEPS;
 
   args.A = 0.0;
-  for(n = 0; n < dd->N; ++n){
-    if(dd->group[n] == 2)
-      args.A -= (double) dd->counts[I(n, g)];
-    else
-      args.A += (double) dd->counts[I(n, g)];
-  }
-
-  args.B = 1.0/(2.0 * dd->omega[0] * dd->omega[0] * dd->xi[g]);
-  args.C = dd->theta[0];
-
   for(n = 0; n < dd->N; ++n)
-    D0[dd->group[n] - 1] += exp(dd->eps[I(n, g)]);
+    args.A += ((double) dd->counts[I(n, g)]) * ((double) dd->design[Idesign(l, n)]);
 
-  args.D = exp(dd->phi[g] - dd->del[g]) * D0[0]
-         + exp(dd->phi[g] + dd->del[g]) * D0[2];
+  args.B = 1.0/(2.0 * dd->omega[l] * dd->xi[I(l, g)]);
+  args.C = dd->theta[l];
 
-  args.E = exp(dd->phi[g] + dd->del[g]) * D0[1];
+  args.D = beta_coef(dd, l, g,  1);
+  args.E = beta_coef(dd, l, g, -1);
 
-  dd->beta[g] = stepping_out_slice(dd, args);
+  dd->beta[I(l, g)] = stepping_out_slice(dd, args);
 }
 
 void betaSample(SEXP hh, chain_t *hd, chain_t *dd){
+  int l;
   if(!(vi(le(hh, "updates"), "beta"))) return;
-  beta_kernel1<<<GRID, BLOCK>>>(dd);
+  for(l = 0; l < li(hh, "L")[0]; ++l)
+    beta_kernel1<<<GRID, BLOCK>>>(dd, l);
 }
 
 #endif // BETA_H
