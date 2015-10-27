@@ -11,12 +11,12 @@ void hd2hh(SEXP hh, chain_t *hd, int m){
       N = li(hh, "N")[0],
       Greturn = li(hh, "Greturn")[0],
       Nreturn = li(hh, "Nreturn")[0],
-      GreturnEps = li(hh, "GreturnEps")[0],
-      NreturnEps = li(hh, "NreturnEps")[0],
+      GreturnEpsilon = li(hh, "GreturnEpsilon")[0],
+      NreturnEpsilon = li(hh, "NreturnEpsilon")[0],
       *genes_return = li(hh, "genes_return"),
       *libraries_return = li(hh, "libraries_return"),
-      *genes_return_eps = li(hh, "genes_return_eps"),
-      *libraries_return_eps = li(hh, "libraries_return_eps");
+      *genes_return_epsilon = li(hh, "genes_return_epsilon"),
+      *libraries_return_epsilon = li(hh, "libraries_return_epsilon");
 
   SEXP parameter_sets_return = le(hh, "parameter_sets_return");
 
@@ -24,14 +24,14 @@ void hd2hh(SEXP hh, chain_t *hd, int m){
     for(l = 0; l < L; ++l)
       for(greturn = 0; greturn < Greturn; ++greturn)
         CUDA_CALL(cudaMemcpy(lr(hh, "beta") + m*L*Greturn + l*Greturn + greturn,
-                             hd->beta + (libraries_return[l]-1)*G + genes_return[greturn]-1,
+                             hd->beta + l*G + genes_return[greturn]-1,
                              sizeof(double), cudaMemcpyDeviceToHost));
 
   if(vi(parameter_sets_return, "epsilon"))
-    for(nreturn = 0; nreturn < NreturnEps; ++nreturn)
-      for(greturn = 0; greturn < GreturnEps; ++greturn)
-        CUDA_CALL(cudaMemcpy(lr(hh, "epsilon") + m*NreturnEps*GreturnEps + nreturn*GreturnEps + greturn,
-                             hd->epsilon + (libraries_return_eps[nreturn]-1)*G + genes_return_eps[greturn]-1,
+    for(nreturn = 0; nreturn < NreturnEpsilon; ++nreturn)
+      for(greturn = 0; greturn < GreturnEpsilon; ++greturn)
+        CUDA_CALL(cudaMemcpy(lr(hh, "epsilon") + m*NreturnEpsilon*GreturnEpsilon + nreturn*GreturnEpsilon + greturn,
+                             hd->epsilon + (libraries_return_epsilon[nreturn]-1)*G + genes_return_epsilon[greturn]-1,
                              sizeof(double), cudaMemcpyDeviceToHost));
 
   if(vi(parameter_sets_return, "gamma"))
@@ -72,7 +72,7 @@ void hd2hh(SEXP hh, chain_t *hd, int m){
     for(l = 0; l < L; ++l)
       for(greturn = 0; greturn < Greturn; ++greturn)
         CUDA_CALL(cudaMemcpy(lr(hh, "xi") + m*L*Greturn + l*Greturn + greturn,
-                             hd->xi + (libraries_return[l]-1)*G + genes_return[greturn]-1,
+                             hd->xi + l*G + genes_return[greturn]-1,
                              sizeof(double), cudaMemcpyDeviceToHost));
 }
 

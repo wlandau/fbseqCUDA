@@ -92,6 +92,7 @@ void chain(SEXP hh, chain_t *hd, chain_t *dd){
       Rprintf("\n");
     }
 
+
     iteration(hh, hd, dd);
     update_estimates(hh, dd);
     hd2hh(hh, hd, m);
@@ -120,7 +121,7 @@ extern "C" SEXP fbseqCUDA(SEXP hh){
     Rprintf("Loading MCMC on GPU %d.\n", getDevice());
 
   chain_t *hd = alloc_hd(hh);
-/*  hh2hd(hh, hd);
+  hh2hd(hh, hd);
 
   chain_t *dd;
   CUDA_CALL(cudaMalloc((void**) &dd, sizeof(chain_t)));
@@ -133,6 +134,6 @@ extern "C" SEXP fbseqCUDA(SEXP hh){
   burnin(hh, hd, dd);
   chain(hh, hd, dd);
   end(hh, hd, dd);
-*/
+
   return hh;
 }
