@@ -4,17 +4,17 @@
 __global__ void rho_kernel1(chain_t *dd, int n){
   int g = IDX;
   if(g < dd->G)
-    dd->aux[g] = dd->epsilon[I(n, g)] * dd->epsilon[I(n, g)] / (dd->gamma[g] * dd->gamma[g]);
+    dd->aux[g] = dd->epsilon[I(n, g)] * dd->epsilon[I(n, g)] / dd->gamma[g];
 }
 
 __global__ void rho_kernel2(chain_t *dd, int n, double sum){ // single thread
   approx_gibbs_args_t args;
-  args.x0 = dd->rho[n] * dd->rho[n];
+  args.x0 = dd->rho[n];
   args.target_type = LTARGET_INV_GAMMA;
   args.step_width = STEP_WIDTH;
   args.max_steps = MAX_STEPS;
-  args.shape = (dd->G + dd->nuRho[0]) * 0.5;
-  args.scale = 0.5 * (dd->nuRho[0] * dd->tauRho[0] * dd->tauRho[0] + sum);
+  args.shape = 0.5 * (dd->G + dd->nuRho[0]);
+  args.scale = 0.5 * (dd->nuRho[0] * dd->tauRho[0] + sum);
   args.upperbound = CUDART_INF;
   dd->rho[n] = slice(dd, args);
 }

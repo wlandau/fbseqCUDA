@@ -38,7 +38,7 @@ __global__ void beta_kernel1(chain_t *dd, int l){
   args.D = beta_coef(dd, l, g,  1);
   args.E = beta_coef(dd, l, g, -1);
 
-  dd->beta[I(l, g)] = stepping_out_slice(dd, args);
+  dd->beta[I(l, g)] = slice(dd, args);
 }
 
 void betaSample(SEXP hh, chain_t *hd, chain_t *dd){
