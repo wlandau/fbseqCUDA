@@ -4,18 +4,18 @@
 __global__ void tauGam_kernel1(chain_t *dd){
   int id = IDX;
   if(id < dd->G)
-    dd->aux[id] = 1.0/(dd->gamma[id] * dd->gamma[id]);
+    dd->aux[id] = 1.0/dd->gamma[id];
 }
 
 __global__ void tauGam_kernel2(chain_t *dd){
   approx_gibbs_args_t args;
   args.idx = 0;
-  args.x0 = dd->tauGam[0] * dd->tauGam[0];
+  args.x0 = dd->tauGam[0];
   args.target_type = LTARGET_GAMMA;
   args.step_width = STEP_WIDTH;
   args.max_steps = MAX_STEPS;
-  args.shape = dd->aGam[0] + dd->G * dd->nuGam[0] * 0.5;
-  args.rate = dd->bGam[0] + dd->nuGam[0] * dd->aux[0] * 0.5;
+  args.shape = dd->aGam[0] + 0.5 * dd->G * dd->nuGam[0];
+  args.rate = dd->bGam[0] + 0.5 * dd->nuGam[0] * dd->aux[0];
   args.upperbound = CUDART_INF;
   dd->tauGam[0] = slice(dd, args);
 }

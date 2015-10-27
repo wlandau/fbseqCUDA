@@ -23,8 +23,8 @@
 #include "gibbs/gamma.h"
 #include "gibbs/nuGamma.h"
 #include "gibbs/nuRho.h"
-#include "gibbs/omega.h"
 #include "gibbs/rho.h"
+#include "gibbs/sigmaSquared.h"
 #include "gibbs/tauGamma.h"
 #include "gibbs/tauRho.h"
 #include "gibbs/theta.h"
@@ -40,7 +40,7 @@ void iteration(SEXP hh, chain_t *hd, chain_t *dd){
 
   betaSample(hh, hd, dd);
   thetaSample(hh, hd, dd);
-  omegaSample(hh, hd, dd);
+  sigmaSquaredSample(hh, hd, dd);
   xiSample(hh, hd, dd);
 
   tauGammaSample(hh, hd, dd);

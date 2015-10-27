@@ -4,18 +4,18 @@
 __global__ void tauRho_kernel1(chain_t *dd){
   int id = IDX;
   if(id < dd->N)
-    dd->aux[id] = 1.0/(dd->rho[id] * dd->rho[id]);
+    dd->aux[id] = 1.0/dd->rho[id];
 }
 
 __global__ void tauRho_kernel2(chain_t *dd){
   approx_gibbs_args_t args;
   args.idx = 0;
-  args.x0 = dd->tauRho[0] * dd->tauRho[0];
+  args.x0 = dd->tauRho[0];
   args.target_type = LTARGET_GAMMA;
   args.step_width = STEP_WIDTH;
   args.max_steps = MAX_STEPS;
-  args.shape = dd->aRho[0] + dd->N * dd->nuRho[0] * 0.5;
-  args.rate = dd->bRho[0] + dd->nuRho[0] * dd->aux[0] * 0.5;
+  args.shape = dd->aRho[0] + 0.5 * dd->N * dd->nuRho[0];
+  args.rate = dd->bRho[0] + 0.5 * dd->nuRho[0] * dd->aux[0];
   args.upperbound = CUDART_INF;
   dd->tauRho[0] = slice(dd, args);
 }

@@ -32,7 +32,7 @@ __global__ void beta_kernel1(chain_t *dd, int l){
   for(n = 0; n < dd->N; ++n)
     args.A += ((double) dd->counts[I(n, g)]) * ((double) dd->design[Idesign(l, n)]);
 
-  args.B = 1.0/(2.0 * dd->omega[l] * dd->xi[I(l, g)]);
+  args.B = 1.0/(2.0 * dd->sigmaSquared[l] * dd->xi[I(l, g)]);
   args.C = dd->theta[l];
 
   args.D = beta_coef(dd, l, g,  1);
