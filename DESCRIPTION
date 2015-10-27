@@ -1,6 +1,6 @@
-Package: heterosisCUDA
-Title: heterosisCUDA
-Description: Internal CUDA code for package heterosis.
+Package: fbseqCUDA
+Title: fbseqCUDA
+Description: Internal CUDA code for package fbseq.
 URL: https://github.com/wlandau/heterosisCUDA
 Version: 0.0
 Author: Will Landau <will.landau@gmail.com>

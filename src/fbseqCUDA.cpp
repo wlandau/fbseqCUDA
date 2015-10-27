@@ -29,6 +29,8 @@
 #include "gibbs/xi.h"
 
 void iteration(SEXP hh, chain_t *hd, chain_t *dd){
+/*
+
   epsilonSample(hh, hd, dd);
   gammaSample(hh, hd, dd);
   rhoSample(hh, hd, dd);
@@ -43,6 +45,8 @@ void iteration(SEXP hh, chain_t *hd, chain_t *dd){
 
   nuGammaSample(hh, hd, dd);
   nuRhoSample(hh, hd, dd);
+
+  */
 }
 
 void burnin(SEXP hh, chain_t *hd, chain_t *dd){
