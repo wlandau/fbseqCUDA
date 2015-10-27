@@ -7,8 +7,8 @@ void hh2hd(SEXP hh, chain_t *hd){
       G = li(hh, "G")[0];
 
   CUDA_CALL(cudaMemcpy(hd->counts, li(hh, "counts"), N * G * sizeof(int), cudaMemcpyHostToDevice));
-  CUDA_CALL(cudaMemcpy(hd->sums_g, li(hh, "countSums_g"), G * sizeof(int), cudaMemcpyHostToDevice));
-  CUDA_CALL(cudaMemcpy(hd->sums_n, li(hh, "countSums_n"), N * sizeof(int), cudaMemcpyHostToDevice));
+  CUDA_CALL(cudaMemcpy(hd->countSums_g, li(hh, "countSums_g"), G * sizeof(int), cudaMemcpyHostToDevice));
+  CUDA_CALL(cudaMemcpy(hd->countSums_n, li(hh, "countSums_n"), N * sizeof(int), cudaMemcpyHostToDevice));
   CUDA_CALL(cudaMemcpy(hd->design, li(hh, "design"), L * N * sizeof(int), cudaMemcpyHostToDevice));
   hd->N = N;
   hd->L = L;

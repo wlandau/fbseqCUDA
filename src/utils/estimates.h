@@ -45,7 +45,7 @@ __global__ void initialize_estimates_kernel2(chain_t *dd){
     dd->gammaPostMeanSquare[id] = 0.0;
     for(l = 0; l < dd->L; ++l){
       dd->betaPostMeanSquare[I(l, id)] = 0.0;
-      dd->xiPostMeansquare[I(l, id)] = 0.0;
+      dd->xiPostMeanSquare[I(l, id)] = 0.0;
     }
     for(n = 0; n < dd->N; ++n)
       dd->epsilonPostMeanSquare[I(n, id)] = 0.0;
@@ -101,7 +101,7 @@ __global__ void update_estimates_kernel2(chain_t *dd){
     dd->gammaPostMeanSquare[id] += dd->gamma[id]*dd->gamma[id];
     for(l = 0; l < dd->L; ++l){
       dd->betaPostMeanSquare[I(l, id)] += dd->beta[I(l, id)]*dd->beta[I(l, id)];
-      dd->xiPostMeansquare[I(l, id)] += dd->xi[I(l, id)]*dd->xi[I(l, id)];
+      dd->xiPostMeanSquare[I(l, id)] += dd->xi[I(l, id)]*dd->xi[I(l, id)];
     }
     for(n = 0; n < dd->N; ++n)
       dd->epsilonPostMeanSquare[I(n, id)] += dd->epsilon[I(n, id)]*dd->epsilon[I(n, id)];
@@ -157,7 +157,7 @@ __global__ void scale_estimates_kernel2(chain_t *dd, double iterations){
     dd->gammaPostMeanSquare[id]/= iterations;
     for(l = 0; l < dd->L; ++l){
       dd->betaPostMeanSquare[I(l, id)]/= iterations;
-      dd->xiPostMeansquare[I(l, id)]/= iterations;
+      dd->xiPostMeanSquare[I(l, id)]/= iterations;
     }
     for(n = 0; n < dd->N; ++n)
       dd->epsilonPostMeanSquare[I(n, id)]/= iterations;

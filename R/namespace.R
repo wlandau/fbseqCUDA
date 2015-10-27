@@ -1,4 +1,4 @@
 #' @useDynLib fbseqCUDA
-#' @import methods
 #' @import fbseq
+#' @import methods
 NULL

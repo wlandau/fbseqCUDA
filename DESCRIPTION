@@ -8,8 +8,8 @@ Maintainer: Will Landau <will.landau@gmail.com>
 Depends:
     R (>= 3.0.0)
 Imports:
-    methods,
-    heterosis
+    fbseq,
+    methods
 Suggests: knitr
 VignetteBuilder: knitr
 License: GPL (>= 3)

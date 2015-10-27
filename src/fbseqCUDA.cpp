@@ -7,7 +7,7 @@
 #include "utils/hd2hh.h"
 #include "utils/hh2hd.h"
 #include "utils/estimates.h"
-#include "utils/eta.h"
+#include "utils/xbeta.h"
 #include "utils/priors.h"
 #include "utils/curand_usage.h"
 #include "utils/reset_starts.h"
@@ -15,6 +15,8 @@
 #include "slice/args.h"
 #include "slice/targets.h"
 #include "slice/slice.h"
+
+/*
 
 #include "gibbs/beta.h"
 #include "gibbs/epsilon.h"
@@ -27,6 +29,7 @@
 #include "gibbs/tauRho.h"
 #include "gibbs/theta.h"
 #include "gibbs/xi.h"
+*/
 
 void iteration(SEXP hh, chain_t *hd, chain_t *dd){
 /*
@@ -72,19 +75,19 @@ void burnin(SEXP hh, chain_t *hd, chain_t *dd){
 
 void chain(SEXP hh, chain_t *hd, chain_t *dd){
   int i, m,
-      M = li(hh, "M")[0],
-      print_every = M + 2,
+      iterations = li(hh, "iterations")[0],
+      print_every = iterations + 2,
       thin = li(hh, "thin")[0],
       verbose = li(hh, "verbose")[0];
 
   if(verbose){
-    print_every = M/verbose + (M < verbose);
+    print_every = iterations/verbose + (iterations < verbose);
     Rprintf("Starting MCMC on GPU %d.\n", getDevice());
   }
 
-  for(m = 0; m < M; ++m){
+  for(m = 0; m < iterations; ++m){
     if(verbose && !((m + 1) % print_every)){
-      Rprintf("  MCMC iteration %d of %d on GPU %d", m + 1, M, getDevice());
+      Rprintf("  MCMC iteration %d of %d on GPU %d", m + 1, iterations, getDevice());
       if(thin) Rprintf(" (thin = %d)", thin);
       Rprintf("\n");
     }
@@ -93,7 +96,7 @@ void chain(SEXP hh, chain_t *hd, chain_t *dd){
     update_estimates(hh, dd);
     hd2hh(hh, hd, m);
 
-    if(m < M - 1)
+    if(m < iterations - 1)
       for(i = 0; i < thin; ++i)
         iteration(hh, hd, dd);
   }
@@ -117,7 +120,7 @@ extern "C" SEXP fbseqCUDA(SEXP hh){
     Rprintf("Loading MCMC on GPU %d.\n", getDevice());
 
   chain_t *hd = alloc_hd(hh);
-  hh2hd(hh, hd);
+/*  hh2hd(hh, hd);
 
   chain_t *dd;
   CUDA_CALL(cudaMalloc((void**) &dd, sizeof(chain_t)));
@@ -130,6 +133,6 @@ extern "C" SEXP fbseqCUDA(SEXP hh){
   burnin(hh, hd, dd);
   chain(hh, hd, dd);
   end(hh, hd, dd);
-
+*/
   return hh;
 }
