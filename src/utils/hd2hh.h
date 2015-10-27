@@ -46,15 +46,15 @@ void hd2hh(SEXP hh, chain_t *hd, int m){
   if(vi(parameter_sets_return, "nuRho"))
     CUDA_CALL(cudaMemcpy(lr(hh, "nuRho") + m, hd->nuRho, sizeof(double), cudaMemcpyDeviceToHost));
 
-  if(vi(parameter_sets_return, "omega"))
-    for(l = 0; l < L; ++l)
-      CUDA_CALL(cudaMemcpy(lr(hh, "omega") + m*L + l, hd->omega + l,
-                           sizeof(double), cudaMemcpyDeviceToHost));
-
   if(vi(parameter_sets_return, "rho"))
     for(nreturn = 0; nreturn < Nreturn; ++nreturn)
       CUDA_CALL(cudaMemcpy(lr(hh, "rho") + m*Nreturn + nreturn,
                            hd->rho + libraries_return[nreturn]-1,
+                           sizeof(double), cudaMemcpyDeviceToHost));
+
+  if(vi(parameter_sets_return, "sigmaSquared"))
+    for(l = 0; l < L; ++l)
+      CUDA_CALL(cudaMemcpy(lr(hh, "sigmaSquared") + m*L + l, hd->sigmaSquared + l,
                            sizeof(double), cudaMemcpyDeviceToHost));
 
   if(vi(parameter_sets_return, "tauGamma"))

@@ -10,7 +10,7 @@ __global__ void initialize_estimates_kernel1(chain_t *dd){
   dd->tauRhoPostMean[0] = 0.0;
 
   for(l = 0; l < dd->L; ++l){
-    dd->omegaPostMean[l] = 0.0;
+    dd->sigmaSquaredPostMean[l] = 0.0;
     dd->thetaPostMean[l] = 0.0;
   }
 
@@ -23,7 +23,7 @@ __global__ void initialize_estimates_kernel1(chain_t *dd){
   dd->tauRhoPostMeanSquare[0] = 0.0;
 
   for(l = 0; l < dd->L; ++l){
-    dd->omegaPostMeanSquare[l] = 0.0;
+    dd->sigmaSquaredPostMeanSquare[l] = 0.0;
     dd->thetaPostMeanSquare[l] = 0.0;
   }
 
@@ -66,7 +66,7 @@ __global__ void update_estimates_kernel1(chain_t *dd){
   dd->tauRhoPostMean[0] += dd->tauRho[0];
 
   for(l = 0; l < dd->L; ++l){
-    dd->omegaPostMean[l] += dd->omega[l];
+    dd->sigmaSquaredPostMean[l] += dd->sigmaSquared[l];
     dd->thetaPostMean[l] += dd->theta[l];
   }
 
@@ -79,7 +79,7 @@ __global__ void update_estimates_kernel1(chain_t *dd){
   dd->tauRhoPostMeanSquare[0] += dd->tauRho[0]*dd->tauRho[0];
 
   for(l = 0; l < dd->L; ++l){
-    dd->omegaPostMeanSquare[l] += dd->omega[l]*dd->omega[l];
+    dd->sigmaSquaredPostMeanSquare[l] += dd->sigmaSquared[l]*dd->sigmaSquared[l];
     dd->thetaPostMeanSquare[l] += dd->theta[l]*dd->theta[l];
   }
 
@@ -122,7 +122,7 @@ __global__ void scale_estimates_kernel1(chain_t *dd, double iterations){
   dd->tauRhoPostMean[0]/= iterations;
 
   for(l = 0; l < dd->L; ++l){
-    dd->omegaPostMean[l]/= iterations;
+    dd->sigmaSquaredPostMean[l]/= iterations;
     dd->thetaPostMean[l]/= iterations;
   }
 
@@ -135,7 +135,7 @@ __global__ void scale_estimates_kernel1(chain_t *dd, double iterations){
   dd->tauRhoPostMeanSquare[0]/= iterations;
 
   for(l = 0; l < dd->L; ++l){
-    dd->omegaPostMeanSquare[l]/= iterations;
+    dd->sigmaSquaredPostMeanSquare[l]/= iterations;
     dd->thetaPostMeanSquare[l]/= iterations;
   }
 
@@ -180,8 +180,8 @@ void save_estimates(SEXP hh, chain_t *hd){
   CUDA_CALL(cudaMemcpy(lr(hh, "gammaPostMean"), hd->gammaPostMean, G * sizeof(double), cudaMemcpyDeviceToHost));
   CUDA_CALL(cudaMemcpy(lr(hh, "nuGammaPostMean"), hd->nuGammaPostMean, sizeof(double), cudaMemcpyDeviceToHost));
   CUDA_CALL(cudaMemcpy(lr(hh, "nuRhoPostMean"), hd->nuRhoPostMean, sizeof(double), cudaMemcpyDeviceToHost));
-  CUDA_CALL(cudaMemcpy(lr(hh, "omegaPostMean"), hd->omegaPostMean, L * sizeof(double), cudaMemcpyDeviceToHost));
   CUDA_CALL(cudaMemcpy(lr(hh, "rhoPostMean"), hd->rhoPostMean, N * sizeof(double), cudaMemcpyDeviceToHost));
+  CUDA_CALL(cudaMemcpy(lr(hh, "sigmaSquaredPostMean"), hd->sigmaSquaredPostMean, L * sizeof(double), cudaMemcpyDeviceToHost));
   CUDA_CALL(cudaMemcpy(lr(hh, "tauGammaPostMean"), hd->tauGammaPostMean, sizeof(double), cudaMemcpyDeviceToHost));
   CUDA_CALL(cudaMemcpy(lr(hh, "tauRhoPostMean"), hd->tauRhoPostMean, sizeof(double), cudaMemcpyDeviceToHost));
   CUDA_CALL(cudaMemcpy(lr(hh, "thetaPostMean"), hd->thetaPostMean, L * sizeof(double), cudaMemcpyDeviceToHost));
@@ -192,8 +192,8 @@ void save_estimates(SEXP hh, chain_t *hd){
   CUDA_CALL(cudaMemcpy(lr(hh, "gammaPostMeanSquare"), hd->gammaPostMeanSquare, G * sizeof(double), cudaMemcpyDeviceToHost));
   CUDA_CALL(cudaMemcpy(lr(hh, "nuGammaPostMeanSquare"), hd->nuGammaPostMeanSquare, sizeof(double), cudaMemcpyDeviceToHost));
   CUDA_CALL(cudaMemcpy(lr(hh, "nuRhoPostMeanSquare"), hd->nuRhoPostMeanSquare, sizeof(double), cudaMemcpyDeviceToHost));
-  CUDA_CALL(cudaMemcpy(lr(hh, "omegaPostMeanSquare"), hd->omegaPostMeanSquare, L * sizeof(double), cudaMemcpyDeviceToHost));
   CUDA_CALL(cudaMemcpy(lr(hh, "rhoPostMeanSquare"), hd->rhoPostMeanSquare, N * sizeof(double), cudaMemcpyDeviceToHost));
+  CUDA_CALL(cudaMemcpy(lr(hh, "sigmaSquaredPostMeanSquare"), hd->sigmaSquaredPostMeanSquare, L * sizeof(double), cudaMemcpyDeviceToHost));
   CUDA_CALL(cudaMemcpy(lr(hh, "tauGammaPostMeanSquare"), hd->tauGammaPostMeanSquare, sizeof(double), cudaMemcpyDeviceToHost));
   CUDA_CALL(cudaMemcpy(lr(hh, "tauRhoPostMeanSquare"), hd->tauRhoPostMeanSquare, sizeof(double), cudaMemcpyDeviceToHost));
   CUDA_CALL(cudaMemcpy(lr(hh, "thetaPostMeanSquare"), hd->thetaPostMeanSquare, L * sizeof(double), cudaMemcpyDeviceToHost));

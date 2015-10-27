@@ -25,8 +25,8 @@ void free_hd(chain_t *hd){
   CUDA_CALL(cudaFree(hd->gamma));
   CUDA_CALL(cudaFree(hd->nuGamma));
   CUDA_CALL(cudaFree(hd->nuRho));
-  CUDA_CALL(cudaFree(hd->omega));
   CUDA_CALL(cudaFree(hd->rho));
+  CUDA_CALL(cudaFree(hd->sigmaSquared));
   CUDA_CALL(cudaFree(hd->tauGamma));
   CUDA_CALL(cudaFree(hd->tauRho));
   CUDA_CALL(cudaFree(hd->theta));
@@ -37,8 +37,8 @@ void free_hd(chain_t *hd){
   CUDA_CALL(cudaFree(hd->gammaStart));
   CUDA_CALL(cudaFree(hd->nuGammaStart));
   CUDA_CALL(cudaFree(hd->nuRhoStart));
-  CUDA_CALL(cudaFree(hd->omegaStart));
   CUDA_CALL(cudaFree(hd->rhoStart));
+  CUDA_CALL(cudaFree(hd->sigmaSquaredStart));
   CUDA_CALL(cudaFree(hd->tauGammaStart));
   CUDA_CALL(cudaFree(hd->tauRhoStart));
   CUDA_CALL(cudaFree(hd->thetaStart));
@@ -49,8 +49,8 @@ void free_hd(chain_t *hd){
   CUDA_CALL(cudaFree(hd->gammaPostMean));
   CUDA_CALL(cudaFree(hd->nuGammaPostMean));
   CUDA_CALL(cudaFree(hd->nuRhoPostMean));
-  CUDA_CALL(cudaFree(hd->omegaPostMean));
   CUDA_CALL(cudaFree(hd->rhoPostMean));
+  CUDA_CALL(cudaFree(hd->sigmaSquaredPostMean));
   CUDA_CALL(cudaFree(hd->tauGammaPostMean));
   CUDA_CALL(cudaFree(hd->tauRhoPostMean));
   CUDA_CALL(cudaFree(hd->thetaPostMean));
@@ -61,8 +61,8 @@ void free_hd(chain_t *hd){
   CUDA_CALL(cudaFree(hd->gammaPostMeanSquare));
   CUDA_CALL(cudaFree(hd->nuGammaPostMeanSquare));
   CUDA_CALL(cudaFree(hd->nuRhoPostMeanSquare));
-  CUDA_CALL(cudaFree(hd->omegaPostMeanSquare));
   CUDA_CALL(cudaFree(hd->rhoPostMeanSquare));
+  CUDA_CALL(cudaFree(hd->sigmaSquaredPostMeanSquare));
   CUDA_CALL(cudaFree(hd->tauGammaPostMeanSquare));
   CUDA_CALL(cudaFree(hd->tauRhoPostMeanSquare));
   CUDA_CALL(cudaFree(hd->thetaPostMeanSquare));
