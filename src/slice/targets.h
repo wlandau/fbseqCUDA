@@ -1,31 +1,43 @@
 #ifndef TARGETS_H
 #define TARGETS_H
 
-#define LTARGET_BASIC        0
-#define LTARGET_GAMMA        1
-#define LTARGET_INV_GAMMA    2
-#define LTARGET_NU           3
-#define LTARGET_XI_LAPLACE   4
-#define LTARGET_XI_T         5
-#define LTARGET_XI_HORSESHOE 6
+#define LTARGET_BETA         0
+#define LTARGET_EPSILON      1
+#define LTARGET_GAMMA        2
+#define LTARGET_INV_GAMMA    3
+#define LTARGET_NU           4
+#define LTARGET_XI_LAPLACE   5
+#define LTARGET_XI_T         6
+#define LTARGET_XI_HORSESHOE 7
 
-__device__ double ltarget_basic(chain_t *dd, args_t args, double x){
+__device__ double ltarget_beta(chain_t *dd, args_t args, double x){
+  int j;
+  double ret = -CUDART_INF, z = (x - args.C);
+  ret = args.A*x - args.B*z*z;
+  for(j = 0; j < args.designUniqueN; ++j)
+    ret -= exp(args.Dp[j]*x) * args.Ep[j];
+  if(isnan(ret))
+    ret = -CUDART_INF;
+  return ret;
+}
+
+__device__ double ltarget_epsilon(chain_t *dd, args_t args, double x){
   double ret = -CUDART_INF;
   double z = (x - args.C);
-  ret = args.A*x - args.B*z*z - args.D*exp(x) - args.E*exp(-x);
+  ret = args.A*x - args.B*z*z - args.D*exp(x);
   if(isnan(ret))
     ret = -CUDART_INF;
   return ret;
 }
 
 __device__ double ltarget_gamma(chain_t *dd, args_t args, double x){
-  if(x <= 0.0 || x => args.upperbound) return -CUDART_INF;
+  if(x <= 0.0 || x >= args.upperbound) return -CUDART_INF;
   double a = args.shape, b = args.rate;
   return /* a*log(b) - lgamma(a) + */ (a-1)*log(x) - b*x;
 }
 
 __device__ double ltarget_inv_gamma(chain_t *dd, args_t args, double x){
-  if(x <= 0.0 || x => args.upperbound) return -CUDART_INF;
+  if(x <= 0.0 || x >= args.upperbound) return -CUDART_INF;
   double a = args.shape, b = args.scale;
   return /* a*log(b) - lgamma(a) */ -(a+1)*log(x) - b/x;
 }
@@ -68,7 +80,8 @@ __device__ double ltarget_xi_horseshoe(chain_t *dd, args_t args, double x){
 
 __device__ double ltarget(chain_t *dd, args_t args, double x){
   switch(args.target_type){
-    case LTARGET_BASIC        : return ltarget_basic(dd, args, x);
+    case LTARGET_BETA         : return ltarget_beta(dd, args, x);
+    case LTARGET_EPSILON      : return ltarget_epsilon(dd, args, x);
     case LTARGET_GAMMA        : return ltarget_gamma(dd, args, x);
     case LTARGET_INV_GAMMA    : return ltarget_inv_gamma(dd, args, x);
     case LTARGET_NU           : return ltarget_nu(dd, args, x);

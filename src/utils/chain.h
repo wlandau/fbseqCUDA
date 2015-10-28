@@ -6,13 +6,16 @@ typedef struct {
   int *counts,
       *countSums_g,
       *countSums_n,
-      *design,
+      *designUniqueN,
       G,
       L,
       N,
       *seeds;
 
-  double *aGamma,
+  double *design,
+         *designUnique,
+
+         *aGamma,
          *aRho,
          *bGamma,
          *bRho,

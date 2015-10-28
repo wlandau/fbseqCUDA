@@ -7,6 +7,8 @@ void free_hd(chain_t *hd){
   CUDA_CALL(cudaFree(hd->countSums_g));
   CUDA_CALL(cudaFree(hd->countSums_n));
   CUDA_CALL(cudaFree(hd->design));
+  CUDA_CALL(cudaFree(hd->designUnique));
+  CUDA_CALL(cudaFree(hd->designUniqueN));
   CUDA_CALL(cudaFree(hd->seeds));
 
   CUDA_CALL(cudaFree(hd->aGamma));

@@ -5,8 +5,8 @@
 #define STEP_WIDTH 5.0
 
 typedef struct {
-  int max_steps, step_width, target_type;
-  double A, B, C, D, E, G, idx, rate, scale, shape, upperbound, x, x0;
+  int designUniqueN, max_steps, step_width, target_type;
+  double A, B, C, D, *Dp, *Ep, G, idx, rate, scale, shape, upperbound, x, x0;
 } args_t;
 
 #endif // ARGS_H

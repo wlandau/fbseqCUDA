@@ -11,7 +11,9 @@ chain_t *alloc_hd(SEXP hh){
   CUDA_CALL(cudaMalloc((void**) &(hd->counts), N * G * sizeof(int)));
   CUDA_CALL(cudaMalloc((void**) &(hd->countSums_g), G * sizeof(int)));
   CUDA_CALL(cudaMalloc((void**) &(hd->countSums_n), N * sizeof(int)));
-  CUDA_CALL(cudaMalloc((void**) &(hd->design), L * N * sizeof(int)));
+  CUDA_CALL(cudaMalloc((void**) &(hd->design), L * N * sizeof(double)));
+  CUDA_CALL(cudaMalloc((void**) &(hd->designUnique), L * N * sizeof(double)));
+  CUDA_CALL(cudaMalloc((void**) &(hd->designUniqueN), L * sizeof(int)));
   CUDA_CALL(cudaMalloc((void**) &(hd->seeds), N * G * sizeof(int)));
 
   CUDA_CALL(cudaMalloc((void**) &(hd->aGamma), sizeof(double)));
@@ -74,7 +76,7 @@ chain_t *alloc_hd(SEXP hh){
   CUDA_CALL(cudaMalloc((void**) &(hd->xiPostMeanSquare), L * G * sizeof(double)));
 
   CUDA_CALL(cudaMalloc((void**) &(hd->states), N * G * sizeof(curandState_t)));
-  CUDA_CALL(cudaMalloc((void**) &(hd->aux), G * sizeof(double)));
+  CUDA_CALL(cudaMalloc((void**) &(hd->aux), MAX(N, G) * sizeof(double)));
 
   return hd;
 }
