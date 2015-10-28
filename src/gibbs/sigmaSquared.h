@@ -1,7 +1,7 @@
 #ifndef SIGMASQUARED_H
 #define SIGMASQUARED_H
 
-__global__ void sigmaSquared_kernel1(chain_t *dd, l){
+__global__ void sigmaSquared_kernel1(chain_t *dd, int l){
   int g = IDX;
   double x;
   if(g < dd->G){
@@ -10,8 +10,8 @@ __global__ void sigmaSquared_kernel1(chain_t *dd, l){
   }
 }
 
-__global__ void sigmaSquared_kernel2(chain_t *dd, l){
-  approx_gibbs_args_t args;
+__global__ void sigmaSquared_kernel2(chain_t *dd, int l){
+  args_t args;
   args.idx = 0;
   args.x0 = dd->sigmaSquared[l];
   args.target_type = LTARGET_INV_GAMMA;
@@ -25,7 +25,7 @@ __global__ void sigmaSquared_kernel2(chain_t *dd, l){
 
 void sigmaSquaredSample(SEXP hh, chain_t *hd, chain_t *dd){
   int l;
-  if(!(vi(le(hh, "updates"), "sigmaSquared"))) return;
+  if(!(vi(le(hh, "parameter_sets_update"), "sigmaSquared"))) return;
 
   for(l = 0; l < li(hh, "L")[0]; ++l){
     sigmaSquared_kernel1<<<GRID, BLOCK>>>(dd, l);

@@ -8,7 +8,7 @@ __global__ void nuGamma_kernel1(chain_t *dd){
 }
 
 __global__ void nuGamma_kernel2(chain_t *dd){
-  approx_gibbs_args_t args;
+  args_t args;
   args.idx = 0;
   args.x0 = dd->nuGamma[0];
   args.target_type = LTARGET_NU;
@@ -24,7 +24,7 @@ __global__ void nuGamma_kernel2(chain_t *dd){
 }
 
 void nuGammaSample(SEXP hh, chain_t *hd, chain_t *dd){
-  if(!(vi(le(hh, "updates"), "nuGamma"))) return;
+  if(!(vi(le(hh, "parameter_sets_update"), "nuGamma"))) return;
   nuGamma_kernel1<<<GRID, BLOCK>>>(dd);
 
   thrust::device_ptr<double> aux(hd->aux);

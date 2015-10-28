@@ -6,7 +6,7 @@ __global__ void epsilon_kernel1(chain_t *dd){
   if(n >= dd->N || g >= dd->G)
     return;
 
-  approx_gibbs_args_t args;
+  args_t args;
   args.idx = I(n, g);
   args.target_type = LTARGET_BASIC;
   args.step_width = 1.0;
@@ -21,7 +21,7 @@ __global__ void epsilon_kernel1(chain_t *dd){
 }
 
 void epsilonSample(SEXP hh, chain_t *hd, chain_t *dd){
-  if(!(vi(le(hh, "updates"), "epsilon"))) return;
+  if(!(vi(le(hh, "parameter_sets_update"), "epsilon"))) return;
   dim3 grid(GRID_N, GRID_G), block(BLOCK_N, BLOCK_G);
   epsilon_kernel1<<<grid, block>>>(dd);
 }

@@ -14,14 +14,14 @@ __global__ void theta_kernel2(chain_t *dd, int l){
 }
 
 __global__ void theta_kernel3(chain_t *dd, double A0, double B0, int l){ // single thread
-  double A = 0.5/dd->c[l] + A0/dd->sigmaSquared[l],
-         B = B0/dd->sigmaSquared[l],
+  double A = 0.5 * (1.0/dd->c[l] + A0/dd->sigmaSquared[l]),
+         B = B0/dd->sigmaSquared[l];
   dd->theta[l] = rnormal(dd, 0, 0.5*B/A, sqrt(0.5/A));
 }
 
 void thetaSample(SEXP hh, chain_t *hd, chain_t *dd){
   int l, G = li(hh, "G")[0];
-  if(!(vi(le(hh, "updates"), "theta"))) return;
+  if(!(vi(le(hh, "parameter_sets_update"), "theta"))) return;
 
   for(l = 0; l < li(hh, "L")[0]; ++l){
     theta_kernel1<<<GRID, BLOCK>>>(dd, l);

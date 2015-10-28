@@ -8,7 +8,7 @@ __global__ void tauRho_kernel1(chain_t *dd){
 }
 
 __global__ void tauRho_kernel2(chain_t *dd){
-  approx_gibbs_args_t args;
+  args_t args;
   args.idx = 0;
   args.x0 = dd->tauRho[0];
   args.target_type = LTARGET_GAMMA;
@@ -21,7 +21,7 @@ __global__ void tauRho_kernel2(chain_t *dd){
 }
 
 void tauRhoSample(SEXP hh, chain_t *hd, chain_t *dd){
-  if(!(vi(le(hh, "updates"), "tauRho"))) return;
+  if(!(vi(le(hh, "parameter_sets_update"), "tauRho"))) return;
 
   tauRho_kernel1<<<GRID, BLOCK>>>(dd);
 

@@ -16,8 +16,6 @@
 #include "slice/targets.h"
 #include "slice/slice.h"
 
-/*
-
 #include "gibbs/beta.h"
 #include "gibbs/epsilon.h"
 #include "gibbs/gamma.h"
@@ -29,11 +27,8 @@
 #include "gibbs/tauRho.h"
 #include "gibbs/theta.h"
 #include "gibbs/xi.h"
-*/
 
 void iteration(SEXP hh, chain_t *hd, chain_t *dd){
-/*
-
   epsilonSample(hh, hd, dd);
   gammaSample(hh, hd, dd);
   rhoSample(hh, hd, dd);
@@ -48,8 +43,6 @@ void iteration(SEXP hh, chain_t *hd, chain_t *dd){
 
   nuGammaSample(hh, hd, dd);
   nuRhoSample(hh, hd, dd);
-
-  */
 }
 
 void burnin(SEXP hh, chain_t *hd, chain_t *dd){

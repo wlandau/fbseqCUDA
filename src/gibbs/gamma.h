@@ -9,7 +9,7 @@ __global__ void gamma_kernel1(chain_t *dd){
   for(n = 0; n < dd->N; ++n)
     sum += dd->epsilon[I(n, g)]*dd->epsilon[I(n, g)]/dd->rho[n];
 
-  approx_gibbs_args_t args;
+  args_t args;
   args.idx = g;
   args.x0 = dd->gamma[g];
   args.target_type = LTARGET_INV_GAMMA;
@@ -23,7 +23,7 @@ __global__ void gamma_kernel1(chain_t *dd){
 }
 
 void gammaSample(SEXP hh, chain_t *hd, chain_t *dd){
-  if(!(vi(le(hh, "updates"), "gamma"))) return;
+  if(!(vi(le(hh, "parameter_sets_update"), "gamma"))) return;
   gamma_kernel1<<<GRID, BLOCK>>>(dd);
 }
 

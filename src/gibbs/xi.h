@@ -1,11 +1,11 @@
 #ifndef XI_H
 #define XI_H
 
-__global__ void xi_kernel1(chain_t *dd, int l){
-  int g = IDX, prior = li(hh, "priors")[l];
+__global__ void xi_kernel1(chain_t *dd, int prior, int l){
+  int g = IDX;
   if(g >= dd->G) return;
 
-  approx_gibbs_args_t args;
+  args_t args;
   args.idx = g;
   args.x0 = dd->xi[I(l, g)];
   args.step_width = STEP_WIDTH;
@@ -42,9 +42,9 @@ __global__ void xi_kernel1(chain_t *dd, int l){
 
 void xiSample(SEXP hh, chain_t *hd, chain_t *dd){
   int l;
-  if(!(vi(le(hh, "updates"), "xi"))) return;
+  if(!(vi(le(hh, "parameter_sets_update"), "xi"))) return;
   for(l = 0; l < li(hh, "L")[0]; ++l)
-    xi_kernel1<<<GRID, BLOCK>>>(dd, l);
+    xi_kernel1<<<GRID, BLOCK>>>(dd, li(hh, "priors")[l], l);
 }
 
 #endif // XI_H

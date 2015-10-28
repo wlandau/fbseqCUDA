@@ -8,7 +8,7 @@ __global__ void rho_kernel1(chain_t *dd, int n){
 }
 
 __global__ void rho_kernel2(chain_t *dd, int n, double sum){ // single thread
-  approx_gibbs_args_t args;
+  args_t args;
   args.x0 = dd->rho[n];
   args.target_type = LTARGET_INV_GAMMA;
   args.step_width = STEP_WIDTH;
@@ -21,7 +21,7 @@ __global__ void rho_kernel2(chain_t *dd, int n, double sum){ // single thread
 
 void rhoSample(SEXP hh, chain_t *hd, chain_t *dd){
   int n, N = li(hh, "N")[0], G = li(hh, "G")[0];
-  if(!(vi(le(hh, "updates"), "rho"))) return;
+  if(!(vi(le(hh, "parameter_sets_update"), "rho"))) return;
 
   for(n = 0; n < N; ++n){
     rho_kernel1<<<GRID, BLOCK>>>(dd, n);
