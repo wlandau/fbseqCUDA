@@ -4,7 +4,7 @@
 __global__ void nuRho_kernel1(chain_t *dd){
   int n = IDX;
   if(n < dd->N)
-    dd->aux[n] = log(dd->rho[n]) + 0.5 * dd->tauRho[0] / dd->rho[n];
+    dd->aux[n] = log(dd->rho[n]) + dd->tauRho[0] / dd->rho[n];
 }
 
 __global__ void nuRho_kernel2(chain_t *dd){
@@ -16,7 +16,7 @@ __global__ void nuRho_kernel2(chain_t *dd){
   args.max_steps = MAX_STEPS;
 
   args.A = 0.5 * dd->tauRho[0];
-  args.B = dd->aux[0];
+  args.B = 0.5 * dd->aux[0];
   args.C = (double) dd->N;
   args.D = dd->dRho[0];
 

@@ -19,13 +19,13 @@ __device__ double ltarget_basic(chain_t *dd, args_t args, double x){
 }
 
 __device__ double ltarget_gamma(chain_t *dd, args_t args, double x){
-  if(x < 0.0 || x > args.upperbound) return -CUDART_INF;
+  if(x <= 0.0 || x => args.upperbound) return -CUDART_INF;
   double a = args.shape, b = args.rate;
   return /* a*log(b) - lgamma(a) + */ (a-1)*log(x) - b*x;
 }
 
 __device__ double ltarget_inv_gamma(chain_t *dd, args_t args, double x){
-  if(x < 0.0 || x > args.upperbound) return -CUDART_INF;
+  if(x <= 0.0 || x => args.upperbound) return -CUDART_INF;
   double a = args.shape, b = args.scale;
   return /* a*log(b) - lgamma(a) */ -(a+1)*log(x) - b/x;
 }

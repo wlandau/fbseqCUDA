@@ -4,7 +4,7 @@
 __global__ void nuGamma_kernel1(chain_t *dd){
   int g = IDX;
   if(g < dd->G)
-    dd->aux[g] = log(dd->gamma[g]) + 0.5 * dd->tauGamma[0] / dd->gamma[g];
+    dd->aux[g] = log(dd->gamma[g]) + dd->tauGamma[0] / dd->gamma[g];
 }
 
 __global__ void nuGamma_kernel2(chain_t *dd){
@@ -16,7 +16,7 @@ __global__ void nuGamma_kernel2(chain_t *dd){
   args.max_steps = MAX_STEPS;
 
   args.A = 0.5 * dd->tauGamma[0];
-  args.B = dd->aux[0];
+  args.B = 0.5 * dd->aux[0];
   args.C = (double) dd->G;
   args.D = dd->dGamma[0];
 
