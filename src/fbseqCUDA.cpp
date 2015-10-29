@@ -85,7 +85,6 @@ void chain(SEXP hh, chain_t *hd, chain_t *dd){
       Rprintf("\n");
     }
 
-
     iteration(hh, hd, dd);
     update_estimates(hh, dd);
     hd2hh(hh, hd, m);
