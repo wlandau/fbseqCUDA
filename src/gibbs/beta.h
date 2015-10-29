@@ -51,10 +51,12 @@ __global__ void beta_kernel1(chain_t *dd, int l){
 }
 
 void betaSample(SEXP hh, chain_t *hd, chain_t *dd){
-  int l;
+  int i, l;
   if(!(vi(le(hh, "parameter_sets_update"), "beta"))) return;
-  for(l = 0; l < li(hh, "L")[0]; ++l)
+  for(i = 0; i < li(hh, "Lupdate")[0]; ++i){
+    l = li(hh, "effects_update")[i] - 1;
     beta_kernel1<<<GRID, BLOCK>>>(dd, l);
+  }
 }
 
 #endif // BETA_H
