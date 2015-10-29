@@ -46,8 +46,8 @@ __global__ void beta_kernel1(chain_t *dd, int l){
   }
 
   dd->beta[I(l, g)] = slice(dd, args);
-  free(args.Dp);
-  free(args.Ep);
+  delete(args.Dp);
+  delete(args.Ep);
 }
 
 void betaSample(SEXP hh, chain_t *hd, chain_t *dd){
