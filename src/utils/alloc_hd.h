@@ -76,7 +76,8 @@ chain_t *alloc_hd(SEXP hh){
   CUDA_CALL(cudaMalloc((void**) &(hd->xiPostMeanSquare), L * G * sizeof(double)));
 
   CUDA_CALL(cudaMalloc((void**) &(hd->states), N * G * sizeof(curandState_t)));
-  CUDA_CALL(cudaMalloc((void**) &(hd->aux), MAX(N, G) * sizeof(double)));
+  CUDA_CALL(cudaMalloc((void**) &(hd->aux), N * G * sizeof(double)));
+  CUDA_CALL(cudaMalloc((void**) &(hd->D), N * G * sizeof(double)));
 
   return hd;
 }

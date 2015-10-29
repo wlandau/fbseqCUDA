@@ -37,17 +37,13 @@ __global__ void beta_kernel1(chain_t *dd, int l){
   args.C = dd->theta[l];
 
   args.designUniqueN = dd->designUniqueN[l];
-  args.Dp = new double[args.designUniqueN];
-  args.Ep = new double[args.designUniqueN];
 
   for(j = 0; j < args.designUniqueN; ++j){
-    args.Dp[j] = dd->designUnique[Idesign(l, j)];
-    args.Ep[j] = beta_coef(dd, l, g, args.Dp[j]);
+    dd->D[I(j, g)] = dd->designUnique[Idesign(l, j)];
+    dd->aux[I(j, g)] = beta_coef(dd, l, g, dd->D[I(j, g)]);
   }
 
   dd->beta[I(l, g)] = slice(dd, args);
-  delete(args.Dp);
-  delete(args.Ep);
 }
 
 void betaSample(SEXP hh, chain_t *hd, chain_t *dd){

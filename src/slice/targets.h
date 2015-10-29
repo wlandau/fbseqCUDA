@@ -15,7 +15,7 @@ __device__ double ltarget_beta(chain_t *dd, args_t args, double x){
   double ret = -CUDART_INF, z = (x - args.C);
   ret = args.A*x - args.B*z*z;
   for(j = 0; j < args.designUniqueN; ++j)
-    ret -= exp(args.Dp[j]*x) * args.Ep[j];
+    ret -= exp(dd->D[I(j, args.idx)]*x) * dd->aux[I(j, args.idx)];
   if(isnan(ret))
     ret = -CUDART_INF;
   return ret;

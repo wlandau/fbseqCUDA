@@ -72,6 +72,7 @@ void free_hd(chain_t *hd){
 
   CUDA_CALL(cudaFree(hd->states));
   CUDA_CALL(cudaFree(hd->aux));
+  CUDA_CALL(cudaFree(hd->D));
 
   free(hd);
 }

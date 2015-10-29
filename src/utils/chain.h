@@ -74,7 +74,8 @@ typedef struct {
          *thetaPostMeanSquare,
          *xiPostMeanSquare,
 
-         *aux;
+         *aux,
+         *D;
 
   curandState_t *states;
 } chain_t;
