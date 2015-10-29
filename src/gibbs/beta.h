@@ -26,7 +26,7 @@ __global__ void beta_kernel1(chain_t *dd, int l){
   args.x0 = dd->beta[I(l, g)];
   args.target_type = LTARGET_BETA;
   args.step_width = STEP_WIDTH;
-  args.max_steps = MAX_STEPS; 
+  args.max_steps = MAX_STEPS;
 
   args.A = 0.0;
   for(n = 0; n < dd->N; ++n)
