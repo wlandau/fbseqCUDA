@@ -3,8 +3,10 @@
 
 __global__ void rho_kernel1(chain_t *dd, int n){
   int g = IDX;
-  if(g < dd->G)
-    dd->aux[g] = dd->epsilon[I(n, g)] * dd->epsilon[I(n, g)] / dd->gamma[g];
+  double z;
+  if(g >= dd->G) return;
+  z = dd->epsilon[I(n, g)] - dd->h[n];
+  dd->aux[g] = z * z / dd->gamma[g];
 }
 
 __global__ void rho_kernel2(chain_t *dd, int n, double sum){ // single thread

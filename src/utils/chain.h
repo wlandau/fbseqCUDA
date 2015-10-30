@@ -22,6 +22,7 @@ typedef struct {
          *c,
          *dGamma,
          *dRho,
+         *h,
          *k,
          *r,
          *s,

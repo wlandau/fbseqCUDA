@@ -18,6 +18,7 @@ void free_hd(chain_t *hd){
   CUDA_CALL(cudaFree(hd->c));
   CUDA_CALL(cudaFree(hd->dGamma));
   CUDA_CALL(cudaFree(hd->dRho));
+  CUDA_CALL(cudaFree(hd->h));
   CUDA_CALL(cudaFree(hd->k));
   CUDA_CALL(cudaFree(hd->r));
   CUDA_CALL(cudaFree(hd->s));
