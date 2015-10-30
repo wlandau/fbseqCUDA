@@ -17,10 +17,10 @@ void hh2hd(SEXP hh, chain_t *hd){
   hd->G = G;
   CUDA_CALL(cudaMemcpy(hd->seeds, li(hh, "seeds"), G * sizeof(int), cudaMemcpyHostToDevice));
 
-  CUDA_CALL(cudaMemcpy(hd->aRho, lr(hh, "a"), sizeof(double), cudaMemcpyHostToDevice));
-  CUDA_CALL(cudaMemcpy(hd->bRho, lr(hh, "b"), sizeof(double), cudaMemcpyHostToDevice));
+  CUDA_CALL(cudaMemcpy(hd->a, lr(hh, "a"), sizeof(double), cudaMemcpyHostToDevice));
+  CUDA_CALL(cudaMemcpy(hd->b, lr(hh, "b"), sizeof(double), cudaMemcpyHostToDevice));
   CUDA_CALL(cudaMemcpy(hd->c, lr(hh, "c"), L * sizeof(double), cudaMemcpyHostToDevice));
-  CUDA_CALL(cudaMemcpy(hd->dRho, lr(hh, "d"), sizeof(double), cudaMemcpyHostToDevice));
+  CUDA_CALL(cudaMemcpy(hd->d, lr(hh, "d"), sizeof(double), cudaMemcpyHostToDevice));
   CUDA_CALL(cudaMemcpy(hd->k, lr(hh, "k"), L * sizeof(double), cudaMemcpyHostToDevice));
   CUDA_CALL(cudaMemcpy(hd->r, lr(hh, "r"), L * sizeof(double), cudaMemcpyHostToDevice));
   CUDA_CALL(cudaMemcpy(hd->s, lr(hh, "s"), L * sizeof(double), cudaMemcpyHostToDevice));
