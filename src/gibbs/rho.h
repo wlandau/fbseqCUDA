@@ -14,8 +14,8 @@ __global__ void rho_kernel2(chain_t *dd, int n){
 }
 
 __global__ void rho_kernel3(chain_t *dd, double A0, double B0, int n){ // single thread
-  double A = 0.5 * (1.0/(dd->w[0]*dd->w[0]) + A0/dd->omegaSquared[0]),
-         B = B0/dd->omegaSquared[0];
+  double A = 0.5 * (1.0/dd->omegaSquared[0] + A0),
+         B = B0;
   dd->rho[n] = rnormal(dd, 0, 0.5*B/A, sqrt(0.5/A));
 }
 
