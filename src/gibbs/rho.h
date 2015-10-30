@@ -5,7 +5,7 @@ __global__ void rho_kernel1(chain_t *dd, int n){
   int g = IDX;
   double z;
   if(g >= dd->G) return;
-  z = dd->epsilon[I(n, g)] - dd->h[n];
+  z = dd->epsilon[I(n, g)] - dd->psi[n];
   dd->aux[g] = z * z / dd->gamma[g];
 }
 

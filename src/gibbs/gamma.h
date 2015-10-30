@@ -7,7 +7,7 @@ __global__ void gamma_kernel1(chain_t *dd){
   if(g >= dd->G) return;
 
   for(n = 0; n < dd->N; ++n){
-    z = dd->epsilon[I(n, g)] - dd->h[n];
+    z = dd->epsilon[I(n, g)] - dd->psi[n];
     sum += z * z / dd->rho[n];
   }
 

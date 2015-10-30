@@ -13,7 +13,7 @@ __global__ void epsilon_kernel1(chain_t *dd){
   args.max_steps = 30;
   args.A = (double) dd->counts[I(n, g)];
   args.B = 1.0/(2.0 * dd->rho[n] * dd->gamma[g]);
-  args.C = dd->h[n];
+  args.C = dd->psi[n];
   args.D = exp(Xbeta(dd, n, g));
   args.x0 = dd->epsilon[I(n, g)];
   dd->epsilon[I(n, g)] = slice(dd, args);

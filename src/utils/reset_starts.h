@@ -12,6 +12,8 @@ void reset_starts(SEXP hh, chain_t *hd){
   CUDA_CALL(cudaMemcpy(lr(hh, "gammaStart"), hd->gamma, G * sizeof(double), cudaMemcpyDeviceToHost));
   CUDA_CALL(cudaMemcpy(lr(hh, "nuGammaStart"), hd->nuGamma, sizeof(double), cudaMemcpyDeviceToHost));
   CUDA_CALL(cudaMemcpy(lr(hh, "nuRhoStart"), hd->nuRho, sizeof(double), cudaMemcpyDeviceToHost));
+  CUDA_CALL(cudaMemcpy(lr(hh, "omegaSquaredStart"), hd->omegaSquared, sizeof(double), cudaMemcpyDeviceToHost));
+  CUDA_CALL(cudaMemcpy(lr(hh, "psiStart"), hd->psi, N * sizeof(double), cudaMemcpyDeviceToHost));
   CUDA_CALL(cudaMemcpy(lr(hh, "rhoStart"), hd->rho, N * sizeof(double), cudaMemcpyDeviceToHost));
   CUDA_CALL(cudaMemcpy(lr(hh, "sigmaSquaredStart"), hd->sigmaSquared, L * sizeof(double), cudaMemcpyDeviceToHost));
   CUDA_CALL(cudaMemcpy(lr(hh, "tauGammaStart"), hd->tauGamma, sizeof(double), cudaMemcpyDeviceToHost));
