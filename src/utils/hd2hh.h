@@ -40,11 +40,11 @@ void hd2hh(SEXP hh, chain_t *hd, int m){
                            hd->gamma + genes_return[greturn]-1,
                            sizeof(double), cudaMemcpyDeviceToHost));
 
-  if(vi(parameter_sets_return, "nuGamma"))
-    CUDA_CALL(cudaMemcpy(lr(hh, "nuGamma") + m, hd->nuGamma, sizeof(double), cudaMemcpyDeviceToHost));
+  if(vi(parameter_sets_return, "nu"))
+    CUDA_CALL(cudaMemcpy(lr(hh, "nu") + m, hd->nu, sizeof(double), cudaMemcpyDeviceToHost));
 
-  if(vi(parameter_sets_return, "nuRho"))
-    CUDA_CALL(cudaMemcpy(lr(hh, "nuRho") + m, hd->nuRho, sizeof(double), cudaMemcpyDeviceToHost));
+  if(vi(parameter_sets_return, "omegaSquared"))
+    CUDA_CALL(cudaMemcpy(lr(hh, "omegaSquared") + m, hd->omegaSquared, sizeof(double), cudaMemcpyDeviceToHost));
 
   if(vi(parameter_sets_return, "rho"))
     for(nreturn = 0; nreturn < Nreturn; ++nreturn)
@@ -57,11 +57,8 @@ void hd2hh(SEXP hh, chain_t *hd, int m){
       CUDA_CALL(cudaMemcpy(lr(hh, "sigmaSquared") + m*L + l, hd->sigmaSquared + l,
                            sizeof(double), cudaMemcpyDeviceToHost));
 
-  if(vi(parameter_sets_return, "tauGamma"))
-    CUDA_CALL(cudaMemcpy(lr(hh, "tauGamma") + m, hd->tauGamma, sizeof(double), cudaMemcpyDeviceToHost));
-
-  if(vi(parameter_sets_return, "tauRho"))
-    CUDA_CALL(cudaMemcpy(lr(hh, "tauRho") + m, hd->tauRho, sizeof(double), cudaMemcpyDeviceToHost));
+  if(vi(parameter_sets_return, "tau"))
+    CUDA_CALL(cudaMemcpy(lr(hh, "tau") + m, hd->tau, sizeof(double), cudaMemcpyDeviceToHost));
 
   if(vi(parameter_sets_return, "theta"))
     for(l = 0; l < L; ++l)
