@@ -4,7 +4,7 @@
 __global__ void omegaSquared_kernel1(chain_t *dd){
   int n = IDX;
   if(n < dd->N)
-    dd->aux[n] = dd->rho[n]*dd->rho[n];
+    dd->aux[n] = dd->psi[n]*dd->psi[n];
 }
 
 __global__ void omegaSquared_kernel2(chain_t *dd){
