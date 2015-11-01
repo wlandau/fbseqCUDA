@@ -24,7 +24,7 @@ __global__ void beta_kernel1(chain_t *dd, int l){
   args_t args;
   args.idx = g;
   args.x0 = dd->beta[I(l, g)];
-  args.target_type = LTARGET_BETA;
+  args.target_type = LTARGET_BETA_PARAM;
   args.step_width = STEP_WIDTH;
   args.max_steps = MAX_STEPS;
 
@@ -34,7 +34,7 @@ __global__ void beta_kernel1(chain_t *dd, int l){
             * ((double) dd->design[Idesign(l, n)]);
 
   args.B = 1.0/(2.0 * dd->sigmaSquared[l] * dd->xi[I(l, g)]);
-  args.C = dd->theta[l];
+  args.C = dd->delta[I(l, g)] * dd->theta[l];
 
   args.designUniqueN = dd->designUniqueN[l];
 

@@ -2,14 +2,13 @@
 #define SLICE_H
 
 __device__ double slice(chain_t *dd, args_t args){
-
-  double x;
-  double lu = ltarget(dd, args, args.x0) + log(runiform(dd, args.idx, 0.0, 1.0));
-  double L = args.x0 - runiform(dd, args.idx, 0.0, args.step_width);
-  double R = L + args.step_width;
-
-  int stepsL = args.max_steps;
-  int stepsR = args.max_steps;
+  int stepsL = args.max_steps,
+      stepsR = args.max_steps;
+      
+  double x,
+         lu = ltarget(dd, args, args.x0) + log(runiform(dd, args.idx, 0.0, 1.0)),
+         L = args.x0 - runiform(dd, args.idx, 0.0, args.step_width),
+         R = L + args.step_width;
 
   while ((lu < ltarget(dd, args, L)) && (stepsL > 0)) {
     L = L - args.step_width;

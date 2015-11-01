@@ -17,10 +17,12 @@
 #include "slice/slice.h"
 
 #include "gibbs/beta.h"
+#include "gibbs/delta.h"
 #include "gibbs/epsilon.h"
 #include "gibbs/gamma.h"
 #include "gibbs/nu.h"
 #include "gibbs/omegaSquared.h"
+#include "gibbs/pi.h"
 #include "gibbs/rho.h"
 #include "gibbs/sigmaSquared.h"
 #include "gibbs/tau.h"
@@ -36,11 +38,14 @@ void iteration(SEXP hh, chain_t *hd, chain_t *dd){
   gammaSample(hh, hd, dd);
   nuSample(hh, hd, dd);
   tauSample(hh, hd, dd);
-  
+
   betaSample(hh, hd, dd);
-  xiSample(hh, hd, dd);
   thetaSample(hh, hd, dd);
   sigmaSquaredSample(hh, hd, dd);
+  xiSample(hh, hd, dd);
+
+  deltaSample(hh, hd, dd);
+  piSample(hh, hd, dd);
 }
 
 void burnin(SEXP hh, chain_t *hd, chain_t *dd){

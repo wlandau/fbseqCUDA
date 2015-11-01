@@ -27,6 +27,13 @@ void hd2hh(SEXP hh, chain_t *hd, int m){
                              hd->beta + l*G + genes_return[greturn]-1,
                              sizeof(double), cudaMemcpyDeviceToHost));
 
+if(vi(parameter_sets_return, "delta"))
+    for(l = 0; l < L; ++l)
+      for(greturn = 0; greturn < Greturn; ++greturn)
+        CUDA_CALL(cudaMemcpy(lr(hh, "delta") + m*L*Greturn + l*Greturn + greturn,
+                             hd->delta + l*G + genes_return[greturn]-1,
+                             sizeof(double), cudaMemcpyDeviceToHost));
+
   if(vi(parameter_sets_return, "epsilon"))
     for(nreturn = 0; nreturn < NreturnEpsilon; ++nreturn)
       for(greturn = 0; greturn < GreturnEpsilon; ++greturn)
@@ -45,6 +52,11 @@ void hd2hh(SEXP hh, chain_t *hd, int m){
 
   if(vi(parameter_sets_return, "omegaSquared"))
     CUDA_CALL(cudaMemcpy(lr(hh, "omegaSquared") + m, hd->omegaSquared, sizeof(double), cudaMemcpyDeviceToHost));
+
+  if(vi(parameter_sets_return, "pi"))
+    for(l = 0; l < L; ++l)
+      CUDA_CALL(cudaMemcpy(lr(hh, "pi") + m*L + l, hd->pi + l,
+                           sizeof(double), cudaMemcpyDeviceToHost));
 
   if(vi(parameter_sets_return, "rho"))
     for(nreturn = 0; nreturn < Nreturn; ++nreturn)

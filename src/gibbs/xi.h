@@ -11,7 +11,7 @@ __global__ void xi_kernel1(chain_t *dd, int prior, int l){
   args.step_width = STEP_WIDTH;
   args.max_steps = MAX_STEPS;
 
-  double z = dd->beta[I(l, g)] - dd->theta[l];
+  double z = dd->beta[I(l, g)] - dd->delta[I(l, g)] * dd->theta[l];
   z = 0.5 * z * z / dd->sigmaSquared[l];
 
   switch(prior){

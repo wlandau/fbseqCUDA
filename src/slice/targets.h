@@ -1,16 +1,17 @@
 #ifndef TARGETS_H
 #define TARGETS_H
 
-#define LTARGET_BETA         0
-#define LTARGET_EPSILON      1
-#define LTARGET_GAMMA        2
-#define LTARGET_INV_GAMMA    3
-#define LTARGET_NU           4
+#define LTARGET_BETA_DIST    0
+#define LTARGET_BETA_PARAM   1
+#define LTARGET_EPSILON      2
+#define LTARGET_GAMMA        3
+#define LTARGET_INV_GAMMA    4
+#define LTARGET_NU           5
 #define LTARGET_XI_LAPLACE   5
 #define LTARGET_XI_T         6
-#define LTARGET_XI_HORSESHOE 7
+#define LTARGET_XI_HORSESHOE 8
 
-__device__ double ltarget_beta(chain_t *dd, args_t args, double x){
+__device__ double ltarget_beta_param(chain_t *dd, args_t args, double x){
   int j;
   double ret = -CUDART_INF, z = (x - args.C);
   ret = args.A*x - args.B*z*z;
@@ -80,7 +81,8 @@ __device__ double ltarget_xi_horseshoe(chain_t *dd, args_t args, double x){
 
 __device__ double ltarget(chain_t *dd, args_t args, double x){
   switch(args.target_type){
-    case LTARGET_BETA         : return ltarget_beta(dd, args, x);
+    case LTARGET_BETA_DIST    : return ltarget_beta_dist(dd, args, x);
+    case LTARGET_BETA_PARAM   : return ltarget_beta_param(dd, args, x);
     case LTARGET_EPSILON      : return ltarget_epsilon(dd, args, x);
     case LTARGET_GAMMA        : return ltarget_gamma(dd, args, x);
     case LTARGET_INV_GAMMA    : return ltarget_inv_gamma(dd, args, x);

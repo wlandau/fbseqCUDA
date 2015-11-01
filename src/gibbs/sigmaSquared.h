@@ -5,7 +5,7 @@ __global__ void sigmaSquared_kernel1(chain_t *dd, int l){
   int g = IDX;
   double x;
   if(g < dd->G){
-    x = dd->beta[I(l, g)] - dd->theta[l];
+    x = dd->beta[I(l, g)] - dd->delta[I(l, g)] * dd->theta[l];
     dd->aux[g] = x * x / dd->xi[I(l, g)];
   }
 }

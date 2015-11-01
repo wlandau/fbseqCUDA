@@ -4,13 +4,13 @@
 __global__ void theta_kernel1(chain_t *dd, int l){
   int g = IDX;
   if(g < dd->G)
-    dd->aux[g] = 1.0 / dd->xi[I(l, g)];
+    dd->aux[g] = dd->delta[I(l, g)] / dd->xi[I(l, g)];
 }
 
 __global__ void theta_kernel2(chain_t *dd, int l){
   int g = IDX;
   if(g < dd->G)
-    dd->aux[g] = dd->beta[I(l, g)] / dd->xi[I(l, g)];
+    dd->aux[g] = dd->delta[I(l, g)] * dd->beta[I(l, g)] / dd->xi[I(l, g)];
 }
 
 __global__ void theta_kernel3(chain_t *dd, double A0, double B0, int l){ // single thread

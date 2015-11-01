@@ -26,32 +26,25 @@ chain_t *alloc_hd(SEXP hh){
   CUDA_CALL(cudaMalloc((void**) &(hd->w), sizeof(double)));
 
   CUDA_CALL(cudaMalloc((void**) &(hd->beta), L * G * sizeof(double)));
+  CUDA_CALL(cudaMalloc((void**) &(hd->delta), L * G * sizeof(double)));
   CUDA_CALL(cudaMalloc((void**) &(hd->epsilon), N * G * sizeof(double)));
   CUDA_CALL(cudaMalloc((void**) &(hd->gamma), G * sizeof(double)));
   CUDA_CALL(cudaMalloc((void**) &(hd->nu), sizeof(double)));
   CUDA_CALL(cudaMalloc((void**) &(hd->omegaSquared), sizeof(double)));
+  CUDA_CALL(cudaMalloc((void**) &(hd->pi), L * sizeof(double)));
   CUDA_CALL(cudaMalloc((void**) &(hd->rho), N * sizeof(double)));
   CUDA_CALL(cudaMalloc((void**) &(hd->sigmaSquared), L * sizeof(double)));
   CUDA_CALL(cudaMalloc((void**) &(hd->tau), sizeof(double)));
   CUDA_CALL(cudaMalloc((void**) &(hd->theta), L * sizeof(double)));
   CUDA_CALL(cudaMalloc((void**) &(hd->xi), L * G * sizeof(double)));
 
-  CUDA_CALL(cudaMalloc((void**) &(hd->betaStart), L * G * sizeof(double)));
-  CUDA_CALL(cudaMalloc((void**) &(hd->epsilonStart), N * G * sizeof(double)));
-  CUDA_CALL(cudaMalloc((void**) &(hd->gammaStart), G * sizeof(double)));
-  CUDA_CALL(cudaMalloc((void**) &(hd->nuStart), sizeof(double)));
-  CUDA_CALL(cudaMalloc((void**) &(hd->omegaSquaredStart), sizeof(double)));
-  CUDA_CALL(cudaMalloc((void**) &(hd->rhoStart), N * sizeof(double)));
-  CUDA_CALL(cudaMalloc((void**) &(hd->sigmaSquaredStart), L * sizeof(double)));
-  CUDA_CALL(cudaMalloc((void**) &(hd->tauStart), sizeof(double)));
-  CUDA_CALL(cudaMalloc((void**) &(hd->thetaStart), L * sizeof(double)));
-  CUDA_CALL(cudaMalloc((void**) &(hd->xiStart), L * G * sizeof(double)));
-
   CUDA_CALL(cudaMalloc((void**) &(hd->betaPostMean), L * G * sizeof(double)));
+  CUDA_CALL(cudaMalloc((void**) &(hd->deltaPostMean), L * G * sizeof(double)));
   CUDA_CALL(cudaMalloc((void**) &(hd->epsilonPostMean), N * G * sizeof(double)));
   CUDA_CALL(cudaMalloc((void**) &(hd->gammaPostMean), G * sizeof(double)));
   CUDA_CALL(cudaMalloc((void**) &(hd->nuPostMean), sizeof(double)));
   CUDA_CALL(cudaMalloc((void**) &(hd->omegaSquaredPostMean), sizeof(double)));
+  CUDA_CALL(cudaMalloc((void**) &(hd->piPostMean), L * sizeof(double)));
   CUDA_CALL(cudaMalloc((void**) &(hd->rhoPostMean), N * sizeof(double)));
   CUDA_CALL(cudaMalloc((void**) &(hd->sigmaSquaredPostMean), L * sizeof(double)));
   CUDA_CALL(cudaMalloc((void**) &(hd->tauPostMean), sizeof(double)));
@@ -59,10 +52,12 @@ chain_t *alloc_hd(SEXP hh){
   CUDA_CALL(cudaMalloc((void**) &(hd->xiPostMean), L * G * sizeof(double)));
 
   CUDA_CALL(cudaMalloc((void**) &(hd->betaPostMeanSquare), L * G * sizeof(double)));
+  CUDA_CALL(cudaMalloc((void**) &(hd->deltaPostMeanSquare), L * G * sizeof(double)));
   CUDA_CALL(cudaMalloc((void**) &(hd->epsilonPostMeanSquare), N * G * sizeof(double)));
   CUDA_CALL(cudaMalloc((void**) &(hd->gammaPostMeanSquare), G * sizeof(double)));
   CUDA_CALL(cudaMalloc((void**) &(hd->nuPostMeanSquare), sizeof(double)));
   CUDA_CALL(cudaMalloc((void**) &(hd->omegaSquaredPostMeanSquare), sizeof(double)));
+  CUDA_CALL(cudaMalloc((void**) &(hd->piPostMeanSquare), L * sizeof(double)));
   CUDA_CALL(cudaMalloc((void**) &(hd->rhoPostMeanSquare), N * sizeof(double)));
   CUDA_CALL(cudaMalloc((void**) &(hd->sigmaSquaredPostMeanSquare), L * sizeof(double)));
   CUDA_CALL(cudaMalloc((void**) &(hd->tauPostMeanSquare), sizeof(double)));
