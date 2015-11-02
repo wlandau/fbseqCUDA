@@ -26,7 +26,7 @@ chain_t *alloc_hd(SEXP hh){
   CUDA_CALL(cudaMalloc((void**) &(hd->w), sizeof(double)));
 
   CUDA_CALL(cudaMalloc((void**) &(hd->beta), L * G * sizeof(double)));
-  CUDA_CALL(cudaMalloc((void**) &(hd->delta), L * G * sizeof(double)));
+  CUDA_CALL(cudaMalloc((void**) &(hd->delta), L * G * sizeof(int)));
   CUDA_CALL(cudaMalloc((void**) &(hd->epsilon), N * G * sizeof(double)));
   CUDA_CALL(cudaMalloc((void**) &(hd->gamma), G * sizeof(double)));
   CUDA_CALL(cudaMalloc((void**) &(hd->nu), sizeof(double)));

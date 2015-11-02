@@ -30,9 +30,9 @@ void hd2hh(SEXP hh, chain_t *hd, int m){
 if(vi(parameter_sets_return, "delta"))
     for(l = 0; l < L; ++l)
       for(greturn = 0; greturn < Greturn; ++greturn)
-        CUDA_CALL(cudaMemcpy(lr(hh, "delta") + m*L*Greturn + l*Greturn + greturn,
+        CUDA_CALL(cudaMemcpy(li(hh, "delta") + m*L*Greturn + l*Greturn + greturn,
                              hd->delta + l*G + genes_return[greturn]-1,
-                             sizeof(double), cudaMemcpyDeviceToHost));
+                             sizeof(int), cudaMemcpyDeviceToHost));
 
   if(vi(parameter_sets_return, "epsilon"))
     for(nreturn = 0; nreturn < NreturnEpsilon; ++nreturn)

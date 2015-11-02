@@ -1,7 +1,7 @@
 #ifndef PI_H
 #define PI_H
 
-__global__ void pi_kernel1(chain_t *dd, double aux, int l){ // single thread
+__global__ void pi_kernel1(chain_t *dd, int aux, int l){ // single thread
   args_t args;
   args.idx = l;
   args.x0 = dd->pi[l];
@@ -18,8 +18,8 @@ void piSample(SEXP hh, chain_t *hd, chain_t *dd){
   if(!(vi(le(hh, "parameter_sets_update"), "pi"))) return;
 
   for(l = 0; l < li(hh, "L")[0]; ++l){
-    thrust::device_ptr<double> tmp(hd->delta + l*G);
-    double aux = thrust::reduce(tmp, tmp + G);
+    thrust::device_ptr<int> tmp(hd->delta + l*G);
+    int aux = thrust::reduce(tmp, tmp + G);
     pi_kernel1<<<1, 1>>>(dd, aux, l);
   }
 }

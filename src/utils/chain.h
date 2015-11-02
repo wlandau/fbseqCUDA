@@ -10,7 +10,9 @@ typedef struct {
       G,
       L,
       N,
-      *seeds;
+      *seeds,
+      
+      *delta;
 
   double *design,
          *designUnique,
@@ -25,7 +27,6 @@ typedef struct {
          *w,
 
          *beta,
-         *delta,
          *epsilon,
          *gamma,
          *nu,
