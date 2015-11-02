@@ -6,7 +6,7 @@
 
 typedef struct {
   int designUniqueN, idx, max_steps, step_width, target_type;
-  double A, B, C, D, G, rate, scale, shape, upperbound, x, x0;
+  double A, B, C, D, G, rate, scale, shape, shape1, shape2, upperbound, x, x0;
 } args_t;
 
 #endif // ARGS_H

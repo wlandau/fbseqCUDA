@@ -11,6 +11,11 @@
 #define LTARGET_XI_T         6
 #define LTARGET_XI_HORSESHOE 8
 
+__device__ double ltarget_beta_dist(chain_t *dd, args_t args, double x){
+  if(x <= 0.0 || x >= 1.0) return -CUDART_INF;
+  return (args.shape1 - 1.0) * log(x) + (args.shape2 - 1.0) * log(1.0 - x);
+}
+
 __device__ double ltarget_beta_param(chain_t *dd, args_t args, double x){
   int j;
   double ret = -CUDART_INF, z = (x - args.C);
@@ -33,14 +38,12 @@ __device__ double ltarget_epsilon(chain_t *dd, args_t args, double x){
 
 __device__ double ltarget_gamma(chain_t *dd, args_t args, double x){
   if(x <= 0.0 || x >= args.upperbound) return -CUDART_INF;
-  double a = args.shape, b = args.rate;
-  return /* a*log(b) - lgamma(a) + */ (a-1)*log(x) - b*x;
+  return (args.shape - 1.0)*log(x) - args.rate * x;
 }
 
 __device__ double ltarget_inv_gamma(chain_t *dd, args_t args, double x){
   if(x <= 0.0 || x >= args.upperbound) return -CUDART_INF;
-  double a = args.shape, b = args.scale;
-  return /* a*log(b) - lgamma(a) */ -(a+1)*log(x) - b/x;
+  return -(args.shape + 1.0)*log(x) - args.scale/x;
 }
 
 __device__ double ltarget_nu(chain_t *dd, args_t args, double x){

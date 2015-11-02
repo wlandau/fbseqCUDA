@@ -2,7 +2,15 @@
 #define PI_H
 
 __global__ void pi_kernel1(chain_t *dd, double aux, int l){ // single thread
-  dd->pi[l] = rbeta(dd, l, 1.0 + aux, dd->G + 1.0 - aux);
+  args_t args;
+  args.idx = l;
+  args.x0 = dd->pi[l];
+  args.target_type = LTARGET_BETA_DIST;
+  args.step_width = STEP_WIDTH;
+  args.max_steps = MAX_STEPS;
+  args.shape1 = 1.0 + aux;
+  args.shape2 = dd->G + 1.0 - aux;
+  dd->pi[l] = slice(dd, args);
 }
 
 void piSample(SEXP hh, chain_t *hd, chain_t *dd){
