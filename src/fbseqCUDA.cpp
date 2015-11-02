@@ -39,13 +39,14 @@ void iteration(SEXP hh, chain_t *hd, chain_t *dd){
   nuSample(hh, hd, dd);
   tauSample(hh, hd, dd);
 
+  deltaSample(hh, hd, dd);
+  piSample(hh, hd, dd);
+
   betaSample(hh, hd, dd);
   thetaSample(hh, hd, dd);
   sigmaSquaredSample(hh, hd, dd);
-  xiSample(hh, hd, dd);
 
-  deltaSample(hh, hd, dd);
-  piSample(hh, hd, dd);
+  xiSample(hh, hd, dd);
 }
 
 void burnin(SEXP hh, chain_t *hd, chain_t *dd){

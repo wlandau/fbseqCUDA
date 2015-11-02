@@ -2,6 +2,11 @@
 #define PI_H
 
 __global__ void pi_kernel1(chain_t *dd, int aux, int l){ // single thread
+  if(!dd->p[l]){
+    dd->pi[l] = 1;
+    return;
+  }
+
   args_t args;
   args.idx = l;
   args.x0 = dd->pi[l];

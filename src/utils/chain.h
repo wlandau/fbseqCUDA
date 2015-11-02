@@ -11,8 +11,9 @@ typedef struct {
       L,
       N,
       *seeds,
-      
-      *delta;
+
+      *delta,
+      *p;
 
   double *design,
          *designUnique,

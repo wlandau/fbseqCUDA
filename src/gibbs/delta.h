@@ -8,6 +8,11 @@ __global__ void delta_kernel1(chain_t *dd, int l){
   if(g >= dd->G)
     return;
 
+  if(!dd->p[l]){
+    dd->delta[I(l, g)] = 1;
+    return;
+  }
+
   x = dd->beta[I(l, g)];
   y = x - dd->theta[l];
   z = 0.5 * (y*y - x*x)/(dd->sigmaSquared[l] * dd->xi[I(l, g)]);

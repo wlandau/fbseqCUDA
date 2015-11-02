@@ -22,6 +22,7 @@ void hh2hd(SEXP hh, chain_t *hd){
   CUDA_CALL(cudaMemcpy(hd->c, lr(hh, "c"), L * sizeof(double), cudaMemcpyHostToDevice));
   CUDA_CALL(cudaMemcpy(hd->d, lr(hh, "d"), sizeof(double), cudaMemcpyHostToDevice));
   CUDA_CALL(cudaMemcpy(hd->k, lr(hh, "k"), L * sizeof(double), cudaMemcpyHostToDevice));
+  CUDA_CALL(cudaMemcpy(hd->p, lr(hh, "p"), L * sizeof(int), cudaMemcpyHostToDevice));
   CUDA_CALL(cudaMemcpy(hd->r, lr(hh, "r"), L * sizeof(double), cudaMemcpyHostToDevice));
   CUDA_CALL(cudaMemcpy(hd->s, lr(hh, "s"), L * sizeof(double), cudaMemcpyHostToDevice));
   CUDA_CALL(cudaMemcpy(hd->w, lr(hh, "w"), sizeof(double), cudaMemcpyHostToDevice));
