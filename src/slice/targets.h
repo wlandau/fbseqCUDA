@@ -7,8 +7,8 @@
 #define LTARGET_GAMMA        3
 #define LTARGET_INV_GAMMA    4
 #define LTARGET_NU           5
-#define LTARGET_XI_LAPLACE   5
-#define LTARGET_XI_T         6
+#define LTARGET_XI_LAPLACE   6
+#define LTARGET_XI_T         7
 #define LTARGET_XI_HORSESHOE 8
 
 __device__ double ltarget_beta_dist(chain_t *dd, args_t args, double x){

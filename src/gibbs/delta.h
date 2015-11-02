@@ -2,7 +2,7 @@
 #define DELTA_H
 
 __global__ void delta_kernel1(chain_t *dd, int l){
-  int g = IDX, j, n;
+  int g = IDX;
   double x, y, z, logit_p, logit_u;
 
   if(g >= dd->G)
@@ -17,7 +17,7 @@ __global__ void delta_kernel1(chain_t *dd, int l){
 }
 
 void deltaSample(SEXP hh, chain_t *hd, chain_t *dd){
-  int i, l;
+  int l;
   if(!(vi(le(hh, "parameter_sets_update"), "delta"))) return;
   for(l = 0; l < li(hh, "L")[0]; ++l)
     delta_kernel1<<<GRID, BLOCK>>>(dd, l);
