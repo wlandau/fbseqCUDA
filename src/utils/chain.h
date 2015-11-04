@@ -18,10 +18,10 @@ typedef struct {
          L,
          N,
          P;
-  double *probs,
-         *seeds,
+  double *probs;
+  int    *seeds;
 
-         *a,
+  double *a,
          *b,
          *c,
          *d,

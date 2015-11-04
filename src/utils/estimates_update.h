@@ -59,7 +59,7 @@ __global__ void estimates_update_kernel4(chain_t *dd){
     dd->epsilonPostMeanSquare[I(n, id)] += dd->epsilon[I(n, id)]*dd->epsilon[I(n, id)];
 }
 
-__global__ void estimates_scale_kernel5(chain_t *dd){
+__global__ void estimates_update_kernel5(chain_t *dd){
   int c, g = IDX, truth, l, p;
   double contrast;
   if(g >= dd->G) return;
@@ -72,7 +72,7 @@ __global__ void estimates_scale_kernel5(chain_t *dd){
       contrast = 0.0;
       for(l = 0; l < dd->L; ++l)
         contrast += dd->contrasts[Icontrasts(c, l)] * dd->beta[I(l, g)];
-      truth *= (contrast > dd->value[c]);
+      truth *= (contrast > dd->bounds[c]);
     }
 
     dd->probs[I(p, g)] += truth;
