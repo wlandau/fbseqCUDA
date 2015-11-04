@@ -59,11 +59,32 @@ __global__ void estimates_update_kernel4(chain_t *dd){
     dd->epsilonPostMeanSquare[I(n, id)] += dd->epsilon[I(n, id)]*dd->epsilon[I(n, id)];
 }
 
+__global__ void estimates_scale_kernel5(chain_t *dd){
+  int c, g = IDX, truth, l, p;
+  double contrast;
+  if(g >= dd->G) return;
+
+  for(p = 0; p < dd->P; ++p){
+    truth = 1;
+
+    for(c = 0; c < dd->C; ++c){
+      if(!dd->propositions[Ipropositions(p, c)]) continue;
+      contrast = 0.0;
+      for(l = 0; l < dd->L; ++l)
+        contrast += dd->contrasts[Icontrasts(c, l)] * dd->beta[I(l, g)];
+      truth *= (contrast > dd->value[c]);
+    }
+
+    dd->probs[I(p, g)] += truth;
+  }
+}
+
 void estimates_update(SEXP hh, chain_t *dd){
   estimates_update_kernel1<<<1, 1>>>(dd);
   estimates_update_kernel2<<<1, 1>>>(dd);
   estimates_update_kernel3<<<GRID, BLOCK>>>(dd);
   estimates_update_kernel4<<<GRID, BLOCK>>>(dd);
+  estimates_update_kernel5<<<GRID, BLOCK>>>(dd);
 }
 
 #endif // ESTIMATES_UPDATE_H

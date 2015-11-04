@@ -3,9 +3,9 @@
 
 void reset_starts(SEXP hh, chain_t *hd){
 
-  int N = li(hh, "N")[0],
+  int G = li(hh, "G")[0],
       L = li(hh, "L")[0],
-      G = li(hh, "G")[0];
+      N = li(hh, "N")[0];
 
   CUDA_CALL(cudaMemcpy(lr(hh, "betaStart"), hd->beta, L * G * sizeof(double), cudaMemcpyDeviceToHost));
   CUDA_CALL(cudaMemcpy(lr(hh, "epsilonStart"), hd->epsilon, N * G * sizeof(double), cudaMemcpyDeviceToHost));

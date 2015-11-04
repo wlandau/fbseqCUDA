@@ -2,9 +2,12 @@
 #define ESTIMATES_SAVE_H
 
 void estimates_save(SEXP hh, chain_t *hd){
-  int N = (double) li(hh, "N")[0],
+  int G = (double) li(hh, "G")[0],
       L = (double) li(hh, "L")[0],
-      G = (double) li(hh, "G")[0];
+      N = (double) li(hh, "N")[0],
+      P = (double) li(hh, "P")[0];
+
+  CUDA_CALL(cudaMemcpy(lr(hh, "probs"), hd->probs, P * G * sizeof(double), cudaMemcpyDeviceToHost));
 
   CUDA_CALL(cudaMemcpy(lr(hh, "betaPostMean"), hd->betaPostMean, L * G * sizeof(double), cudaMemcpyDeviceToHost));
   CUDA_CALL(cudaMemcpy(lr(hh, "epsilonPostMean"), hd->epsilonPostMean, N * G * sizeof(double), cudaMemcpyDeviceToHost));

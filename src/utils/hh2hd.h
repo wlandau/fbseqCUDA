@@ -2,20 +2,30 @@
 #define HH2HD_H
 
 void hh2hd(SEXP hh, chain_t *hd){
-  int N = li(hh, "N")[0],
+  int C = li(hh, "C")[0],
+      G = li(hh, "G")[0],
       L = li(hh, "L")[0],
-      G = li(hh, "G")[0];
+      N = li(hh, "N")[0],
+      P = li(hh, "P")[0];
 
+  hd->C = C;
+  hd->G = G;
+  hd->L = L;
+  hd->N = N;
+  hd->P = P;
+
+  CUDA_CALL(cudaMemcpy(hd->bounds, lr(hh, "bounds"), C * sizeof(double), cudaMemcpyHostToDevice));
+  CUDA_CALL(cudaMemcpy(hd->contrasts, lr(hh, "contrasts"), C * L * sizeof(double), cudaMemcpyHostToDevice));
   CUDA_CALL(cudaMemcpy(hd->counts, li(hh, "counts"), N * G * sizeof(int), cudaMemcpyHostToDevice));
+  CUDA_CALL(cudaMemcpy(hd->design, lr(hh, "design"), L * N * sizeof(double), cudaMemcpyHostToDevice));
+  CUDA_CALL(cudaMemcpy(hd->propositions, lr(hh, "propositions"), P * C * sizeof(double), cudaMemcpyHostToDevice));
+
   CUDA_CALL(cudaMemcpy(hd->countSums_g, li(hh, "countSums_g"), G * sizeof(int), cudaMemcpyHostToDevice));
   CUDA_CALL(cudaMemcpy(hd->countSums_n, li(hh, "countSums_n"), N * sizeof(int), cudaMemcpyHostToDevice));
-  CUDA_CALL(cudaMemcpy(hd->design, lr(hh, "design"), L * N * sizeof(double), cudaMemcpyHostToDevice));
   CUDA_CALL(cudaMemcpy(hd->designUnique, lr(hh, "designUnique"), L * N * sizeof(double), cudaMemcpyHostToDevice));
   CUDA_CALL(cudaMemcpy(hd->designUniqueN, li(hh, "designUniqueN"), L * sizeof(int), cudaMemcpyHostToDevice));
-  hd->N = N;
-  hd->L = L;
-  hd->G = G;
-  CUDA_CALL(cudaMemcpy(hd->seeds, li(hh, "seeds"), G * sizeof(int), cudaMemcpyHostToDevice));
+  CUDA_CALL(cudaMemcpy(hd->probs, li(hh, "probs"), P * G * sizeof(int), cudaMemcpyHostToDevice));
+  CUDA_CALL(cudaMemcpy(hd->seeds, li(hh, "seeds"), N * G * sizeof(int), cudaMemcpyHostToDevice));
 
   CUDA_CALL(cudaMemcpy(hd->a, lr(hh, "a"), sizeof(double), cudaMemcpyHostToDevice));
   CUDA_CALL(cudaMemcpy(hd->b, lr(hh, "b"), sizeof(double), cudaMemcpyHostToDevice));

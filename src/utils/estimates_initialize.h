@@ -59,11 +59,19 @@ __global__ void estimates_initialize_kernel4(chain_t *dd){
     dd->epsilonPostMeanSquare[I(n, id)] = 0.0;
 }
 
+__global__ void estimates_initialize_kernel5(chain_t *dd){
+  int g = IDX, p;
+  if(g >= dd->G) return;
+  for(p = 0; p < dd->P; ++p)
+    dd->probs[I(p, g)] = 0.0;
+}
+
 void estimates_initialize(SEXP hh,chain_t *dd){
   estimates_initialize_kernel1<<<1, 1>>>(dd);
   estimates_initialize_kernel2<<<1, 1>>>(dd);
   estimates_initialize_kernel3<<<GRID, BLOCK>>>(dd);
   estimates_initialize_kernel4<<<GRID, BLOCK>>>(dd);
+  estimates_initialize_kernel5<<<GRID, BLOCK>>>(dd);
 }
 
 #endif // ESTIMATES_INITIALIZE_H

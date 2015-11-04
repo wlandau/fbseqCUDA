@@ -58,12 +58,20 @@ __global__ void estimates_scale_kernel4(chain_t *dd, double iterations){
     dd->epsilonPostMeanSquare[I(n, id)]/= iterations;
 }
 
+__global__ void estimates_scale_kernel5(chain_t *dd, double iterations){
+  int g = IDX, p;
+  if(g >= dd->G) return;
+  for(p = 0; p < dd->P; ++p)
+    dd->probs[I(p, g)] /= iterations;
+}
+
 void estimates_scale(SEXP hh, chain_t *dd){
   double iterations = (double) li(hh, "iterations")[0];
   estimates_scale_kernel1<<<1, 1>>>(dd, iterations);
   estimates_scale_kernel2<<<1, 1>>>(dd, iterations);
   estimates_scale_kernel3<<<GRID, BLOCK>>>(dd, iterations);
   estimates_scale_kernel4<<<GRID, BLOCK>>>(dd, iterations);
+  estimates_scale_kernel5<<<GRID, BLOCK>>>(dd, iterations);
 }
 
 #endif // ESTIMATES_SCALE_H

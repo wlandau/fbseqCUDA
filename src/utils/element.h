@@ -3,6 +3,8 @@
 
 #define I(n, g) ((n) * (dd->G) + (g))
 #define Idesign(l, n) ((l) * (dd->N) + (n))
+#define Icontrasts(c, l) ((c) * (dd->L) + (l))
+#define Ipropositions(p, c) ((p) * (dd->C) + (c))
 
 int index(SEXP obj, const char *str){
   int i = -1;

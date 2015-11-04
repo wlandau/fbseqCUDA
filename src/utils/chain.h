@@ -3,17 +3,23 @@
 
 typedef struct {
 
-  int *counts,
-      *countSums_g,
-      *countSums_n,
-      *designUniqueN,
-      G,
-      L,
-      N,
-      *seeds;
+  double *bounds,
+         *contrasts;
+  int    *counts;
+  double *design;
+  int    *propositions,
 
-  double *design,
-         *designUnique,
+         C,
+         *countSums_g,
+         *countSums_n;
+  double *designUnique;
+  int    *designUniqueN,
+         G,
+         L,
+         N,
+         P;
+  double *probs,
+         *seeds,
 
          *a,
          *b,

@@ -6,16 +6,18 @@ void hd2hh(SEXP hh, chain_t *hd, int m){
   int l,
       greturn,
       nreturn,
+
       G = li(hh, "G")[0],
+      Greturn = li(hh, "Greturn")[0],
+      GreturnEpsilon = li(hh, "GreturnEpsilon")[0],
       L = li(hh, "L")[0],
       N = li(hh, "N")[0],
-      Greturn = li(hh, "Greturn")[0],
       Nreturn = li(hh, "Nreturn")[0],
-      GreturnEpsilon = li(hh, "GreturnEpsilon")[0],
       NreturnEpsilon = li(hh, "NreturnEpsilon")[0],
+
       *genes_return = li(hh, "genes_return"),
-      *libraries_return = li(hh, "libraries_return"),
       *genes_return_epsilon = li(hh, "genes_return_epsilon"),
+      *libraries_return = li(hh, "libraries_return"),
       *libraries_return_epsilon = li(hh, "libraries_return_epsilon");
 
   SEXP parameter_sets_return = le(hh, "parameter_sets_return");
