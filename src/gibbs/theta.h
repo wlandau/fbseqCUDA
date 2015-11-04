@@ -16,7 +16,7 @@ __global__ void theta_kernel2(chain_t *dd, int l){
 __global__ void theta_kernel3(chain_t *dd, double A0, double B0, int l){ // single thread
   double A = 0.5 * (1.0/(dd->c[l]*dd->c[l]) + A0/dd->sigmaSquared[l]),
          B = B0/dd->sigmaSquared[l];
-  dd->theta[l] = rnormal(dd, 0, 0.5*B/A, sqrt(0.5/A));
+  dd->theta[l] = rnormal(dd, l, 0.5*B/A, sqrt(0.5/A));
 }
 
 void thetaSample(SEXP hh, chain_t *hd, chain_t *dd){
