@@ -41,5 +41,5 @@ RsetDevice = function(device){
 #' if \code{chain} is the output from a previous call to \code{fbseq(...)},
 #' then the function will continue the MCMC from where it left off.
 fbseqCUDA = function(chain){
-  Chain(.Call("fbseqCUDA", PACKAGE = "fbseqCUDA", s4list(chain)))
+  Chain(slots = .Call("fbseqCUDA", PACKAGE = "fbseqCUDA", s4list(chain)))
 }

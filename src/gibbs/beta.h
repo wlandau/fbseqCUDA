@@ -50,7 +50,7 @@ void betaSample(SEXP hh, chain_t *hd, chain_t *dd){
   int i, l;
   if(!(vi(le(hh, "parameter_sets_update"), "beta"))) return;
   for(i = 0; i < li(hh, "Lupdate")[0]; ++i){
-    l = li(hh, "effects_update")[i] - 1;
+    l = li(hh, "betas_update")[i] - 1;
     beta_kernel1<<<GRID, BLOCK>>>(dd, l);
   }
 }
