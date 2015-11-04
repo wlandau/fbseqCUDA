@@ -28,7 +28,7 @@ RsetDevice = function(device){
 }
 
 #' @title Function \code{fbseqCUDA}
-#' @description Calls the C++/CUDA code behind the \code{run_mcmc()} function
+#' @description Calls the C++/CUDA code behind the \code{fbseq()} function
 #' in the \code{fbseq} package.
 #' 
 #' @export

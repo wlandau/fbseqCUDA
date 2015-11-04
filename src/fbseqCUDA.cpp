@@ -110,7 +110,9 @@ void end(SEXP hh, chain_t *hd, chain_t *dd){
   cudaDeviceReset();
 }
 
-extern "C" SEXP fbseqCUDA(SEXP hh){
+extern "C" SEXP fbseqCUDA(SEXP arg){
+  SEXP hh = PROTECT(duplicate(arg));
+
   if(li(hh, "verbose")[0])
     Rprintf("Loading MCMC on GPU %d.\n", getDevice());
 
@@ -129,5 +131,6 @@ extern "C" SEXP fbseqCUDA(SEXP hh){
   chain(hh, hd, dd);
   end(hh, hd, dd);
 
+  UNPROTECT(1);
   return hh;
 }

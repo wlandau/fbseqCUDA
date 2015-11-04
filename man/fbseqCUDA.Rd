@@ -18,7 +18,7 @@ this object back into another call to \code{fbseq} to continue the chain
 from where you left off.
 }
 \description{
-Calls the C++/CUDA code behind the \code{run_mcmc()} function
+Calls the C++/CUDA code behind the \code{fbseq()} function
 in the \code{fbseq} package.
 }
 
