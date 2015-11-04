@@ -6,7 +6,10 @@
 #include "utils/free_hd.h"
 #include "utils/hd2hh.h"
 #include "utils/hh2hd.h"
-#include "utils/estimates.h"
+#include "utils/estimates_initialize.h"
+#include "utils/estimates_save.h"
+#include "utils/estimates_scale.h"
+#include "utils/estimates_update.h"
 #include "utils/xbeta.h"
 #include "utils/priors.h"
 #include "utils/curand_usage.h"
@@ -36,7 +39,7 @@ void iteration(SEXP hh, chain_t *hd, chain_t *dd){
   gammaSample(hh, hd, dd);
   nuSample(hh, hd, dd);
   tauSample(hh, hd, dd);
-  
+
   betaSample(hh, hd, dd);
   xiSample(hh, hd, dd);
   thetaSample(hh, hd, dd);
@@ -84,7 +87,7 @@ void chain(SEXP hh, chain_t *hd, chain_t *dd){
     }
 
     iteration(hh, hd, dd);
-    update_estimates(hh, dd);
+    estimates_update(hh, dd);
     hd2hh(hh, hd, m);
 
     if(m < iterations - 1)
@@ -94,7 +97,8 @@ void chain(SEXP hh, chain_t *hd, chain_t *dd){
 }
 
 void end(SEXP hh, chain_t *hd, chain_t *dd){
-  finish_estimates(hh, hd, dd);
+  estimates_scale(hh, dd);
+  estimates_save(hh, hd);
   reset_starts(hh, hd);
 
   free_hd(hd);
@@ -120,7 +124,7 @@ extern "C" SEXP fbseqCUDA(SEXP hh){
   dim3 grid(GRID_N, GRID_G), block(BLOCK_N, BLOCK_G);
   curand_setup_kernel<<<grid, block>>>(dd);
 
-  initialize_estimates(hh, dd);
+  estimates_initialize(hh, dd);
   burnin(hh, hd, dd);
   chain(hh, hd, dd);
   end(hh, hd, dd);
