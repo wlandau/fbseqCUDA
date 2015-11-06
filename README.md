@@ -1,4 +1,4 @@
-heterosisCUDA
+fbseqCUDA
 ==========
 
-Read the vignettes in the [`heterosis` package](https://github.com/wlandau/heterosis) first.
+`fbseqCUDA` is the internal CUDA engine of the [`fbseq` package](https://github.com/wlandau/fbseq). 
