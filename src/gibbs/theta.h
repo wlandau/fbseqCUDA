@@ -20,12 +20,10 @@ __global__ void theta_kernel3(chain_t *dd, double A0, double B0, int l){ // sing
 }
 
 void thetaSample(SEXP hh, chain_t *hd, chain_t *dd){
-  int i, l, G = li(hh, "G")[0];
+  int l, G = li(hh, "G")[0];
   if(!(vi(le(hh, "parameter_sets_update"), "theta"))) return;
 
-  for(i = 0; i < li(hh, "Lupdate_theta")[0]; ++i){
-    l = li(hh, "effects_update_theta")[i] - 1;
-
+  for(l = 0; l < li(hh, "L")[0]; ++l){
     theta_kernel1<<<GRID, BLOCK>>>(dd, l);
     thrust::device_ptr<double> tmpA(hd->aux);
     double A0 = thrust::reduce(tmpA, tmpA + G);
