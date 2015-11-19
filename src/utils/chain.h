@@ -26,6 +26,7 @@ typedef struct {
          *c,
          *d,
          *k,
+         *q,
          *r,
          *s,
          *w,

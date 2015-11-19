@@ -23,7 +23,7 @@ __global__ void xi_kernel1(chain_t *dd, int prior, int l){
 
     case PRIOR_T:
       args.target_type = LTARGET_XI_T;
-      args.A = dd->k[l] + 1.5;
+      args.A = dd->q[l] + 1.5;
       args.B = z + dd->r[l];
       break;
 
