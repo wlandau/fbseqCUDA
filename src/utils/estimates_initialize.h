@@ -5,32 +5,24 @@ __global__ void estimates_initialize_kernel1(chain_t *dd){
   int l, n;
 
   dd->nuPostMean[0] = 0.0;
-  dd->omegaSquaredPostMean[0] = 0.0;
   dd->tauPostMean[0] = 0.0;
 
   for(l = 0; l < dd->L; ++l){
     dd->sigmaSquaredPostMean[l] = 0.0;
     dd->thetaPostMean[l] = 0.0;
   }
-
-  for(n = 0; n < dd->N; ++n)
-    dd->rhoPostMean[n] = 0.0;
 }
 
 __global__ void estimates_initialize_kernel2(chain_t *dd){
   int l, n;
 
   dd->nuPostMeanSquare[0] = 0.0;
-  dd->omegaSquaredPostMeanSquare[0] = 0.0;
   dd->tauPostMeanSquare[0] = 0.0;
 
   for(l = 0; l < dd->L; ++l){
     dd->sigmaSquaredPostMeanSquare[l] = 0.0;
     dd->thetaPostMeanSquare[l] = 0.0;
   }
-
-  for(n = 0; n < dd->N; ++n)
-    dd->rhoPostMeanSquare[n] = 0.0;
 }
 
 __global__ void estimates_initialize_kernel3(chain_t *dd){

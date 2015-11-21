@@ -5,31 +5,23 @@ __global__ void estimates_scale_kernel1(chain_t *dd, double iterations){
   int l, n;
 
   dd->nuPostMean[0]/= iterations;
-  dd->omegaSquaredPostMean[0]/= iterations;
   dd->tauPostMean[0]/= iterations;
 
   for(l = 0; l < dd->L; ++l){
     dd->sigmaSquaredPostMean[l]/= iterations;
     dd->thetaPostMean[l]/= iterations;
   }
-
-  for(n = 0; n < dd->N; ++n)
-    dd->rhoPostMean[n]/= iterations;
 }
 
 __global__ void estimates_scale_kernel2(chain_t *dd, double iterations){
   int l, n;
   dd->nuPostMeanSquare[0]/= iterations;
-  dd->omegaSquaredPostMeanSquare[0]/= iterations;
   dd->tauPostMeanSquare[0]/= iterations;
 
   for(l = 0; l < dd->L; ++l){
     dd->sigmaSquaredPostMeanSquare[l]/= iterations;
     dd->thetaPostMeanSquare[l]/= iterations;
   }
-
-  for(n = 0; n < dd->N; ++n)
-    dd->rhoPostMeanSquare[n]/= iterations;
 }
 
 __global__ void estimates_scale_kernel3(chain_t *dd, double iterations){

@@ -6,7 +6,7 @@ __device__ double beta_coef(chain_t *dd, int l, int g, double x){
   double aux, out = 0.0, tol = 1e-9;
   for(n = 0; n < dd->N; ++n)
     if(fabs(dd->design[Idesign(l, n)] - x) < tol){
-      aux = dd->epsilon[I(n, g)];
+      aux = dd->h[n] + dd->epsilon[I(n, g)];
       for(i = 0; i < dd->L; ++i)
         if(i != l)
           aux += dd->design[Idesign(i, n)] * dd->beta[I(i, g)];

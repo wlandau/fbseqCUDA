@@ -13,8 +13,6 @@ void estimates_save(SEXP hh, chain_t *hd){
   CUDA_CALL(cudaMemcpy(lr(hh, "epsilonPostMean"), hd->epsilonPostMean, N * G * sizeof(double), cudaMemcpyDeviceToHost));
   CUDA_CALL(cudaMemcpy(lr(hh, "gammaPostMean"), hd->gammaPostMean, G * sizeof(double), cudaMemcpyDeviceToHost));
   CUDA_CALL(cudaMemcpy(lr(hh, "nuPostMean"), hd->nuPostMean, sizeof(double), cudaMemcpyDeviceToHost));
-  CUDA_CALL(cudaMemcpy(lr(hh, "omegaSquaredPostMean"), hd->omegaSquaredPostMean, sizeof(double), cudaMemcpyDeviceToHost));
-  CUDA_CALL(cudaMemcpy(lr(hh, "rhoPostMean"), hd->rhoPostMean, N * sizeof(double), cudaMemcpyDeviceToHost));
   CUDA_CALL(cudaMemcpy(lr(hh, "sigmaSquaredPostMean"), hd->sigmaSquaredPostMean, L * sizeof(double), cudaMemcpyDeviceToHost));
   CUDA_CALL(cudaMemcpy(lr(hh, "tauPostMean"), hd->tauPostMean, sizeof(double), cudaMemcpyDeviceToHost));
   CUDA_CALL(cudaMemcpy(lr(hh, "thetaPostMean"), hd->thetaPostMean, L * sizeof(double), cudaMemcpyDeviceToHost));
@@ -24,8 +22,6 @@ void estimates_save(SEXP hh, chain_t *hd){
   CUDA_CALL(cudaMemcpy(lr(hh, "epsilonPostMeanSquare"), hd->epsilonPostMeanSquare, N * G * sizeof(double), cudaMemcpyDeviceToHost));
   CUDA_CALL(cudaMemcpy(lr(hh, "gammaPostMeanSquare"), hd->gammaPostMeanSquare, G * sizeof(double), cudaMemcpyDeviceToHost));
   CUDA_CALL(cudaMemcpy(lr(hh, "nuPostMeanSquare"), hd->nuPostMeanSquare, sizeof(double), cudaMemcpyDeviceToHost));
-  CUDA_CALL(cudaMemcpy(lr(hh, "omegaSquaredPostMeanSquare"), hd->omegaSquaredPostMeanSquare, sizeof(double), cudaMemcpyDeviceToHost));
-  CUDA_CALL(cudaMemcpy(lr(hh, "rhoPostMeanSquare"), hd->rhoPostMeanSquare, N * sizeof(double), cudaMemcpyDeviceToHost));
   CUDA_CALL(cudaMemcpy(lr(hh, "sigmaSquaredPostMeanSquare"), hd->sigmaSquaredPostMeanSquare, L * sizeof(double), cudaMemcpyDeviceToHost));
   CUDA_CALL(cudaMemcpy(lr(hh, "tauPostMeanSquare"), hd->tauPostMeanSquare, sizeof(double), cudaMemcpyDeviceToHost));
   CUDA_CALL(cudaMemcpy(lr(hh, "thetaPostMeanSquare"), hd->thetaPostMeanSquare, L * sizeof(double), cudaMemcpyDeviceToHost));

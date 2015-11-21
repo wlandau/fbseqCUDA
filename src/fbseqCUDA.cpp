@@ -23,8 +23,6 @@
 #include "gibbs/epsilon.h"
 #include "gibbs/gamma.h"
 #include "gibbs/nu.h"
-#include "gibbs/omegaSquared.h"
-#include "gibbs/rho.h"
 #include "gibbs/sigmaSquared.h"
 #include "gibbs/tau.h"
 #include "gibbs/theta.h"
@@ -32,18 +30,14 @@
 
 void iteration(SEXP hh, chain_t *hd, chain_t *dd){
   epsilonSample(hh, hd, dd);
-
-  rhoSample(hh, hd, dd);
-  omegaSquaredSample(hh, hd, dd);
-
   gammaSample(hh, hd, dd);
   nuSample(hh, hd, dd);
   tauSample(hh, hd, dd);
 
   betaSample(hh, hd, dd);
-  xiSample(hh, hd, dd);
   thetaSample(hh, hd, dd);
   sigmaSquaredSample(hh, hd, dd);
+  xiSample(hh, hd, dd);
 }
 
 void burnin(SEXP hh, chain_t *hd, chain_t *dd){
