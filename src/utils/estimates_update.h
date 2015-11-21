@@ -2,7 +2,7 @@
 #define ESTIMATES_UPDATE_H
 
 __global__ void estimates_update_kernel1(chain_t *dd){
-  int l, n;
+  int l;
 
   dd->nuPostMean[0] += dd->nu[0];
   dd->tauPostMean[0] += dd->tau[0];
@@ -14,7 +14,7 @@ __global__ void estimates_update_kernel1(chain_t *dd){
 }
 
 __global__ void estimates_update_kernel2(chain_t *dd){
-  int l, n;
+  int l;
 
   dd->nuPostMeanSquare[0] += dd->nu[0]*dd->nu[0];
   dd->tauPostMeanSquare[0] += dd->tau[0]*dd->tau[0];

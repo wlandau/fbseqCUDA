@@ -2,7 +2,7 @@
 #define ESTIMATES_INITIALIZE_H
 
 __global__ void estimates_initialize_kernel1(chain_t *dd){
-  int l, n;
+  int l;
 
   dd->nuPostMean[0] = 0.0;
   dd->tauPostMean[0] = 0.0;
@@ -14,7 +14,7 @@ __global__ void estimates_initialize_kernel1(chain_t *dd){
 }
 
 __global__ void estimates_initialize_kernel2(chain_t *dd){
-  int l, n;
+  int l;
 
   dd->nuPostMeanSquare[0] = 0.0;
   dd->tauPostMeanSquare[0] = 0.0;

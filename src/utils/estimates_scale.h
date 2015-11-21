@@ -2,7 +2,7 @@
 #define ESTIMATES_SCALE_H
 
 __global__ void estimates_scale_kernel1(chain_t *dd, double iterations){
-  int l, n;
+  int l;
 
   dd->nuPostMean[0]/= iterations;
   dd->tauPostMean[0]/= iterations;
@@ -14,7 +14,7 @@ __global__ void estimates_scale_kernel1(chain_t *dd, double iterations){
 }
 
 __global__ void estimates_scale_kernel2(chain_t *dd, double iterations){
-  int l, n;
+  int l;
   dd->nuPostMeanSquare[0]/= iterations;
   dd->tauPostMeanSquare[0]/= iterations;
 
