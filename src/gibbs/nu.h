@@ -14,12 +14,10 @@ __global__ void nu_kernel2(chain_t *dd){
   args.target_type = LTARGET_NU;
   args.step_width = STEP_WIDTH;
   args.max_steps = MAX_STEPS;
-
   args.A = 0.5 * dd->tau[0];
   args.B = 0.5 * dd->aux[0];
   args.C = (double) dd->G;
   args.D = dd->d[0];
-
   dd->nu[0] = slice(dd, args);
 }
 
