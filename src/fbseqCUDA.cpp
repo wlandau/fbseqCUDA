@@ -62,7 +62,7 @@ void burnin(SEXP hh, chain_t *hd, chain_t *dd){
 }
 
 void chain(SEXP hh, chain_t *hd, chain_t *dd){
-  int m,
+  int i, m,
       iterations = MAX(0, li(hh, "iterations")[0]),
       print_every = iterations + 2,
       thin = MAX(1, li(hh, "thin")[0]),
@@ -81,7 +81,7 @@ void chain(SEXP hh, chain_t *hd, chain_t *dd){
       iteration(hh, hd, dd);
       estimates_update(hh, dd);
     }
-    
+
     hd2hh(hh, hd, m);
   }
 }
