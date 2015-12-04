@@ -62,11 +62,11 @@ void burnin(SEXP hh, chain_t *hd, chain_t *dd){
 }
 
 void chain(SEXP hh, chain_t *hd, chain_t *dd){
-  int i, m,
-      iterations = li(hh, "iterations")[0],
+  int m,
+      iterations = MAX(0, li(hh, "iterations")[0]),
       print_every = iterations + 2,
-      thin = li(hh, "thin")[0],
-      verbose = li(hh, "verbose")[0];
+      thin = MAX(1, li(hh, "thin")[0]),
+      verbose = MAX(0, li(hh, "verbose")[0]);
 
   if(verbose){
     print_every = iterations/verbose + (iterations < verbose);
@@ -74,19 +74,15 @@ void chain(SEXP hh, chain_t *hd, chain_t *dd){
   }
 
   for(m = 0; m < iterations; ++m){
-    if(verbose && !((m + 1) % print_every)){
-      Rprintf("  MCMC iteration %d of %d on GPU %d", m + 1, iterations, getDevice());
-      if(thin) Rprintf(" (thin = %d)", thin);
-      Rprintf("\n");
+    if(verbose && !((m + 1) % print_every))
+      Rprintf("  MCMC iteration %d of %d (thin = %d) on GPU %d", m + 1, iterations, thin, getDevice());
+
+    for(i = 0; i < thin; ++i){
+      iteration(hh, hd, dd);
+      estimates_update(hh, dd);
     }
-
-    iteration(hh, hd, dd);
-    estimates_update(hh, dd);
+    
     hd2hh(hh, hd, m);
-
-    if(m < iterations - 1)
-      for(i = 0; i < thin; ++i)
-        iteration(hh, hd, dd);
   }
 }
 
