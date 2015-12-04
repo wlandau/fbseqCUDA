@@ -75,7 +75,7 @@ void chain(SEXP hh, chain_t *hd, chain_t *dd){
 
   for(m = 0; m < iterations; ++m){
     if(verbose && !((m + 1) % print_every))
-      Rprintf("  MCMC iteration %d of %d (thin = %d) on GPU %d", m + 1, iterations, thin, getDevice());
+      Rprintf("  MCMC iteration %d of %d (thin = %d) on GPU %d\n", m + 1, iterations, thin, getDevice());
 
     for(i = 0; i < thin; ++i){
       iteration(hh, hd, dd);
