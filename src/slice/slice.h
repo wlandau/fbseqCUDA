@@ -8,8 +8,9 @@ __device__ double slice(chain_t *dd, args_t args){
   double L = args.x0 - runiform(dd, args.idx, 0.0, args.step_width);
   double R = L + args.step_width;
 
-  int stepsL = args.max_steps;
-  int stepsR = args.max_steps;
+  int su = (int) trunc(runiform(dd, args.idx, 0.0, args.max_steps + 1.0 - 1e-12));
+  int stepsL = su;
+  int stepsR = args.max_steps - su;
 
   while ((lu < ltarget(dd, args, L)) && (stepsL > 0)) {
     L = L - args.step_width;
