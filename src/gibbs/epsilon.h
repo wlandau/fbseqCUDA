@@ -9,8 +9,8 @@ __global__ void epsilon_kernel1(chain_t *dd){
   args_t args;
   args.idx = I(n, g);
   args.target_type = LTARGET_EPSILON;
-  args.step_width = 1.0;
-  args.max_steps = 30;
+  args.step_width = STEP_WIDTH;
+  args.max_steps = MAX_STEPS;
   args.A = (double) dd->counts[I(n, g)];
   args.B = 1.0/(2.0 * dd->gamma[g]);
   args.C = 0.0;
