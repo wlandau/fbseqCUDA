@@ -35,6 +35,15 @@ void estimates_save(SEXP hh, chain_t *hd){
   CUDA_CALL(cudaMemcpy(lr(hh, "tauTune"), hd->tauTune, sizeof(double), cudaMemcpyDeviceToHost));
   CUDA_CALL(cudaMemcpy(lr(hh, "thetaTune"), hd->thetaTune, L * sizeof(double), cudaMemcpyDeviceToHost));
   CUDA_CALL(cudaMemcpy(lr(hh, "xiTune"), hd->xiTune, L * G * sizeof(double), cudaMemcpyDeviceToHost));
+
+  CUDA_CALL(cudaMemcpy(lr(hh, "betaTuneAux"), hd->betaTuneAux, L * G * sizeof(double), cudaMemcpyDeviceToHost));
+  CUDA_CALL(cudaMemcpy(lr(hh, "epsilonTuneAux"), hd->epsilonTuneAux, N * G * sizeof(double), cudaMemcpyDeviceToHost));
+  CUDA_CALL(cudaMemcpy(lr(hh, "gammaTuneAux"), hd->gammaTuneAux, G * sizeof(double), cudaMemcpyDeviceToHost));
+  CUDA_CALL(cudaMemcpy(lr(hh, "nuTuneAux"), hd->nuTuneAux, sizeof(double), cudaMemcpyDeviceToHost));
+  CUDA_CALL(cudaMemcpy(lr(hh, "sigmaSquaredTuneAux"), hd->sigmaSquaredTuneAux, L * sizeof(double), cudaMemcpyDeviceToHost));
+  CUDA_CALL(cudaMemcpy(lr(hh, "tauTuneAux"), hd->tauTuneAux, sizeof(double), cudaMemcpyDeviceToHost));
+  CUDA_CALL(cudaMemcpy(lr(hh, "thetaTuneAux"), hd->thetaTuneAux, L * sizeof(double), cudaMemcpyDeviceToHost));
+  CUDA_CALL(cudaMemcpy(lr(hh, "xiTuneAux"), hd->xiTuneAux, L * G * sizeof(double), cudaMemcpyDeviceToHost));
 }
 
 #endif // UTIL_ESTIMATES_SAVE_H
