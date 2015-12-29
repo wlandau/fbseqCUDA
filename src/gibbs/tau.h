@@ -11,7 +11,7 @@ __global__ void tau_kernel2(chain_t *dd){
   args_t args;
   args.idx = 0;
   args.m = dd->m;
-  args.sumDiff = dd->tauSumDiff[I(l, g)];
+  args.sumDiff = dd->tauSumDiff[0];
   args.target_type = LTARGET_GAMMA;
   args.width = dd->tauWidth[0];
   args.x0 = dd->tau[0];
@@ -22,7 +22,7 @@ __global__ void tau_kernel2(chain_t *dd){
 
   args = slice(dd, args);
   dd->tau[0] = args.x;
-  dd->tauSumDiff[I(l, g)] = args.sumDiff;
+  dd->tauSumDiff[0] = args.sumDiff;
   dd->tauWidth[0] = args.width;
 }
 

@@ -1,3 +1,5 @@
+#include "slice/config.h"
+
 #include "util/include.h"
 #include "util/element.h"
 #include "util/cuda_usage.h"
@@ -14,9 +16,9 @@
 #include "util/priors.h"
 #include "util/curand_usage.h"
 #include "util/reset_starts.h"
+#include "util/set.h"
 
 #include "slice/args.h"
-#include "slice/config.h"
 #include "slice/targets.h"
 #include "slice/slice.h"
 

@@ -14,7 +14,7 @@ __global__ void sigmaSquared_kernel2(chain_t *dd, int l){
   args_t args;
   args.idx = 0;
   args.m = dd->m;
-  args.sumDiff = dd->sigmaSquaredSumDiff[I(l, g)];
+  args.sumDiff = dd->sigmaSquaredSumDiff[l];
   args.target_type = LTARGET_INV_GAMMA;
   args.width = dd->sigmaSquaredWidth[l];
   args.x0 = dd->sigmaSquared[l];
@@ -25,7 +25,7 @@ __global__ void sigmaSquared_kernel2(chain_t *dd, int l){
 
   args = slice(dd, args);
   dd->sigmaSquared[l] = args.x;
-  dd->sigmaSquaredSumDiff[I(l, g)] = args.sumDiff;
+  dd->sigmaSquaredSumDiff[l] = args.sumDiff;
   dd->sigmaSquaredWidth[l] = args.width;
 }
 

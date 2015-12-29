@@ -14,7 +14,7 @@ __global__ void gamma_kernel1(chain_t *dd){
   args_t args;
   args.idx = g;
   args.m = dd->m;
-  args.sumDiff = dd->gammaSumDiff[I(l, g)];
+  args.sumDiff = dd->gammaSumDiff[g];
   args.target_type = LTARGET_INV_GAMMA;
   args.width = dd->gammaWidth[g];
   args.x0 = dd->gamma[g];
@@ -25,7 +25,7 @@ __global__ void gamma_kernel1(chain_t *dd){
 
   args = slice(dd, args);
   dd->gamma[g] = args.x;
-  dd->gammaSumDiff[I(l, g)] = args.sumDiff;
+  dd->gammaSumDiff[g] = args.sumDiff;
   dd->gammaWidth[g] = args.width;
 }
 

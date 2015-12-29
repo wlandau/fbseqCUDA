@@ -11,7 +11,7 @@ __global__ void nu_kernel2(chain_t *dd){
   args_t args;
   args.idx = 0;
   args.m = dd->m;
-  args.sumDiff = dd->nuSumDiff[I(l, g)];
+  args.sumDiff = dd->nuSumDiff[0];
   args.target_type = LTARGET_NU;
   args.width = dd->nuWidth[0];
   args.x0 = dd->nu[0];
@@ -23,7 +23,7 @@ __global__ void nu_kernel2(chain_t *dd){
 
   args = slice(dd, args);
   dd->nu[0] = args.x;
-  dd->nuSumDiff[I(l, g)] = args.sumDiff;
+  dd->nuSumDiff[0] = args.sumDiff;
   dd->nuWidth[0] = args.width;
 }
 

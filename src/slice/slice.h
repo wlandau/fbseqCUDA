@@ -1,7 +1,7 @@
 #ifndef SLICE_SLICE_H
 #define SLICE_SLICE_H
 
-__device__ double slice(chain_t *dd, args_t args){
+__device__ args_t slice(chain_t *dd, args_t args){
 
   double iter, sum_length, x;
   double lu = ltarget(dd, args, args.x0) + log(runiform(dd, args.idx, 0.0, 1.0));
