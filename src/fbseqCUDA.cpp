@@ -1,6 +1,5 @@
-#include "slice/config.h"
-
 #include "util/include.h"
+#include "util/config.h"
 #include "util/element.h"
 #include "util/cuda_usage.h"
 #include "util/chain.h"
@@ -18,9 +17,10 @@
 #include "util/reset_starts.h"
 #include "util/set.h"
 
-#include "slice/args.h"
-#include "slice/targets.h"
-#include "slice/slice.h"
+#include "sampler/args.h"
+#include "sampler/targets.h"
+#include "sampler/slice_step.h"
+#include "sampler/sampler_wrap.h"
 
 #include "gibbs/beta.h"
 #include "gibbs/epsilon.h"

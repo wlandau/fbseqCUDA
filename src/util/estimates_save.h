@@ -27,14 +27,14 @@ void estimates_save(SEXP hh, chain_t *hd){
   CUDA_CALL(cudaMemcpy(lr(hh, "thetaPostMeanSquare"), hd->thetaPostMeanSquare, L * sizeof(double), cudaMemcpyDeviceToHost));
   CUDA_CALL(cudaMemcpy(lr(hh, "xiPostMeanSquare"), hd->xiPostMeanSquare, L * G * sizeof(double), cudaMemcpyDeviceToHost));
 
-  CUDA_CALL(cudaMemcpy(lr(hh, "betaWidth"), hd->betaWidth, L * G * sizeof(double), cudaMemcpyDeviceToHost));
-  CUDA_CALL(cudaMemcpy(lr(hh, "epsilonWidth"), hd->epsilonWidth, N * G * sizeof(double), cudaMemcpyDeviceToHost));
-  CUDA_CALL(cudaMemcpy(lr(hh, "gammaWidth"), hd->gammaWidth, G * sizeof(double), cudaMemcpyDeviceToHost));
-  CUDA_CALL(cudaMemcpy(lr(hh, "nuWidth"), hd->nuWidth, sizeof(double), cudaMemcpyDeviceToHost));
-  CUDA_CALL(cudaMemcpy(lr(hh, "sigmaSquaredWidth"), hd->sigmaSquaredWidth, L * sizeof(double), cudaMemcpyDeviceToHost));
-  CUDA_CALL(cudaMemcpy(lr(hh, "tauWidth"), hd->tauWidth, sizeof(double), cudaMemcpyDeviceToHost));
-  CUDA_CALL(cudaMemcpy(lr(hh, "thetaWidth"), hd->thetaWidth, L * sizeof(double), cudaMemcpyDeviceToHost));
-  CUDA_CALL(cudaMemcpy(lr(hh, "xiWidth"), hd->xiWidth, L * G * sizeof(double), cudaMemcpyDeviceToHost));
+  CUDA_CALL(cudaMemcpy(lr(hh, "betaTune"), hd->betaTune, L * G * sizeof(double), cudaMemcpyDeviceToHost));
+  CUDA_CALL(cudaMemcpy(lr(hh, "epsilonTune"), hd->epsilonTune, N * G * sizeof(double), cudaMemcpyDeviceToHost));
+  CUDA_CALL(cudaMemcpy(lr(hh, "gammaTune"), hd->gammaTune, G * sizeof(double), cudaMemcpyDeviceToHost));
+  CUDA_CALL(cudaMemcpy(lr(hh, "nuTune"), hd->nuTune, sizeof(double), cudaMemcpyDeviceToHost));
+  CUDA_CALL(cudaMemcpy(lr(hh, "sigmaSquaredTune"), hd->sigmaSquaredTune, L * sizeof(double), cudaMemcpyDeviceToHost));
+  CUDA_CALL(cudaMemcpy(lr(hh, "tauTune"), hd->tauTune, sizeof(double), cudaMemcpyDeviceToHost));
+  CUDA_CALL(cudaMemcpy(lr(hh, "thetaTune"), hd->thetaTune, L * sizeof(double), cudaMemcpyDeviceToHost));
+  CUDA_CALL(cudaMemcpy(lr(hh, "xiTune"), hd->xiTune, L * G * sizeof(double), cudaMemcpyDeviceToHost));
 }
 
 #endif // UTIL_ESTIMATES_SAVE_H

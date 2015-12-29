@@ -7,13 +7,14 @@ __global__ void nu_kernel1(chain_t *dd){
     dd->aux[g] = log(dd->gamma[g]) + dd->tau[0] / dd->gamma[g];
 }
 
-__global__ void nu_kernel2(chain_t *dd){
+__global__ void nu_kernel2(chain_t *dd, int sampler){
   args_t args;
   args.idx = 0;
   args.m = dd->m;
-  args.sumDiff = dd->nuSumDiff[0];
+  args.sampler = sampler;
+  args.tuneAux = dd->nuTuneAux[0];
   args.target_type = LTARGET_NU;
-  args.width = dd->nuWidth[0];
+  args.tune = dd->nuTune[0];
   args.x0 = dd->nu[0];
 
   args.A = 0.5 * dd->tau[0];
@@ -21,10 +22,10 @@ __global__ void nu_kernel2(chain_t *dd){
   args.C = (double) dd->G;
   args.D = dd->d[0];
 
-  args = slice(dd, args);
+  args = sampler_wrap(dd, args);
   dd->nu[0] = args.x;
-  dd->nuSumDiff[0] = args.sumDiff;
-  dd->nuWidth[0] = args.width;
+  dd->nuTune[0] = args.tune;
+  dd->nuTuneAux[0] = args.tuneAux;
 }
 
 void nuSample(SEXP hh, chain_t *hd, chain_t *dd){
@@ -35,7 +36,7 @@ void nuSample(SEXP hh, chain_t *hd, chain_t *dd){
   double sum = thrust::reduce(aux, aux + li(hh, "G")[0]);
   CUDA_CALL(cudaMemcpy(hd->aux, &sum, sizeof(double), cudaMemcpyHostToDevice));
 
-  nu_kernel2<<<1, 1>>>(dd);
+  nu_kernel2<<<1, 1>>>(dd, li(hh, "nuSampler")[0]);
 }
 
 #endif // GIBBS_NU_H

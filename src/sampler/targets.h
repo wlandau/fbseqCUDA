@@ -1,5 +1,5 @@
-#ifndef SLICE_TARGETS_H
-#define SLICE_TARGETS_H
+#ifndef SAMPLER_TARGETS_H
+#define SAMPLER_TARGETS_H
 
 #define LTARGET_BETA         0
 #define LTARGET_EPSILON      1
@@ -92,4 +92,4 @@ __device__ double ltarget(chain_t *dd, args_t args, double x){
   }
 }
 
-#endif // SLICE_TARGETS_H
+#endif // SAMPLER_TARGETS_H

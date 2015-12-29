@@ -62,23 +62,23 @@ void free_hd(chain_t *hd){
   CUDA_CALL(cudaFree(hd->thetaPostMeanSquare));
   CUDA_CALL(cudaFree(hd->xiPostMeanSquare));
 
-  CUDA_CALL(cudaFree(hd->betaSumDiff));
-  CUDA_CALL(cudaFree(hd->epsilonSumDiff));
-  CUDA_CALL(cudaFree(hd->gammaSumDiff));
-  CUDA_CALL(cudaFree(hd->nuSumDiff));
-  CUDA_CALL(cudaFree(hd->sigmaSquaredSumDiff));
-  CUDA_CALL(cudaFree(hd->tauSumDiff));
-  CUDA_CALL(cudaFree(hd->thetaSumDiff));
-  CUDA_CALL(cudaFree(hd->xiSumDiff));
+  CUDA_CALL(cudaFree(hd->betaTune));
+  CUDA_CALL(cudaFree(hd->epsilonTune));
+  CUDA_CALL(cudaFree(hd->gammaTune));
+  CUDA_CALL(cudaFree(hd->nuTune));
+  CUDA_CALL(cudaFree(hd->sigmaSquaredTune));
+  CUDA_CALL(cudaFree(hd->tauTune));
+  CUDA_CALL(cudaFree(hd->thetaTune));
+  CUDA_CALL(cudaFree(hd->xiTune));
 
-  CUDA_CALL(cudaFree(hd->betaWidth));
-  CUDA_CALL(cudaFree(hd->epsilonWidth));
-  CUDA_CALL(cudaFree(hd->gammaWidth));
-  CUDA_CALL(cudaFree(hd->nuWidth));
-  CUDA_CALL(cudaFree(hd->sigmaSquaredWidth));
-  CUDA_CALL(cudaFree(hd->tauWidth));
-  CUDA_CALL(cudaFree(hd->thetaWidth));
-  CUDA_CALL(cudaFree(hd->xiWidth));
+  CUDA_CALL(cudaFree(hd->betaTuneAux));
+  CUDA_CALL(cudaFree(hd->epsilonTuneAux));
+  CUDA_CALL(cudaFree(hd->gammaTuneAux));
+  CUDA_CALL(cudaFree(hd->nuTuneAux));
+  CUDA_CALL(cudaFree(hd->sigmaSquaredTuneAux));
+  CUDA_CALL(cudaFree(hd->tauTuneAux));
+  CUDA_CALL(cudaFree(hd->thetaTuneAux));
+  CUDA_CALL(cudaFree(hd->xiTuneAux));
 
   CUDA_CALL(cudaFree(hd->states));
   CUDA_CALL(cudaFree(hd->aux));

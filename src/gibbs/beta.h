@@ -15,7 +15,7 @@ __device__ double beta_coef(chain_t *dd, int l, int g, double x){
   return out;
 }
 
-__global__ void beta_kernel1(chain_t *dd, int l){
+__global__ void beta_kernel1(chain_t *dd, int l, int sampler){
   int g = IDX, j, n;
 
   if(g >= dd->G)
@@ -24,9 +24,10 @@ __global__ void beta_kernel1(chain_t *dd, int l){
   args_t args;
   args.idx = g;
   args.m = dd->m;
-  args.sumDiff = dd->betaSumDiff[I(l, g)];
+  args.sampler = sampler;
+  args.tuneAux = dd->betaTuneAux[I(l, g)];
   args.target_type = LTARGET_BETA;
-  args.width = dd->betaWidth[I(l, g)];
+  args.tune = dd->betaTune[I(l, g)];
   args.x0 = dd->beta[I(l, g)];
 
   args.A = 0.0;
@@ -44,10 +45,10 @@ __global__ void beta_kernel1(chain_t *dd, int l){
     dd->aux[I(j, g)] = beta_coef(dd, l, g, dd->D[I(j, g)]);
   }
 
-  args = slice(dd, args);
+  args = sampler_wrap(dd, args);
   dd->beta[I(l, g)] = args.x;
-  dd->betaSumDiff[I(l, g)] = args.sumDiff;
-  dd->betaWidth[I(l, g)] = args.width;
+  dd->betaTune[I(l, g)] = args.tune;
+  dd->betaTuneAux[I(l, g)] = args.tuneAux;
 }
 
 void betaSample(SEXP hh, chain_t *hd, chain_t *dd){
@@ -55,7 +56,7 @@ void betaSample(SEXP hh, chain_t *hd, chain_t *dd){
   if(!(vi(le(hh, "parameter_sets_update"), "beta"))) return;
   for(i = 0; i < li(hh, "Lupdate_beta")[0]; ++i){
     l = li(hh, "effects_update_beta")[i] - 1;
-    beta_kernel1<<<GRID, BLOCK>>>(dd, l);
+    beta_kernel1<<<GRID, BLOCK>>>(dd, l, li(hh, "betaSampler")[0]);
   }
 }
 

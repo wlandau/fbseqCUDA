@@ -28,24 +28,24 @@ __global__ void estimates_initialize_kernel2(chain_t *dd){
 __global__ void estimates_initialize_kernel3(chain_t *dd){
   int l;
 
-  dd->nuSumDiff[0] = 0.0;
-  dd->tauSumDiff[0] = 0.0;
+  dd->nuTune[0] = INIT_TUNE;
+  dd->tauTune[0] = INIT_TUNE;
 
   for(l = 0; l < dd->L; ++l){
-    dd->sigmaSquaredSumDiff[l] = 0.0;
-    dd->thetaSumDiff[l] = 0.0;
+    dd->sigmaSquaredTune[l] = INIT_TUNE;
+    dd->thetaTune[l] = INIT_TUNE;
   }
 }
 
 __global__ void estimates_initialize_kernel4(chain_t *dd){
   int l;
 
-  dd->nuWidth[0] = INIT_WIDTH;
-  dd->tauWidth[0] = INIT_WIDTH;
+  dd->nuTuneAux[0] = INIT_TUNE_AUX;
+  dd->tauTuneAux[0] = INIT_TUNE_AUX;
 
   for(l = 0; l < dd->L; ++l){
-    dd->sigmaSquaredWidth[l] = INIT_WIDTH;
-    dd->thetaWidth[l] = INIT_WIDTH;
+    dd->sigmaSquaredTuneAux[l] = INIT_TUNE_AUX;
+    dd->thetaTuneAux[l] = INIT_TUNE_AUX;
   }
 }
 
@@ -79,26 +79,26 @@ __global__ void estimates_initialize_kernel7(chain_t *dd){
   int id = IDX, l, n;
   if(id >= dd->G) return;
 
-  dd->gammaSumDiff[id] = 0.0;
+  dd->gammaTune[id] = INIT_TUNE;
   for(l = 0; l < dd->L; ++l){
-    dd->betaSumDiff[I(l, id)] = 0.0;
-    dd->xiSumDiff[I(l, id)] = 0.0;
+    dd->betaTune[I(l, id)] = INIT_TUNE;
+    dd->xiTune[I(l, id)] = INIT_TUNE;
   }
   for(n = 0; n < dd->N; ++n)
-    dd->epsilonSumDiff[I(n, id)] = 0.0;
+    dd->epsilonTune[I(n, id)] = INIT_TUNE;
 }
 
 __global__ void estimates_initialize_kernel8(chain_t *dd){
   int id = IDX, l, n;
   if(id >= dd->G) return;
 
-  dd->gammaWidth[id] = INIT_WIDTH;
+  dd->gammaTuneAux[id] = INIT_TUNE_AUX;
   for(l = 0; l < dd->L; ++l){
-    dd->betaWidth[I(l, id)] = INIT_WIDTH;
-    dd->xiWidth[I(l, id)] = INIT_WIDTH;
+    dd->betaTuneAux[I(l, id)] = INIT_TUNE_AUX;
+    dd->xiTuneAux[I(l, id)] = INIT_TUNE_AUX;
   }
   for(n = 0; n < dd->N; ++n)
-    dd->epsilonWidth[I(n, id)] = INIT_WIDTH;
+    dd->epsilonTuneAux[I(n, id)] = INIT_TUNE_AUX;
 }
 
 __global__ void estimates_initialize_kernel9(chain_t *dd){

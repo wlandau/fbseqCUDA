@@ -1,15 +1,16 @@
 #ifndef GIBBS_XI_H
 #define GIBBS_XI_H
 
-__global__ void xi_kernel1(chain_t *dd, int prior, int l){
+__global__ void xi_kernel1(chain_t *dd, int prior, int l, int sampler){
   int g = IDX;
   if(g >= dd->G) return;
 
   args_t args;
   args.idx = g;
   args.m = dd->m;
-  args.sumDiff = dd->xiSumDiff[I(l, g)];
-  args.width = dd->xiWidth[I(l, g)];
+  args.sampler = sampler;
+  args.tuneAux = dd->xiTuneAux[I(l, g)];
+  args.tune = dd->xiTune[I(l, g)];
   args.x0 = dd->xi[I(l, g)];
 
   double z = dd->beta[I(l, g)] - dd->theta[l];
@@ -38,17 +39,17 @@ __global__ void xi_kernel1(chain_t *dd, int prior, int l){
       return;
   }
 
-  args = slice(dd, args);
+  args = sampler_wrap(dd, args);
   dd->xi[I(l, g)] = args.x;
-  dd->xiSumDiff[I(l, g)] = args.sumDiff;
-  dd->xiWidth[I(l, g)] = args.width;
+  dd->xiTune[I(l, g)] = args.tune;
+  dd->xiTuneAux[I(l, g)] = args.tuneAux;
 }
 
 void xiSample(SEXP hh, chain_t *hd, chain_t *dd){
   int l;
   if(!(vi(le(hh, "parameter_sets_update"), "xi"))) return;
   for(l = 0; l < li(hh, "L")[0]; ++l)
-    xi_kernel1<<<GRID, BLOCK>>>(dd, li(hh, "priors")[l], l);
+    xi_kernel1<<<GRID, BLOCK>>>(dd, li(hh, "priors")[l], l, li(hh, "xiSampler")[0]);
 }
 
 #endif // GIBBS_XI_H

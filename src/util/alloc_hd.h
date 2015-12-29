@@ -69,23 +69,23 @@ chain_t *alloc_hd(SEXP hh){
   CUDA_CALL(cudaMalloc((void**) &(hd->thetaPostMeanSquare), L * sizeof(double)));
   CUDA_CALL(cudaMalloc((void**) &(hd->xiPostMeanSquare), L * G * sizeof(double)));
 
-  CUDA_CALL(cudaMalloc((void**) &(hd->betaSumDiff), L * G * sizeof(double)));
-  CUDA_CALL(cudaMalloc((void**) &(hd->epsilonSumDiff), N * G * sizeof(double)));
-  CUDA_CALL(cudaMalloc((void**) &(hd->gammaSumDiff), G * sizeof(double)));
-  CUDA_CALL(cudaMalloc((void**) &(hd->nuSumDiff), sizeof(double)));
-  CUDA_CALL(cudaMalloc((void**) &(hd->sigmaSquaredSumDiff), L * sizeof(double)));
-  CUDA_CALL(cudaMalloc((void**) &(hd->tauSumDiff), sizeof(double)));
-  CUDA_CALL(cudaMalloc((void**) &(hd->thetaSumDiff), L * sizeof(double)));
-  CUDA_CALL(cudaMalloc((void**) &(hd->xiSumDiff), L * G * sizeof(double)));
+  CUDA_CALL(cudaMalloc((void**) &(hd->betaTune), L * G * sizeof(double)));
+  CUDA_CALL(cudaMalloc((void**) &(hd->epsilonTune), N * G * sizeof(double)));
+  CUDA_CALL(cudaMalloc((void**) &(hd->gammaTune), G * sizeof(double)));
+  CUDA_CALL(cudaMalloc((void**) &(hd->nuTune), sizeof(double)));
+  CUDA_CALL(cudaMalloc((void**) &(hd->sigmaSquaredTune), L * sizeof(double)));
+  CUDA_CALL(cudaMalloc((void**) &(hd->tauTune), sizeof(double)));
+  CUDA_CALL(cudaMalloc((void**) &(hd->thetaTune), L * sizeof(double)));
+  CUDA_CALL(cudaMalloc((void**) &(hd->xiTune), L * G * sizeof(double)));
 
-  CUDA_CALL(cudaMalloc((void**) &(hd->betaWidth), L * G * sizeof(double)));
-  CUDA_CALL(cudaMalloc((void**) &(hd->epsilonWidth), N * G * sizeof(double)));
-  CUDA_CALL(cudaMalloc((void**) &(hd->gammaWidth), G * sizeof(double)));
-  CUDA_CALL(cudaMalloc((void**) &(hd->nuWidth), sizeof(double)));
-  CUDA_CALL(cudaMalloc((void**) &(hd->sigmaSquaredWidth), L * sizeof(double)));
-  CUDA_CALL(cudaMalloc((void**) &(hd->tauWidth), sizeof(double)));
-  CUDA_CALL(cudaMalloc((void**) &(hd->thetaWidth), L * sizeof(double)));
-  CUDA_CALL(cudaMalloc((void**) &(hd->xiWidth), L * G * sizeof(double)));
+  CUDA_CALL(cudaMalloc((void**) &(hd->betaTuneAux), L * G * sizeof(double)));
+  CUDA_CALL(cudaMalloc((void**) &(hd->epsilonTuneAux), N * G * sizeof(double)));
+  CUDA_CALL(cudaMalloc((void**) &(hd->gammaTuneAux), G * sizeof(double)));
+  CUDA_CALL(cudaMalloc((void**) &(hd->nuTuneAux), sizeof(double)));
+  CUDA_CALL(cudaMalloc((void**) &(hd->sigmaSquaredTuneAux), L * sizeof(double)));
+  CUDA_CALL(cudaMalloc((void**) &(hd->tauTuneAux), sizeof(double)));
+  CUDA_CALL(cudaMalloc((void**) &(hd->thetaTuneAux), L * sizeof(double)));
+  CUDA_CALL(cudaMalloc((void**) &(hd->xiTuneAux), L * G * sizeof(double)));
 
   CUDA_CALL(cudaMalloc((void**) &(hd->states), N * G * sizeof(curandState_t)));
   CUDA_CALL(cudaMalloc((void**) &(hd->aux), N * G * sizeof(double)));
