@@ -1,3 +1,6 @@
+#ifndef STAGE_END_H
+#define STAGE_END_H
+
 void end(SEXP hh, chain_t *hd, chain_t *dd){
   estimates_scale(hh, dd);
   estimates_save(hh, hd);
@@ -12,4 +15,4 @@ void end(SEXP hh, chain_t *hd, chain_t *dd){
   cudaDeviceReset();
 }
 
-#endif // END_H
+#endif // STAGE_END_H

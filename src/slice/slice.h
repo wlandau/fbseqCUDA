@@ -1,5 +1,5 @@
-#ifndef SLICE_H
-#define SLICE_H
+#ifndef SLICE_SLICE_H
+#define SLICE_SLICE_H
 
 __device__ double slice(chain_t *dd, args_t args){
 
@@ -43,4 +43,4 @@ __device__ double slice(chain_t *dd, args_t args){
   return args;
 }
 
-#endif // SLICE_H
+#endif // SLICE_SLICE_H

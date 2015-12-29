@@ -1,5 +1,5 @@
-#ifndef BURNIN_H
-#define BURNIN_H
+#ifndef STAGE_BURNIN_H
+#define STAGE_BURNIN_H
 
 void burnin(SEXP hh, chain_t *hd, chain_t *dd){
   int m,
@@ -22,4 +22,4 @@ void burnin(SEXP hh, chain_t *hd, chain_t *dd){
   }
 }
 
-#endif // BURNIN_H
+#endif // STAGE_BURNIN_H

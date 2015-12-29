@@ -1,5 +1,5 @@
-#ifndef ESTIMATES_SCALE_H
-#define ESTIMATES_SCALE_H
+#ifndef UTIL_ESTIMATES_SCALE_H
+#define UTIL_ESTIMATES_SCALE_H
 
 __global__ void estimates_scale_kernel1(chain_t *dd, double iterations){
   int l;
@@ -66,4 +66,4 @@ void estimates_scale(SEXP hh, chain_t *dd){
   estimates_scale_kernel5<<<GRID, BLOCK>>>(dd, M);
 }
 
-#endif // ESTIMATES_SCALE_H
+#endif // UTIL_ESTIMATES_SCALE_H

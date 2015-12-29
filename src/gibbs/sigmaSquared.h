@@ -1,5 +1,5 @@
-#ifndef SIGMASQUARED_H
-#define SIGMASQUARED_H
+#ifndef GIBBS_SIGMASQUARED_H
+#define GIBBS_SIGMASQUARED_H
 
 __global__ void sigmaSquared_kernel1(chain_t *dd, int l){
   int g = IDX;
@@ -44,4 +44,4 @@ void sigmaSquaredSample(SEXP hh, chain_t *hd, chain_t *dd){
   }
 }
 
-#endif // SIGMASQUARED_H
+#endif // GIBBS_SIGMASQUARED_H

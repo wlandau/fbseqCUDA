@@ -1,5 +1,5 @@
-#ifndef HD2HH_H
-#define HD2HH_H
+#ifndef UTIL_HD2HH_H
+#define UTIL_HD2HH_H
 
 void hd2hh(SEXP hh, chain_t *hd, int m){
 
@@ -66,4 +66,4 @@ void hd2hh(SEXP hh, chain_t *hd, int m){
                              sizeof(double), cudaMemcpyDeviceToHost));
 }
 
-#endif // HD2HH_H
+#endif // UTIL_HD2HH_H

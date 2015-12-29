@@ -1,5 +1,5 @@
-#ifndef CUDA_USAGE_H
-#define CUDA_USAGE_H
+#ifndef UTIL_CUDA_USAGE_H
+#define UTIL_CUDA_USAGE_H
 
 #define MAX(a, b) (a > b ? a : b)
 
@@ -77,4 +77,4 @@ extern "C" SEXP RsetDevice(SEXP device) {
   return result;
 }
 
-#endif // CUDA_USAGE_H
+#endif // UTIL_CUDA_USAGE_H

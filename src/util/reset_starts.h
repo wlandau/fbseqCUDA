@@ -1,5 +1,5 @@
-#ifndef RESET_STARTS_H
-#define RESET_STARTS_H
+#ifndef UTIL_RESET_STARTS_H
+#define UTIL_RESET_STARTS_H
 
 void reset_starts(SEXP hh, chain_t *hd){
 
@@ -17,4 +17,4 @@ void reset_starts(SEXP hh, chain_t *hd){
   CUDA_CALL(cudaMemcpy(lr(hh, "xiStart"), hd->xi, L * G * sizeof(double), cudaMemcpyDeviceToHost));
 }
 
-#endif // RESET_STARTS_H
+#endif // UTIL_RESET_STARTS_H

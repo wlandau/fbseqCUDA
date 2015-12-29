@@ -1,5 +1,5 @@
-#ifndef INCLUDE_H
-#define INCLUDE_H
+#ifndef UTIL_INCLUDE_H
+#define UTIL_INCLUDE_H
 
 #include <cuda.h>
 #include <cuda_runtime.h>
@@ -17,4 +17,4 @@
 #include <thrust/reduce.h>
 #include <thrust/scan.h>
 
-#endif // INCLUDE_H
+#endif // UTIL_INCLUDE_H

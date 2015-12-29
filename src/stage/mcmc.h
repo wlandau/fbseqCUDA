@@ -1,5 +1,5 @@
-#ifndef MCMC_H
-#define MCMC_H
+#ifndef STAGE_MCMC_H
+#define STAGE_MCMC_H
 
 void mcmc(SEXP hh, chain_t *hd, chain_t *dd){
   int i, m,
@@ -28,4 +28,4 @@ void mcmc(SEXP hh, chain_t *hd, chain_t *dd){
   }
 }
 
-#endif // MCMC_H
+#endif // STAGE_MCMC_H

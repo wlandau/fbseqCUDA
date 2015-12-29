@@ -1,5 +1,5 @@
-#ifndef EPSILON_H
-#define EPSILON_H
+#ifndef GIBBS_EPSILON_H
+#define GIBBS_EPSILON_H
 
 __global__ void epsilon_kernel1(chain_t *dd){
   int n = IDX, g = IDY;
@@ -31,4 +31,4 @@ void epsilonSample(SEXP hh, chain_t *hd, chain_t *dd){
   epsilon_kernel1<<<grid, block>>>(dd);
 }
 
-#endif // EPSILON_H
+#endif // GIBBS_EPSILON_H

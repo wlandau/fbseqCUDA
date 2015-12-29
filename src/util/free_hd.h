@@ -1,5 +1,5 @@
-#ifndef FREE_HD_H
-#define FREE_HD_H
+#ifndef UTIL_FREE_HD_H
+#define UTIL_FREE_HD_H
 
 void free_hd(chain_t *hd){
 
@@ -87,4 +87,4 @@ void free_hd(chain_t *hd){
   free(hd);
 }
 
-#endif // FREE_HD_H
+#endif // UTIL_FREE_HD_H

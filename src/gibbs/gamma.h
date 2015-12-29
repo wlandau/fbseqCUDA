@@ -1,5 +1,5 @@
-#ifndef GAMMA_H
-#define GAMMA_H
+#ifndef GIBBS_GAMMA_H
+#define GIBBS_GAMMA_H
 
 __global__ void gamma_kernel1(chain_t *dd){
   int n = 0, g = IDX;
@@ -34,4 +34,4 @@ void gammaSample(SEXP hh, chain_t *hd, chain_t *dd){
   gamma_kernel1<<<GRID, BLOCK>>>(dd);
 }
 
-#endif // GAMMA_H
+#endif // GIBBS_GAMMA_H

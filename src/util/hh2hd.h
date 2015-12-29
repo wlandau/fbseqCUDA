@@ -1,5 +1,5 @@
-#ifndef HH2HD_H
-#define HH2HD_H
+#ifndef UTIL_HH2HD_H
+#define UTIL_HH2HD_H
 
 void hh2hd(SEXP hh, chain_t *hd){
   int C = li(hh, "C")[0],
@@ -47,4 +47,4 @@ void hh2hd(SEXP hh, chain_t *hd){
   CUDA_CALL(cudaMemcpy(hd->xi, lr(hh, "xiStart"), L * G * sizeof(double), cudaMemcpyHostToDevice));
 }
 
-#endif // HH2HD_H
+#endif // UTIL_HH2HD_H

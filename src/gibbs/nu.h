@@ -1,5 +1,5 @@
-#ifndef NU_H
-#define NU_H
+#ifndef GIBBS_NU_H
+#define GIBBS_NU_H
 
 __global__ void nu_kernel1(chain_t *dd){
   int g = IDX;
@@ -38,4 +38,4 @@ void nuSample(SEXP hh, chain_t *hd, chain_t *dd){
   nu_kernel2<<<1, 1>>>(dd);
 }
 
-#endif // NU_H
+#endif // GIBBS_NU_H

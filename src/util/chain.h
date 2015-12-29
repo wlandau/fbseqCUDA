@@ -1,5 +1,5 @@
-#ifndef CHAIN_H
-#define CHAIN_H
+#ifndef UTIL_CHAIN_H
+#define UTIL_CHAIN_H
 
 typedef struct {
 
@@ -92,4 +92,4 @@ typedef struct {
   curandState_t *states;
 } chain_t;
 
-#endif // CHAIN_H
+#endif // UTIL_CHAIN_H

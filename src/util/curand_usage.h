@@ -1,5 +1,5 @@
-#ifndef CURAND_USAGE_H
-#define CURAND_USAGE_H
+#ifndef UTIL_CURAND_USAGE_H
+#define UTIL_CURAND_USAGE_H
 
 __global__ void curand_setup_kernel(chain_t *dd){
   int n = IDX, g = IDY, id = I(n, g);
@@ -21,4 +21,4 @@ __device__ double rnormal(chain_t *dd, int g, double mean, double sd){
   return x * sd + mean;
 }
 
-#endif // CURAND_USAGE_H
+#endif // UTIL_CURAND_USAGE_H

@@ -1,5 +1,5 @@
-#ifndef ITERATION_H
-#define ITERATION_H
+#ifndef STAGE_ITERATION_H
+#define STAGE_ITERATION_H
 
 void iteration(SEXP hh, chain_t *hd, chain_t *dd, int m){
   set_m<<<1, 1>>>(dd, m);
@@ -15,4 +15,4 @@ void iteration(SEXP hh, chain_t *hd, chain_t *dd, int m){
   xiSample(hh, hd, dd);
 }
 
-#endif // ITERATION_H
+#endif // STAGE_ITERATION_H

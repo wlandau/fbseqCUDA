@@ -1,5 +1,5 @@
-#ifndef ALLOC_HD_H
-#define ALLOC_HD_H
+#ifndef UTIL_ALLOC_HD_H
+#define UTIL_ALLOC_HD_H
 
 chain_t *alloc_hd(SEXP hh){
   int C = li(hh, "C")[0],
@@ -94,4 +94,4 @@ chain_t *alloc_hd(SEXP hh){
   return hd;
 }
 
-#endif // ALLOC_HD_H
+#endif // UTIL_ALLOC_HD_H

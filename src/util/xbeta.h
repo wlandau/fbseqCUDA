@@ -1,5 +1,5 @@
-#ifndef XBETA_H
-#define XBETA_H
+#ifndef UTIL_XBETA_H
+#define UTIL_XBETA_H
 
 __device__ double Xbeta(chain_t *dd, int n, int g){
   int l;
@@ -9,4 +9,4 @@ __device__ double Xbeta(chain_t *dd, int n, int g){
   return out;
 }
 
-#endif // XBETA_H
+#endif // UTIL_XBETA_H

@@ -1,5 +1,5 @@
-#ifndef THETA_H
-#define THETA_H
+#ifndef GIBBS_THETA_H
+#define GIBBS_THETA_H
 
 __global__ void theta_kernel1(chain_t *dd, int l){
   int g = IDX;
@@ -36,4 +36,4 @@ void thetaSample(SEXP hh, chain_t *hd, chain_t *dd){
   }
 }
 
-#endif // THETA_H
+#endif // GIBBS_THETA_H

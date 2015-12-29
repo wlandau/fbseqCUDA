@@ -1,5 +1,5 @@
-#ifndef TAU_H
-#define TAU_H
+#ifndef GIBBS_TAU_H
+#define GIBBS_TAU_H
 
 __global__ void tau_kernel1(chain_t *dd){
   int id = IDX;
@@ -38,4 +38,4 @@ void tauSample(SEXP hh, chain_t *hd, chain_t *dd){
   tau_kernel2<<<1, 1>>>(dd);
 }
 
-#endif // TAU_H
+#endif // GIBBS_TAU_H

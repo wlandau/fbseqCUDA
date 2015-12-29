@@ -1,5 +1,5 @@
-#ifndef ESTIMATES_SAVE_H
-#define ESTIMATES_SAVE_H
+#ifndef UTIL_ESTIMATES_SAVE_H
+#define UTIL_ESTIMATES_SAVE_H
 
 void estimates_save(SEXP hh, chain_t *hd){
   int G = (double) li(hh, "G")[0],
@@ -37,4 +37,4 @@ void estimates_save(SEXP hh, chain_t *hd){
   CUDA_CALL(cudaMemcpy(lr(hh, "xiWidth"), hd->xiWidth, L * G * sizeof(double), cudaMemcpyDeviceToHost));
 }
 
-#endif // ESTIMATES_SAVE_H
+#endif // UTIL_ESTIMATES_SAVE_H

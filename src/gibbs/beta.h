@@ -1,5 +1,5 @@
-#ifndef BETA_H
-#define BETA_H
+#ifndef GIBBS_BETA_H
+#define GIBBS_BETA_H
 
 __device__ double beta_coef(chain_t *dd, int l, int g, double x){
   int i, n;
@@ -59,4 +59,4 @@ void betaSample(SEXP hh, chain_t *hd, chain_t *dd){
   }
 }
 
-#endif // BETA_H
+#endif // GIBBS_BETA_H

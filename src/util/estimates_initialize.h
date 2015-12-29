@@ -1,5 +1,5 @@
-#ifndef ESTIMATES_INITIALIZE_H
-#define ESTIMATES_INITIALIZE_H
+#ifndef UTIL_ESTIMATES_INITIALIZE_H
+#define UTIL_ESTIMATES_INITIALIZE_H
 
 __global__ void estimates_initialize_kernel1(chain_t *dd){
   int l;
@@ -120,4 +120,4 @@ void estimates_initialize(SEXP hh,chain_t *dd){
   estimates_initialize_kernel9<<<GRID, BLOCK>>>(dd);
 }
 
-#endif // ESTIMATES_INITIALIZE_H
+#endif // UTIL_ESTIMATES_INITIALIZE_H

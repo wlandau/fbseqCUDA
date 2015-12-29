@@ -1,5 +1,5 @@
-#ifndef XI_H
-#define XI_H
+#ifndef GIBBS_XI_H
+#define GIBBS_XI_H
 
 __global__ void xi_kernel1(chain_t *dd, int prior, int l){
   int g = IDX;
@@ -51,4 +51,4 @@ void xiSample(SEXP hh, chain_t *hd, chain_t *dd){
     xi_kernel1<<<GRID, BLOCK>>>(dd, li(hh, "priors")[l], l);
 }
 
-#endif // XI_H
+#endif // GIBBS_XI_H

@@ -1,5 +1,5 @@
-#ifndef ELEMENT_H
-#define ELEMENT_H
+#ifndef UTIL_ELEMENT_H
+#define UTIL_ELEMENT_H
 
 #define I(n, g) ((n) * (dd->G) + (g))
 #define Idesign(l, n) ((l) * (dd->N) + (n))
@@ -35,4 +35,4 @@ double vr(SEXP obj, const char *str){
   return REAL(obj)[index(obj, str)];
 }
 
-#endif // ELEMENT_H
+#endif // UTIL_ELEMENT_H
