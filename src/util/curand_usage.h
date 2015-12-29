@@ -21,4 +21,16 @@ __device__ double rnormal(chain_t *dd, int g, double mean, double sd){
   return x * sd + mean;
 }
 
+__device__ double rt(chain_t *dd, int g, double mean, double sd, int df){
+  double z = rnormal(dd, g, 0.0, 1.0), v = 0, x, t;
+  int i;
+  for(i = 0; i < df; ++i){
+    x = rnormal(dd, g, 0.0, 1.0);
+    v += x*x;
+  }
+  t = z/sqrt(v/df);
+  if(df > 2) t *= sqrt((df - 2.0)/df);
+  return t*sd + mean;
+}
+
 #endif // UTIL_CURAND_USAGE_H
