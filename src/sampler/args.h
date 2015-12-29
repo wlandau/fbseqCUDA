@@ -3,7 +3,7 @@
 
 typedef struct {
   int designUniqueN, idx, sampler, target_type;
-  double A, B, C, D, G, m, rate, scale, shape, tune, tuneAux, upperbound, x, x0;
+  double A, B, C, D, G, lowerbound, m, rate, scale, shape, tune, tuneAux, upperbound, x, x0;
 } args_t;
 
 #endif // SAMPLER_ARGS_H

@@ -13,16 +13,17 @@ __global__ void sigmaSquared_kernel1(chain_t *dd, int l){
 __global__ void sigmaSquared_kernel2(chain_t *dd, int l, int sampler){
   args_t args;
   args.idx = 0;
+  args.lowerbound = 0.0;
   args.m = dd->m;
   args.sampler = sampler;
   args.tuneAux = dd->sigmaSquaredTuneAux[l];
   args.target_type = LTARGET_INV_GAMMA;
   args.tune = dd->sigmaSquaredTune[l];
+  args.upperbound = dd->s[l] * dd->s[l];
   args.x0 = dd->sigmaSquared[l];
 
   args.shape = 0.5 * ((double) dd->G - 1.0);
   args.scale = 0.5 * dd->aux[0];
-  args.upperbound = dd->s[l] * dd->s[l];
 
   args = sampler_wrap(dd, args);
   dd->sigmaSquared[l] = args.x;

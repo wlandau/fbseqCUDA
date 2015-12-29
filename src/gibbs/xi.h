@@ -7,10 +7,12 @@ __global__ void xi_kernel1(chain_t *dd, int prior, int l, int sampler){
 
   args_t args;
   args.idx = g;
+  args.lowerbound = 0.0;
   args.m = dd->m;
   args.sampler = sampler;
   args.tuneAux = dd->xiTuneAux[I(l, g)];
   args.tune = dd->xiTune[I(l, g)];
+  args.upperbound = CUDART_INF;
   args.x0 = dd->xi[I(l, g)];
 
   double z = dd->beta[I(l, g)] - dd->theta[l];

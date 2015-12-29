@@ -23,11 +23,13 @@ __global__ void beta_kernel1(chain_t *dd, int l, int sampler){
 
   args_t args;
   args.idx = g;
+  args.lowerbound = -CUDART_INF;
   args.m = dd->m;
   args.sampler = sampler;
   args.tuneAux = dd->betaTuneAux[I(l, g)];
   args.target_type = LTARGET_BETA;
   args.tune = dd->betaTune[I(l, g)];
+  args.upperbound = CUDART_INF;
   args.x0 = dd->beta[I(l, g)];
 
   args.A = 0.0;

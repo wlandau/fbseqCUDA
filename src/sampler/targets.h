@@ -31,20 +31,20 @@ __device__ double ltarget_epsilon(chain_t *dd, args_t args, double x){
 }
 
 __device__ double ltarget_gamma(chain_t *dd, args_t args, double x){
-  if(x <= 0.0 || x >= args.upperbound) return -CUDART_INF;
+  if(x <= args.lowerbound || x >= args.upperbound) return -CUDART_INF;
   double a = args.shape, b = args.rate;
   return /* a*log(b) - lgamma(a) + */ (a-1)*log(x) - b*x;
 }
 
 __device__ double ltarget_inv_gamma(chain_t *dd, args_t args, double x){
-  if(x <= 0.0 || x >= args.upperbound) return -CUDART_INF;
+  if(x <= args.lowerbound || x >= args.upperbound) return -CUDART_INF;
   double a = args.shape, b = args.scale;
   return /* a*log(b) - lgamma(a) */ -(a+1)*log(x) - b/x;
 }
 
 __device__ double ltarget_nu(chain_t *dd, args_t args, double x){
   double ret = -CUDART_INF;
-  if(x > 0.0 & x < args.D)
+  if(x > args.lowerbound & x < args.D)
     ret = args.C * (-lgamma(0.5 * x) + 0.5 * x * log(args.A*x)) - args.B*x;
   if(isnan(ret))
     ret = -CUDART_INF;
@@ -53,7 +53,7 @@ __device__ double ltarget_nu(chain_t *dd, args_t args, double x){
 
 __device__ double ltarget_xi_laplace(chain_t *dd, args_t args, double x){
   double ret = -CUDART_INF;
-  if(x > 0.0)
+  if(x > args.lowerbound)
     ret = -0.5 * log(x) - args.A / x - args.B * x;
   if(isnan(ret))
     ret = -CUDART_INF;
@@ -62,7 +62,7 @@ __device__ double ltarget_xi_laplace(chain_t *dd, args_t args, double x){
 
 __device__ double ltarget_xi_t(chain_t *dd, args_t args, double x){
   double ret = -CUDART_INF;
-  if(x > 0.0)
+  if(x > args.lowerbound)
     ret = -args.A * log(x) - args.B / x;
   if(isnan(ret))
     ret = -CUDART_INF;
@@ -71,7 +71,7 @@ __device__ double ltarget_xi_t(chain_t *dd, args_t args, double x){
 
 __device__ double ltarget_xi_horseshoe(chain_t *dd, args_t args, double x){
   double ret = -CUDART_INF;
-  if(x > 0.0)
+  if(x > args.lowerbound)
     ret = -log(x * (1.0 + x)) - args.A / x;
   if(isnan(ret))
     ret = -CUDART_INF;

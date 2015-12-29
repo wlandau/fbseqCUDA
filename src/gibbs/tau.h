@@ -10,16 +10,17 @@ __global__ void tau_kernel1(chain_t *dd){
 __global__ void tau_kernel2(chain_t *dd, int sampler){
   args_t args;
   args.idx = 0;
+  args.lowerbound = 0.0;
   args.m = dd->m;
   args.sampler = sampler;
   args.tuneAux = dd->tauTuneAux[0];
   args.target_type = LTARGET_GAMMA;
   args.tune = dd->tauTune[0];
+  args.upperbound = CUDART_INF;
   args.x0 = dd->tau[0];
 
   args.shape = dd->a[0] + 0.5 * dd->G * dd->nu[0];
   args.rate = dd->b[0] + 0.5 * dd->nu[0] * dd->aux[0];
-  args.upperbound = CUDART_INF;
 
   args = sampler_wrap(dd, args);
   dd->tau[0] = args.x;

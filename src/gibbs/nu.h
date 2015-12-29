@@ -10,11 +10,13 @@ __global__ void nu_kernel1(chain_t *dd){
 __global__ void nu_kernel2(chain_t *dd, int sampler){
   args_t args;
   args.idx = 0;
+  args.lowerbound = 0.0;
   args.m = dd->m;
   args.sampler = sampler;
   args.tuneAux = dd->nuTuneAux[0];
   args.target_type = LTARGET_NU;
   args.tune = dd->nuTune[0];
+  args.upperbound = CUDART_INF;
   args.x0 = dd->nu[0];
 
   args.A = 0.5 * dd->tau[0];
