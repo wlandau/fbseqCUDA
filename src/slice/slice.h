@@ -33,7 +33,7 @@ __device__ args_t slice(chain_t *dd, args_t args){
 
   if(dd->adapt){
     iter = dd->m + 1.0;
-    args.sumDiff += iter; // * fabs(args.x - args.x0);
+    args.sumDiff += iter * fabs(args.x - args.x0);
     if(iter > MIN_ADAPT){
       sum_length = 0.5 * iter * (iter + 1.0);
       args.width = args.sumDiff / sum_length;
