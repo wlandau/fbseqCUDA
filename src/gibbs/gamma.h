@@ -13,15 +13,20 @@ __global__ void gamma_kernel1(chain_t *dd){
 
   args_t args;
   args.idx = g;
-  args.x0 = dd->gamma[g];
+  args.m = dd->m;
+  args.sumDiff = dd->gammaSumDiff[I(l, g)];
   args.target_type = LTARGET_INV_GAMMA;
-  args.step_width = STEP_WIDTH;
-  args.max_steps = MAX_STEPS;
+  args.width = dd->gammaWidth[g];
+  args.x0 = dd->gamma[g];
+
   args.shape = 0.5 * (dd->N + dd->nu[0]);
   args.scale = 0.5 * (dd->nu[0] * dd->tau[0] + sum);
   args.upperbound = CUDART_INF;
 
-  dd->gamma[g] = slice(dd, args);
+  args = slice(dd, args);
+  dd->gamma[g] = args.x;
+  dd->gammaSumDiff[I(l, g)] = args.sumDiff;
+  dd->gammaWidth[g] = args.width;
 }
 
 void gammaSample(SEXP hh, chain_t *hd, chain_t *dd){

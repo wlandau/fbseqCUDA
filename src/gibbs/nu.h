@@ -10,15 +10,21 @@ __global__ void nu_kernel1(chain_t *dd){
 __global__ void nu_kernel2(chain_t *dd){
   args_t args;
   args.idx = 0;
-  args.x0 = dd->nu[0];
+  args.m = dd->m;
+  args.sumDiff = dd->nuSumDiff[I(l, g)];
   args.target_type = LTARGET_NU;
-  args.step_width = STEP_WIDTH;
-  args.max_steps = MAX_STEPS;
+  args.width = dd->nuWidth[0];
+  args.x0 = dd->nu[0];
+
   args.A = 0.5 * dd->tau[0];
   args.B = 0.5 * dd->aux[0];
   args.C = (double) dd->G;
   args.D = dd->d[0];
-  dd->nu[0] = slice(dd, args);
+  
+  args = slice(dd, args);
+  dd->nu[0] = args.x;
+  dd->nuSumDiff[I(l, g)] = args.sumDiff;
+  dd->nuWidth[0] = args.width;
 }
 
 void nuSample(SEXP hh, chain_t *hd, chain_t *dd){

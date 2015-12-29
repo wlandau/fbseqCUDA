@@ -23,10 +23,11 @@ __global__ void beta_kernel1(chain_t *dd, int l){
 
   args_t args;
   args.idx = g;
-  args.x0 = dd->beta[I(l, g)];
+  args.m = dd->m;
+  args.sumDiff = dd->betaSumDiff[I(l, g)];
   args.target_type = LTARGET_BETA;
-  args.step_width = STEP_WIDTH;
-  args.max_steps = MAX_STEPS;
+  args.width = dd->betaWidth[I(l, g)];
+  args.x0 = dd->beta[I(l, g)];
 
   args.A = 0.0;
   for(n = 0; n < dd->N; ++n)
@@ -43,7 +44,10 @@ __global__ void beta_kernel1(chain_t *dd, int l){
     dd->aux[I(j, g)] = beta_coef(dd, l, g, dd->D[I(j, g)]);
   }
 
-  dd->beta[I(l, g)] = slice(dd, args);
+  args = slice(dd, args);
+  dd->beta[I(l, g)] = args.x;
+  dd->betaSumDiff[I(l, g)] = args.sumDiff;
+  dd->betaWidth[I(l, g)] = args.width;
 }
 
 void betaSample(SEXP hh, chain_t *hd, chain_t *dd){

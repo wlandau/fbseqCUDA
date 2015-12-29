@@ -26,6 +26,30 @@ __global__ void estimates_initialize_kernel2(chain_t *dd){
 }
 
 __global__ void estimates_initialize_kernel3(chain_t *dd){
+  int l;
+
+  dd->nuSumDiff[0] = 0.0;
+  dd->tauSumDiff[0] = 0.0;
+
+  for(l = 0; l < dd->L; ++l){
+    dd->sigmaSquaredSumDiff[l] = 0.0;
+    dd->thetaSumDiff[l] = 0.0;
+  }
+}
+
+__global__ void estimates_initialize_kernel4(chain_t *dd){
+  int l;
+
+  dd->nuWidth[0] = INIT_WIDTH;
+  dd->tauWidth[0] = INIT_WIDTH;
+
+  for(l = 0; l < dd->L; ++l){
+    dd->sigmaSquaredWidth[l] = INIT_WIDTH;
+    dd->thetaWidth[l] = INIT_WIDTH;
+  }
+}
+
+__global__ void estimates_initialize_kernel5(chain_t *dd){
   int id = IDX, l, n;
   if(id >= dd->G) return;
 
@@ -38,7 +62,7 @@ __global__ void estimates_initialize_kernel3(chain_t *dd){
     dd->epsilonPostMean[I(n, id)] = 0.0;
 }
 
-__global__ void estimates_initialize_kernel4(chain_t *dd){
+__global__ void estimates_initialize_kernel6(chain_t *dd){
   int id = IDX, l, n;
   if(id >= dd->G) return;
 
@@ -51,7 +75,33 @@ __global__ void estimates_initialize_kernel4(chain_t *dd){
     dd->epsilonPostMeanSquare[I(n, id)] = 0.0;
 }
 
-__global__ void estimates_initialize_kernel5(chain_t *dd){
+__global__ void estimates_initialize_kernel7(chain_t *dd){
+  int id = IDX, l, n;
+  if(id >= dd->G) return;
+
+  dd->gammaSumDiff[id] = 0.0;
+  for(l = 0; l < dd->L; ++l){
+    dd->betaSumDiff[I(l, id)] = 0.0;
+    dd->xiSumDiff[I(l, id)] = 0.0;
+  }
+  for(n = 0; n < dd->N; ++n)
+    dd->epsilonSumDiff[I(n, id)] = 0.0;
+}
+
+__global__ void estimates_initialize_kernel8(chain_t *dd){
+  int id = IDX, l, n;
+  if(id >= dd->G) return;
+
+  dd->gammaWidth[id] = INIT_WIDTH;
+  for(l = 0; l < dd->L; ++l){
+    dd->betaWidth[I(l, id)] = INIT_WIDTH;
+    dd->xiWidth[I(l, id)] = INIT_WIDTH;
+  }
+  for(n = 0; n < dd->N; ++n)
+    dd->epsilonWidth[I(n, id)] = INIT_WIDTH;
+}
+
+__global__ void estimates_initialize_kernel9(chain_t *dd){
   int g = IDX, p;
   if(g >= dd->G) return;
   for(p = 0; p < dd->P; ++p)
@@ -61,9 +111,13 @@ __global__ void estimates_initialize_kernel5(chain_t *dd){
 void estimates_initialize(SEXP hh,chain_t *dd){
   estimates_initialize_kernel1<<<1, 1>>>(dd);
   estimates_initialize_kernel2<<<1, 1>>>(dd);
-  estimates_initialize_kernel3<<<GRID, BLOCK>>>(dd);
-  estimates_initialize_kernel4<<<GRID, BLOCK>>>(dd);
+  estimates_initialize_kernel3<<<1, 1>>>(dd);
+  estimates_initialize_kernel4<<<1, 1>>>(dd);
   estimates_initialize_kernel5<<<GRID, BLOCK>>>(dd);
+  estimates_initialize_kernel6<<<GRID, BLOCK>>>(dd);
+  estimates_initialize_kernel7<<<GRID, BLOCK>>>(dd);
+  estimates_initialize_kernel8<<<GRID, BLOCK>>>(dd);
+  estimates_initialize_kernel9<<<GRID, BLOCK>>>(dd);
 }
 
 #endif // ESTIMATES_INITIALIZE_H

@@ -1,12 +1,13 @@
 #ifndef ARGS_H
 #define ARGS_H
 
+#define INIT_WIDTH 1.0
 #define MAX_STEPS 1000
-#define STEP_WIDTH 1.0
+#define MIN_ADAPT 50
 
 typedef struct {
-  int designUniqueN, idx, max_steps, step_width, target_type;
-  double A, B, C, D, G, rate, scale, shape, upperbound, x, x0;
+  int designUniqueN, idx, target_type;
+  double A, B, C, D, G, m, rate, scale, shape, sumDiff, upperbound, width, x, x0;
 } args_t;
 
 #endif // ARGS_H

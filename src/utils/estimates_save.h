@@ -26,6 +26,15 @@ void estimates_save(SEXP hh, chain_t *hd){
   CUDA_CALL(cudaMemcpy(lr(hh, "tauPostMeanSquare"), hd->tauPostMeanSquare, sizeof(double), cudaMemcpyDeviceToHost));
   CUDA_CALL(cudaMemcpy(lr(hh, "thetaPostMeanSquare"), hd->thetaPostMeanSquare, L * sizeof(double), cudaMemcpyDeviceToHost));
   CUDA_CALL(cudaMemcpy(lr(hh, "xiPostMeanSquare"), hd->xiPostMeanSquare, L * G * sizeof(double), cudaMemcpyDeviceToHost));
+
+  CUDA_CALL(cudaMemcpy(lr(hh, "betaWidth"), hd->betaWidth, L * G * sizeof(double), cudaMemcpyDeviceToHost));
+  CUDA_CALL(cudaMemcpy(lr(hh, "epsilonWidth"), hd->epsilonWidth, N * G * sizeof(double), cudaMemcpyDeviceToHost));
+  CUDA_CALL(cudaMemcpy(lr(hh, "gammaWidth"), hd->gammaWidth, G * sizeof(double), cudaMemcpyDeviceToHost));
+  CUDA_CALL(cudaMemcpy(lr(hh, "nuWidth"), hd->nuWidth, sizeof(double), cudaMemcpyDeviceToHost));
+  CUDA_CALL(cudaMemcpy(lr(hh, "sigmaSquaredWidth"), hd->sigmaSquaredWidth, L * sizeof(double), cudaMemcpyDeviceToHost));
+  CUDA_CALL(cudaMemcpy(lr(hh, "tauWidth"), hd->tauWidth, sizeof(double), cudaMemcpyDeviceToHost));
+  CUDA_CALL(cudaMemcpy(lr(hh, "thetaWidth"), hd->thetaWidth, L * sizeof(double), cudaMemcpyDeviceToHost));
+  CUDA_CALL(cudaMemcpy(lr(hh, "xiWidth"), hd->xiWidth, L * G * sizeof(double), cudaMemcpyDeviceToHost));
 }
 
 #endif // ESTIMATES_SAVE_H

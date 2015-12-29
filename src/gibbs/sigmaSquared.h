@@ -13,14 +13,20 @@ __global__ void sigmaSquared_kernel1(chain_t *dd, int l){
 __global__ void sigmaSquared_kernel2(chain_t *dd, int l){
   args_t args;
   args.idx = 0;
-  args.x0 = dd->sigmaSquared[l];
+  args.m = dd->m;
+  args.sumDiff = dd->sigmaSquaredSumDiff[I(l, g)];
   args.target_type = LTARGET_INV_GAMMA;
-  args.step_width = STEP_WIDTH;
-  args.max_steps = MAX_STEPS;
+  args.width = dd->sigmaSquaredWidth[l];
+  args.x0 = dd->sigmaSquared[l];
+
   args.shape = 0.5 * ((double) dd->G - 1.0);
   args.scale = 0.5 * dd->aux[0];
   args.upperbound = dd->s[l] * dd->s[l];
-  dd->sigmaSquared[l] = slice(dd, args);
+
+  args = slice(dd, args);
+  dd->sigmaSquared[l] = args.x;
+  dd->sigmaSquaredSumDiff[I(l, g)] = args.sumDiff;
+  dd->sigmaSquaredWidth[l] = args.width;
 }
 
 void sigmaSquaredSample(SEXP hh, chain_t *hd, chain_t *dd){

@@ -67,9 +67,28 @@ typedef struct {
          *thetaPostMeanSquare,
          *xiPostMeanSquare,
 
+         *betaSumDiff,
+         *epsilonSumDiff,
+         *gammaSumDiff,
+         *nuSumDiff,
+         *sigmaSquaredSumDiff,
+         *tauSumDiff,
+         *thetaSumDiff,
+         *xiSumDiff,
+
+         *betaWidth,
+         *epsilonWidth,
+         *gammaWidth,
+         *nuWidth,
+         *sigmaSquaredWidth,
+         *tauWidth,
+         *thetaWidth,
+         *xiWidth,
+
          *aux,
          *D;
 
+  int adapt, m;
   curandState_t *states;
 } chain_t;
 

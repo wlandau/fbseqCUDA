@@ -7,9 +7,10 @@ __global__ void xi_kernel1(chain_t *dd, int prior, int l){
 
   args_t args;
   args.idx = g;
+  args.m = dd->m;
+  args.sumDiff = dd->xiSumDiff[I(l, g)];
+  args.width = dd->xiWidth[I(l, g)];
   args.x0 = dd->xi[I(l, g)];
-  args.step_width = STEP_WIDTH;
-  args.max_steps = MAX_STEPS;
 
   double z = dd->beta[I(l, g)] - dd->theta[l];
   z = 0.5 * z * z / dd->sigmaSquared[l];
@@ -37,7 +38,10 @@ __global__ void xi_kernel1(chain_t *dd, int prior, int l){
       return;
   }
 
-  dd->xi[I(l, g)] = slice(dd, args);
+  args = slice(dd, args);
+  dd->xi[I(l, g)] = args.x;
+  dd->xiSumDiff[I(l, g)] = args.sumDiff;
+  dd->xiWidth[I(l, g)] = args.width;
 }
 
 void xiSample(SEXP hh, chain_t *hd, chain_t *dd){

@@ -10,14 +10,20 @@ __global__ void tau_kernel1(chain_t *dd){
 __global__ void tau_kernel2(chain_t *dd){
   args_t args;
   args.idx = 0;
-  args.x0 = dd->tau[0];
+  args.m = dd->m;
+  args.sumDiff = dd->tauSumDiff[I(l, g)];
   args.target_type = LTARGET_GAMMA;
-  args.step_width = STEP_WIDTH;
-  args.max_steps = MAX_STEPS;
+  args.width = dd->tauWidth[0];
+  args.x0 = dd->tau[0];
+
   args.shape = dd->a[0] + 0.5 * dd->G * dd->nu[0];
   args.rate = dd->b[0] + 0.5 * dd->nu[0] * dd->aux[0];
   args.upperbound = CUDART_INF;
-  dd->tau[0] = slice(dd, args);
+
+  args = slice(dd, args);
+  dd->tau[0] = args.x;
+  dd->tauSumDiff[I(l, g)] = args.sumDiff;
+  dd->tauWidth[0] = args.width;
 }
 
 void tauSample(SEXP hh, chain_t *hd, chain_t *dd){
