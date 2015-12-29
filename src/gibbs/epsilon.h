@@ -18,7 +18,7 @@ __global__ void epsilon_kernel1(chain_t *dd){
   args.B = 1.0/(2.0 * dd->gamma[g]);
   args.C = 0.0;
   args.D = exp(dd->h[n] + Xbeta(dd, n, g));
-  
+
   args = = slice(dd, args);
   dd->epsilon[I(n, g)] = args.x;
   dd->epsilonSumDiff[I(l, g)] = args.sumDiff;

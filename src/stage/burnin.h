@@ -21,3 +21,5 @@ void burnin(SEXP hh, chain_t *hd, chain_t *dd){
     iteration(hh, hd, dd, m);
   }
 }
+
+#endif // BURNIN_H

@@ -20,7 +20,7 @@ __global__ void nu_kernel2(chain_t *dd){
   args.B = 0.5 * dd->aux[0];
   args.C = (double) dd->G;
   args.D = dd->d[0];
-  
+
   args = slice(dd, args);
   dd->nu[0] = args.x;
   dd->nuSumDiff[I(l, g)] = args.sumDiff;
