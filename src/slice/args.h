@@ -1,8 +1,8 @@
 #ifndef ARGS_H
 #define ARGS_H
 
-#define MAX_STEPS 300
-#define STEP_WIDTH 1.0
+#define MAX_STEPS 500
+#define STEP_WIDTH 10.0
 
 typedef struct {
   int designUniqueN, idx, max_steps, step_width, target_type;
