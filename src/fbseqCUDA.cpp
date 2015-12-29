@@ -16,6 +16,7 @@
 #include "util/reset_starts.h"
 
 #include "slice/args.h"
+#include "slice/config.h"
 #include "slice/targets.h"
 #include "slice/slice.h"
 
