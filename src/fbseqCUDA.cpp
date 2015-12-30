@@ -20,6 +20,7 @@
 #include "sampler/args.h"
 #include "sampler/targets.h"
 #include "sampler/slice_step.h"
+#include "sampler/metropolis.h"
 #include "sampler/sampler_wrap.h"
 
 #include "gibbs/beta.h"
@@ -53,6 +54,7 @@ extern "C" SEXP fbseqCUDA(SEXP arg){
   curand_setup_kernel<<<grid, block>>>(dd);
 
   estimates_initialize(hh, dd);
+
   burnin(hh, hd, dd);
   mcmc(hh, hd, dd);
   end(hh, hd, dd);

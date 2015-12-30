@@ -2,6 +2,7 @@
 #define UTIL_CUDA_USAGE_H
 
 #define MAX(a, b) (a > b ? a : b)
+#define MIN(a, b) (a < b ? a : b)
 
 #define IDX ((blockIdx.x * blockDim.x) + threadIdx.x)
 #define IDY ((blockIdx.y * blockDim.y) + threadIdx.y)
