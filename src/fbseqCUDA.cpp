@@ -20,7 +20,6 @@
 #include "sampler/args.h"
 #include "sampler/targets.h"
 #include "sampler/slice_step.h"
-#include "sampler/metropolis.h"
 #include "sampler/sampler_wrap.h"
 
 #include "gibbs/beta.h"
