@@ -8,7 +8,7 @@ __device__ args_t slice_step(chain_t *dd, args_t args){
   double L = args.x0 - runiform(dd, args.idx, 0.0, args.tune);
   double R = L + args.tune;
 
-  int su = (int) trunc(runiform(dd, args.idx, 0.0, MAX_STEPS + 1.0 - 1e-12));
+  int su = (int) trunc(runiform(dd, args.idx, 0.0, MAX_STEPS + 0.999999));
   int stepsL = su;
   int stepsR = MAX_STEPS - su;
 
