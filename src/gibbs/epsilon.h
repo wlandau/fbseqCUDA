@@ -6,7 +6,6 @@ __global__ void epsilon_kernel1(chain_t *dd, int sampler){
 
   for(n = IDY; n < dd->N; n += NTHREADSY){
     for(g = IDX; g < dd->G; g += NTHREADSX){
-
       args_t args;
       args.idx = I(n, g);
       args.lowerbound = -CUDART_INF;
