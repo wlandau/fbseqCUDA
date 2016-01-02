@@ -14,9 +14,9 @@
 #define BLOCK_G MIN(hd->deviceProp.maxThreadsDim[0], 16)
 #define BLOCK   MIN(hd->deviceProp.maxThreadsDim[0], 512)
 
-#define GRID_N MIN(hd->deviceProp.maxGridSize[1], ((li(hh, "N")[0]/ BLOCK_N) + 1))
-#define GRID_G MIN(hd->deviceProp.maxGridSize[0], ((li(hh, "G")[0]/ BLOCK_G) + 1))
-#define GRID   MIN(hd->deviceProp.maxGridSize[0], ((MAX(li(hh, "N")[0], li(hh, "G")[0])/ MIN(BLOCK_N, BLOCK_G)) + 1))
+#define GRID_N MIN(hd->deviceProp.maxGridSize[1], ((li(hh, "N")[0]/ BLOCK_N) + 1)) /2
+#define GRID_G MIN(hd->deviceProp.maxGridSize[0], ((li(hh, "G")[0]/ BLOCK_G) + 1)) /2
+#define GRID   MIN(hd->deviceProp.maxGridSize[0], ((MAX(li(hh, "N")[0], li(hh, "G")[0])/ MIN(BLOCK_N, BLOCK_G)) + 1)) /2
 
 #define CUDA_CALL(x) {if((x) != cudaSuccess){ \
   REprintf("CUDA error at %s:%d\n",__FILE__,__LINE__); \
