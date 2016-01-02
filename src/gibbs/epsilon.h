@@ -4,8 +4,8 @@
 __global__ void epsilon_kernel1(chain_t *dd, int sampler){
   int n, g;
 
-  for(n = IDX; n < dd->N; n += NTHREADSX){
-    for(g = IDY; g < dd->G; g += NTHREADSY){
+  for(n = IDY; n < dd->N; n += NTHREADSY){
+    for(g = IDX; g < dd->G; g += NTHREADSX){
 
       args_t args;
       args.idx = I(n, g);
@@ -33,7 +33,7 @@ __global__ void epsilon_kernel1(chain_t *dd, int sampler){
 
 void epsilonSample(SEXP hh, chain_t *hd, chain_t *dd){
   if(!(vi(le(hh, "parameter_sets_update"), "epsilon"))) return;
-  dim3 grid(GRID_N, GRID_G), block(BLOCK_N, BLOCK_G);
+  dim3 grid(GRID_G, GRID_N), block(BLOCK_G, BLOCK_N);
   epsilon_kernel1<<<grid, block>>>(dd, li(hh, "epsilonSampler")[0]);
 }
 

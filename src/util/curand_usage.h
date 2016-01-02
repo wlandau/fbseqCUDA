@@ -3,8 +3,8 @@
 
 __global__ void curand_setup_kernel(chain_t *dd){
   int n, g, id;
-  for(n = IDX; n < dd->N; n += NTHREADSX){
-    for(g = IDY; g < dd->G; g += NTHREADSY){
+  for(n = IDY; n < dd->N; n += NTHREADSY){
+    for(g = IDX; g < dd->G; g += NTHREADSX){
       id = I(n, g);
       curand_init(dd->seeds[id], id, id % dd->G, dd->states + id);
     }

@@ -88,8 +88,9 @@ typedef struct {
          *aux,
          *D;
 
-  int adapt, m;
+  int adapt, deviceIndex, m;
   curandState_t *states;
+  cudaDeviceProp deviceProp;
 } chain_t;
 
 #endif // UTIL_CHAIN_H

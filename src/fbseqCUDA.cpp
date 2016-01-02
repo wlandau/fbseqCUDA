@@ -1,8 +1,8 @@
 #include "util/include.h"
 #include "util/config.h"
 #include "util/element.h"
-#include "util/cuda_usage.h"
 #include "util/chain.h"
+#include "util/cuda_usage.h"
 #include "util/alloc_hd.h"
 #include "util/free_hd.h"
 #include "util/hd2hh.h"
@@ -49,7 +49,8 @@ extern "C" SEXP fbseqCUDA(SEXP arg){
   CUDA_CALL(cudaMalloc((void**) &dd, sizeof(chain_t)));
   CUDA_CALL(cudaMemcpy(dd, hd, sizeof(chain_t), cudaMemcpyHostToDevice));
 
-  dim3 grid(GRID_N, GRID_G), block(BLOCK_N, BLOCK_G);
+  device_info<<<1, 1>>>(dd);
+  dim3 grid(GRID_G, GRID_N), block(BLOCK_G, BLOCK_N);
   curand_setup_kernel<<<grid, block>>>(dd);
 
   estimates_initialize(hh, dd);

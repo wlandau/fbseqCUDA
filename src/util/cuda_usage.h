@@ -10,13 +10,13 @@
 #define NTHREADSX (blockDim.x * gridDim.x)
 #define NTHREADSY (blockDim.y * gridDim.y)
 
-#define MAX_GRID 65535
-#define BLOCK_N 16
-#define BLOCK_G 16
-#define BLOCK 512
-#define GRID_N MIN(MAX_GRID, ((li(hh, "N")[0]/ BLOCK_N) + 1))  /2
-#define GRID_G MIN(MAX_GRID, ((li(hh, "G")[0]/ BLOCK_G) + 1))   /2
-#define GRID   MIN(MAX_GRID, ((MAX(li(hh, "N")[0], li(hh, "G")[0])/ MIN(BLOCK_N, BLOCK_G)) + 1))  /2
+#define BLOCK_N MIN(dd.deviceProp.maxThreadsDim[1], 16)
+#define BLOCK_G MIN(dd.deviceProp.maxThreadsDim[0], 16)
+#define BLOCK   MIN(dd.deviceProp.maxThreadsDim[0], 512)
+
+#define GRID_N MIN(dd.deviceProp.maxGridSize[1], ((li(hh, "N")[0]/ BLOCK_N) + 1))
+#define GRID_G MIN(dd.deviceProp.maxGridSize[0], ((li(hh, "G")[0]/ BLOCK_G) + 1))
+#define GRID   MIN(dd.deviceProp.maxGridSize[0], ((MAX(li(hh, "N")[0], li(hh, "G")[0])/ MIN(BLOCK_N, BLOCK_G)) + 1))
 
 #define CUDA_CALL(x) {if((x) != cudaSuccess){ \
   REprintf("CUDA error at %s:%d\n",__FILE__,__LINE__); \
@@ -80,6 +80,11 @@ extern "C" SEXP RsetDevice(SEXP device) {
 	INTEGER(result)[0] = setDevice(INTEGER(device)[0]);
   UNPROTECT(1);
   return result;
+}
+
+__global__ void device_info(Chain *dd){
+  cudaGetDevice(&(dd.deviceIndex));
+  cudaGetDeviceProperties(&(dd->deviceProp), dd.deviceIndex);
 }
 
 #endif // UTIL_CUDA_USAGE_H
