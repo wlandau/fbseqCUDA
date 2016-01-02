@@ -16,41 +16,40 @@ __device__ double beta_coef(chain_t *dd, int l, int g, double x){
 }
 
 __global__ void beta_kernel1(chain_t *dd, int l, int sampler){
-  int g = IDX, j, n;
+  int g, j, n;
 
-  if(g >= dd->G)
-    return;
+  for(g = IDX; g < dd->G; g += NTHREADSX){
+    args_t args;
+    args.idx = g;
+    args.lowerbound = -CUDART_INF;
+    args.m = dd->m;
+    args.sampler = sampler;
+    args.tuneAux = dd->betaTuneAux[I(l, g)];
+    args.target_type = LTARGET_BETA;
+    args.tune = dd->betaTune[I(l, g)];
+    args.upperbound = CUDART_INF;
+    args.x0 = dd->beta[I(l, g)];
 
-  args_t args;
-  args.idx = g;
-  args.lowerbound = -CUDART_INF;
-  args.m = dd->m;
-  args.sampler = sampler;
-  args.tuneAux = dd->betaTuneAux[I(l, g)];
-  args.target_type = LTARGET_BETA;
-  args.tune = dd->betaTune[I(l, g)];
-  args.upperbound = CUDART_INF;
-  args.x0 = dd->beta[I(l, g)];
+    args.A = 0.0;
+    for(n = 0; n < dd->N; ++n)
+      args.A += ((double) dd->counts[I(n, g)])
+              * ((double) dd->design[Idesign(l, n)]);
 
-  args.A = 0.0;
-  for(n = 0; n < dd->N; ++n)
-    args.A += ((double) dd->counts[I(n, g)])
-            * ((double) dd->design[Idesign(l, n)]);
+    args.B = 1.0/(2.0 * dd->sigmaSquared[l] * dd->xi[I(l, g)]);
+    args.C = dd->theta[l];
 
-  args.B = 1.0/(2.0 * dd->sigmaSquared[l] * dd->xi[I(l, g)]);
-  args.C = dd->theta[l];
+    args.designUniqueN = dd->designUniqueN[l];
 
-  args.designUniqueN = dd->designUniqueN[l];
+    for(j = 0; j < args.designUniqueN; ++j){
+      dd->D[I(j, g)] = dd->designUnique[Idesign(l, j)];
+      dd->aux[I(j, g)] = beta_coef(dd, l, g, dd->D[I(j, g)]);
+    }
 
-  for(j = 0; j < args.designUniqueN; ++j){
-    dd->D[I(j, g)] = dd->designUnique[Idesign(l, j)];
-    dd->aux[I(j, g)] = beta_coef(dd, l, g, dd->D[I(j, g)]);
+    args = sampler_wrap(dd, args);
+    dd->beta[I(l, g)] = args.x;
+    dd->betaTune[I(l, g)] = args.tune;
+    dd->betaTuneAux[I(l, g)] = args.tuneAux;
   }
-
-  args = sampler_wrap(dd, args);
-  dd->beta[I(l, g)] = args.x;
-  dd->betaTune[I(l, g)] = args.tune;
-  dd->betaTuneAux[I(l, g)] = args.tuneAux;
 }
 
 void betaSample(SEXP hh, chain_t *hd, chain_t *dd){

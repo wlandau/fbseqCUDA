@@ -2,9 +2,9 @@
 #define GIBBS_TAU_H
 
 __global__ void tau_kernel1(chain_t *dd){
-  int id = IDX;
-  if(id < dd->G)
-    dd->aux[id] = 1.0/dd->gamma[id];
+  int g;
+  for(g = IDX; g < dd->G; g += NTHREADSX)
+    dd->aux[g] = 1.0/dd->gamma[g];
 }
 
 __global__ void tau_kernel2(chain_t *dd, int sampler){

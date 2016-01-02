@@ -2,14 +2,14 @@
 #define GIBBS_THETA_H
 
 __global__ void theta_kernel1(chain_t *dd, int l){
-  int g = IDX;
-  if(g < dd->G)
+  int g;
+  for(g = IDX; g < dd->G; g += NTHREADSX)
     dd->aux[g] = 1.0 / dd->xi[I(l, g)];
 }
 
 __global__ void theta_kernel2(chain_t *dd, int l){
-  int g = IDX;
-  if(g < dd->G)
+  int g;
+  for(g = IDX; g < dd->G; g += NTHREADSX)
     dd->aux[g] = dd->beta[I(l, g)] / dd->xi[I(l, g)];
 }
 

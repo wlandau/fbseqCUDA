@@ -2,8 +2,8 @@
 #define GIBBS_NU_H
 
 __global__ void nu_kernel1(chain_t *dd){
-  int g = IDX;
-  if(g < dd->G)
+  int g;
+  for(g = IDX; g < dd->G; g += NTHREADSX)
     dd->aux[g] = log(dd->gamma[g]) + dd->tau[0] / dd->gamma[g];
 }
 

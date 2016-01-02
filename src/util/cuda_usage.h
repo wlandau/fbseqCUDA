@@ -7,6 +7,9 @@
 #define IDX ((blockIdx.x * blockDim.x) + threadIdx.x)
 #define IDY ((blockIdx.y * blockDim.y) + threadIdx.y)
 
+#define NTHREADSX (blockDim.x * gridDim.x)
+#define NTHREADSY (blockDim.y * gridDim.y)
+
 #define BLOCK_N 16
 #define BLOCK_G 16
 #define BLOCK 512

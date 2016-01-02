@@ -2,33 +2,35 @@
 #define GIBBS_GAMMA_H
 
 __global__ void gamma_kernel1(chain_t *dd, int sampler){
-  int n = 0, g = IDX;
+  int n = 0, g;
   double sum = 0.0, z;
-  if(g >= dd->G) return;
 
-  for(n = 0; n < dd->N; ++n){
-    z = dd->epsilon[I(n, g)];
-    sum += z * z;
+  for(g = IDX; g < dd->G; g += NTHREADSX){
+
+    for(n = 0; n < dd->N; ++n){
+      z = dd->epsilon[I(n, g)];
+      sum += z * z;
+    }
+
+    args_t args;
+    args.idx = g;
+    args.lowerbound = 0.0;
+    args.m = dd->m;
+    args.sampler = sampler;
+    args.tuneAux = dd->gammaTuneAux[g];
+    args.target_type = LTARGET_INV_GAMMA;
+    args.tune = dd->gammaTune[g];
+    args.upperbound = CUDART_INF;
+    args.x0 = dd->gamma[g];
+
+    args.shape = 0.5 * (dd->N + dd->nu[0]);
+    args.scale = 0.5 * (dd->nu[0] * dd->tau[0] + sum);
+
+    args = sampler_wrap(dd, args);
+    dd->gamma[g] = args.x;
+    dd->gammaTune[g] = args.tune;
+    dd->gammaTuneAux[g] = args.tuneAux;
   }
-
-  args_t args;
-  args.idx = g;
-  args.lowerbound = 0.0;
-  args.m = dd->m;
-  args.sampler = sampler;
-  args.tuneAux = dd->gammaTuneAux[g];
-  args.target_type = LTARGET_INV_GAMMA;
-  args.tune = dd->gammaTune[g];
-  args.upperbound = CUDART_INF;
-  args.x0 = dd->gamma[g];
-
-  args.shape = 0.5 * (dd->N + dd->nu[0]);
-  args.scale = 0.5 * (dd->nu[0] * dd->tau[0] + sum);
-
-  args = sampler_wrap(dd, args);
-  dd->gamma[g] = args.x;
-  dd->gammaTune[g] = args.tune;
-  dd->gammaTuneAux[g] = args.tuneAux;
 }
 
 void gammaSample(SEXP hh, chain_t *hd, chain_t *dd){

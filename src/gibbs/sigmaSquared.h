@@ -2,9 +2,9 @@
 #define GIBBS_SIGMASQUARED_H
 
 __global__ void sigmaSquared_kernel1(chain_t *dd, int l){
-  int g = IDX;
+  int g;
   double x;
-  if(g < dd->G){
+  for(g = IDX; g < dd->G; g += NTHREADSX){
     x = dd->beta[I(l, g)] - dd->theta[l];
     dd->aux[g] = x * x / dd->xi[I(l, g)];
   }
