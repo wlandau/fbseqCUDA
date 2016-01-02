@@ -2,11 +2,12 @@
 #define GIBBS_GAMMA_H
 
 __global__ void gamma_kernel1(chain_t *dd, int sampler){
-  int n = 0, g;
-  double sum = 0.0, z;
+  int n, g;
+  double sum, z;
 
   for(g = IDX; g < dd->G; g += NTHREADSX){
 
+    sum = 0.0;
     for(n = 0; n < dd->N; ++n){
       z = dd->epsilon[I(n, g)];
       sum += z * z;
