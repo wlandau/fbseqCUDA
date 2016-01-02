@@ -14,9 +14,9 @@
 #define BLOCK_N 16
 #define BLOCK_G 16
 #define BLOCK 512
-#define GRID_N MIN(MAX_GRID, ((li(hh, "N")[0]/ BLOCK_N) + 1)) /2
-#define GRID_G MIN(MAX_GRID, ((li(hh, "G")[0]/ BLOCK_G) + 1)) /2
-#define GRID   MIN(MAX_GRID, ((MAX(li(hh, "N")[0], li(hh, "G")[0])/ MIN(BLOCK_N, BLOCK_G)) + 1)) /2
+#define GRID_N MIN(MAX_GRID, ((li(hh, "N")[0]/ BLOCK_N) + 1))  /2
+#define GRID_G MIN(MAX_GRID, ((li(hh, "G")[0]/ BLOCK_G) + 1))   /2
+#define GRID   MIN(MAX_GRID, ((MAX(li(hh, "N")[0], li(hh, "G")[0])/ MIN(BLOCK_N, BLOCK_G)) + 1))  /2
 
 #define CUDA_CALL(x) {if((x) != cudaSuccess){ \
   REprintf("CUDA error at %s:%d\n",__FILE__,__LINE__); \
