@@ -7,9 +7,9 @@
 #define BLOCK_G MIN(hd->deviceProp.maxThreadsDim[0], ROOT_BLOCK)
 #define BLOCK   MIN(hd->deviceProp.maxThreadsDim[0], ROOT_BLOCK * ROOT_BLOCK)
 
-#define GRID_N (   MIN(hd->deviceProp.maxGridSize[1], ((li(hh, "N")[0]/ BLOCK_N) + 1))   /2)
-#define GRID_G (   MIN(hd->deviceProp.maxGridSize[0], ((li(hh, "G")[0]/ BLOCK_G) + 1))   /2)
-#define GRID   (   MIN(hd->deviceProp.maxGridSize[0], ((MAX(li(hh, "N")[0], li(hh, "G")[0])/ BLOCK) + 1))   /2)
+#define GRID_N MIN(hd->deviceProp.maxGridSize[1], ((li(hh, "N")[0]/ BLOCK_N) + 1))
+#define GRID_G MIN(hd->deviceProp.maxGridSize[0], ((li(hh, "G")[0]/ BLOCK_G) + 1))
+#define GRID   MIN(hd->deviceProp.maxGridSize[0], ((MAX(li(hh, "N")[0], li(hh, "G")[0])/ BLOCK) + 1))
 
 #define MAX(a, b) (a > b ? a : b)
 #define MIN(a, b) (a < b ? a : b)
