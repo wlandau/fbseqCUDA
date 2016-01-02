@@ -51,7 +51,7 @@ __global__ void estimates_scale_kernel4(chain_t *dd, double iterations){
 }
 
 __global__ void estimates_scale_kernel5(chain_t *dd, double iterations){
-  int g = IDX, p;
+  int g, p;
   for(g = IDX; g < dd->G; g += NTHREADSX)
     for(p = 0; p < dd->P; ++p)
       dd->probs[I(p, g)] /= iterations;
