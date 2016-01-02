@@ -10,12 +10,12 @@
 #define NTHREADSX (blockDim.x * gridDim.x)
 #define NTHREADSY (blockDim.y * gridDim.y)
 
-#define BLOCK_N 16
-#define BLOCK_G 16
-#define BLOCK 512
-#define GRID_N ((li(hh, "N")[0]/ BLOCK_N) + 1)
-#define GRID_G ((li(hh, "G")[0]/ BLOCK_G) + 1)
-#define GRID ((MAX(li(hh, "N")[0], li(hh, "G")[0])/ BLOCK_G) + 1)
+#define BLOCK_N 1 // 16
+#define BLOCK_G 1 // 16
+#define BLOCK 1 // 512
+#define GRID_N 1 // ((li(hh, "N")[0]/ BLOCK_N) + 1)
+#define GRID_G 1 // ((li(hh, "G")[0]/ BLOCK_G) + 1)
+#define GRID 1 // ((MAX(li(hh, "N")[0], li(hh, "G")[0])/ BLOCK_G) + 1)
 
 #define CUDA_CALL(x) {if((x) != cudaSuccess){ \
   REprintf("CUDA error at %s:%d\n",__FILE__,__LINE__); \

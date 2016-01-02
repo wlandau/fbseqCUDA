@@ -26,48 +26,48 @@ __global__ void estimates_update_kernel2(chain_t *dd){
 }
 
 __global__ void estimates_update_kernel3(chain_t *dd){
-  int id = IDX, l, n;
-  if(id >= dd->G) return;
-
-  dd->gammaPostMean[id] += dd->gamma[id];
-  for(l = 0; l < dd->L; ++l){
-    dd->betaPostMean[I(l, id)] += dd->beta[I(l, id)];
-    dd->xiPostMean[I(l, id)] += dd->xi[I(l, id)];
+  int id, l, n;
+  for(id = IDX; id < dd->G; id += NTHREADSX){
+    dd->gammaPostMean[id] += dd->gamma[id];
+    for(l = 0; l < dd->L; ++l){
+      dd->betaPostMean[I(l, id)] += dd->beta[I(l, id)];
+      dd->xiPostMean[I(l, id)] += dd->xi[I(l, id)];
+    }
+    for(n = 0; n < dd->N; ++n)
+      dd->epsilonPostMean[I(n, id)] += dd->epsilon[I(n, id)];
   }
-  for(n = 0; n < dd->N; ++n)
-    dd->epsilonPostMean[I(n, id)] += dd->epsilon[I(n, id)];
 }
 
 __global__ void estimates_update_kernel4(chain_t *dd){
-  int id = IDX, l, n;
-  if(id >= dd->G) return;
-
-  dd->gammaPostMeanSquare[id] += dd->gamma[id]*dd->gamma[id];
-  for(l = 0; l < dd->L; ++l){
-    dd->betaPostMeanSquare[I(l, id)] += dd->beta[I(l, id)]*dd->beta[I(l, id)];
-    dd->xiPostMeanSquare[I(l, id)] += dd->xi[I(l, id)]*dd->xi[I(l, id)];
+  int id, l, n;
+  for(id = IDX; id < dd->G; id += NTHREADSX){
+    dd->gammaPostMeanSquare[id] += dd->gamma[id]*dd->gamma[id];
+    for(l = 0; l < dd->L; ++l){
+      dd->betaPostMeanSquare[I(l, id)] += dd->beta[I(l, id)]*dd->beta[I(l, id)];
+      dd->xiPostMeanSquare[I(l, id)] += dd->xi[I(l, id)]*dd->xi[I(l, id)];
+    }
+    for(n = 0; n < dd->N; ++n)
+      dd->epsilonPostMeanSquare[I(n, id)] += dd->epsilon[I(n, id)]*dd->epsilon[I(n, id)];
   }
-  for(n = 0; n < dd->N; ++n)
-    dd->epsilonPostMeanSquare[I(n, id)] += dd->epsilon[I(n, id)]*dd->epsilon[I(n, id)];
 }
 
 __global__ void estimates_update_kernel5(chain_t *dd){
-  int c, g = IDX, truth, l, p;
+  int c, g, truth, l, p;
   double contrast;
-  if(g >= dd->G) return;
+  for(g = IDX; g < dd->G; g += NTHREADSX){
+    for(p = 0; p < dd->P; ++p){
+      truth = 1;
 
-  for(p = 0; p < dd->P; ++p){
-    truth = 1;
+      for(c = 0; c < dd->C; ++c){
+        if(!dd->propositions[Ipropositions(p, c)]) continue;
+        contrast = 0.0;
+        for(l = 0; l < dd->L; ++l)
+          contrast += dd->contrasts[Icontrasts(c, l)] * dd->beta[I(l, g)];
+        truth *= (contrast > dd->bounds[c]);
+      }
 
-    for(c = 0; c < dd->C; ++c){
-      if(!dd->propositions[Ipropositions(p, c)]) continue;
-      contrast = 0.0;
-      for(l = 0; l < dd->L; ++l)
-        contrast += dd->contrasts[Icontrasts(c, l)] * dd->beta[I(l, g)];
-      truth *= (contrast > dd->bounds[c]);
+      dd->probs[I(p, g)] += truth;
     }
-
-    dd->probs[I(p, g)] += truth;
   }
 }
 

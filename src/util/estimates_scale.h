@@ -25,36 +25,36 @@ __global__ void estimates_scale_kernel2(chain_t *dd, double iterations){
 }
 
 __global__ void estimates_scale_kernel3(chain_t *dd, double iterations){
-  int id = IDX, l, n;
-  if(id >= dd->G) return;
-
-  dd->gammaPostMean[id]/= iterations;
-  for(l = 0; l < dd->L; ++l){
-    dd->betaPostMean[I(l, id)]/= iterations;
-    dd->xiPostMean[I(l, id)]/= iterations;
+  int id, l, n;
+  for(id = IDX; id < dd->G; id += NTHREADSX){
+    dd->gammaPostMean[id]/= iterations;
+    for(l = 0; l < dd->L; ++l){
+      dd->betaPostMean[I(l, id)]/= iterations;
+      dd->xiPostMean[I(l, id)]/= iterations;
+    }
+    for(n = 0; n < dd->N; ++n)
+      dd->epsilonPostMean[I(n, id)]/= iterations;
   }
-  for(n = 0; n < dd->N; ++n)
-    dd->epsilonPostMean[I(n, id)]/= iterations;
 }
 
 __global__ void estimates_scale_kernel4(chain_t *dd, double iterations){
-  int id = IDX, l, n;
-  if(id >= dd->G) return;
-
-  dd->gammaPostMeanSquare[id]/= iterations;
-  for(l = 0; l < dd->L; ++l){
-    dd->betaPostMeanSquare[I(l, id)]/= iterations;
-    dd->xiPostMeanSquare[I(l, id)]/= iterations;
+  int id, l, n;
+  for(id = IDX; id < dd->G; id += NTHREADSX){
+    dd->gammaPostMeanSquare[id]/= iterations;
+    for(l = 0; l < dd->L; ++l){
+      dd->betaPostMeanSquare[I(l, id)]/= iterations;
+      dd->xiPostMeanSquare[I(l, id)]/= iterations;
+    }
+    for(n = 0; n < dd->N; ++n)
+      dd->epsilonPostMeanSquare[I(n, id)]/= iterations;
   }
-  for(n = 0; n < dd->N; ++n)
-    dd->epsilonPostMeanSquare[I(n, id)]/= iterations;
 }
 
 __global__ void estimates_scale_kernel5(chain_t *dd, double iterations){
   int g = IDX, p;
-  if(g >= dd->G) return;
-  for(p = 0; p < dd->P; ++p)
-    dd->probs[I(p, g)] /= iterations;
+  for(g = IDX; g < dd->G; g += NTHREADSX)
+    for(p = 0; p < dd->P; ++p)
+      dd->probs[I(p, g)] /= iterations;
 }
 
 void estimates_scale(SEXP hh, chain_t *dd){
