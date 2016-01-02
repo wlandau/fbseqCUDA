@@ -5,7 +5,7 @@ __global__ void curand_setup_kernel(chain_t *dd){
   int n, g, id;
   for(n = IDX; n < dd->N; n += NTHREADSX){
     for(g = IDY; g < dd->G; g += NTHREADSY){
-      id = = I(n, g);
+      id = I(n, g);
       curand_init(dd->seeds[id], id, id % dd->G, dd->states + id);
     }
   }
