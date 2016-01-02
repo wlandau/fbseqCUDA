@@ -71,7 +71,7 @@ __global__ void estimates_update_kernel5(chain_t *dd){
   }
 }
 
-void estimates_update(SEXP hh, chain_t *dd){
+void estimates_update(SEXP hh, chain_t *hd, chain_t *dd){
   estimates_update_kernel1<<<1, 1>>>(dd);
   estimates_update_kernel2<<<1, 1>>>(dd);
   estimates_update_kernel3<<<GRID, BLOCK>>>(dd);

@@ -108,7 +108,7 @@ __global__ void estimates_initialize_kernel9(chain_t *dd){
       dd->probs[I(p, g)] = 0.0;
 }
 
-void estimates_initialize(SEXP hh,chain_t *dd){
+void estimates_initialize(SEXP hh, chain_t *hd, chain_t *dd){
   estimates_initialize_kernel1<<<1, 1>>>(dd);
   estimates_initialize_kernel2<<<1, 1>>>(dd);
   estimates_initialize_kernel3<<<1, 1>>>(dd);

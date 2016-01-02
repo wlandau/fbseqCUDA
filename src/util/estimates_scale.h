@@ -57,7 +57,7 @@ __global__ void estimates_scale_kernel5(chain_t *dd, double iterations){
       dd->probs[I(p, g)] /= iterations;
 }
 
-void estimates_scale(SEXP hh, chain_t *dd){
+void estimates_scale(SEXP hh, chain_t *hd, chain_t *dd){
   double M = (double) (li(hh, "iterations")[0] * li(hh, "thin")[0]);
   estimates_scale_kernel1<<<1, 1>>>(dd, M);
   estimates_scale_kernel2<<<1, 1>>>(dd, M);

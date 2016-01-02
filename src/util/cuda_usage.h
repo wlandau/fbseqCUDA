@@ -10,13 +10,13 @@
 #define NTHREADSX (blockDim.x * gridDim.x)
 #define NTHREADSY (blockDim.y * gridDim.y)
 
-#define BLOCK_N MIN(dd.deviceProp.maxThreadsDim[1], 16)
-#define BLOCK_G MIN(dd.deviceProp.maxThreadsDim[0], 16)
-#define BLOCK   MIN(dd.deviceProp.maxThreadsDim[0], 512)
+#define BLOCK_N MIN(hd->deviceProp.maxThreadsDim[1], 16)
+#define BLOCK_G MIN(hd->deviceProp.maxThreadsDim[0], 16)
+#define BLOCK   MIN(hd->deviceProp.maxThreadsDim[0], 512)
 
-#define GRID_N MIN(dd.deviceProp.maxGridSize[1], ((li(hh, "N")[0]/ BLOCK_N) + 1))
-#define GRID_G MIN(dd.deviceProp.maxGridSize[0], ((li(hh, "G")[0]/ BLOCK_G) + 1))
-#define GRID   MIN(dd.deviceProp.maxGridSize[0], ((MAX(li(hh, "N")[0], li(hh, "G")[0])/ MIN(BLOCK_N, BLOCK_G)) + 1))
+#define GRID_N MIN(hd->deviceProp.maxGridSize[1], ((li(hh, "N")[0]/ BLOCK_N) + 1))
+#define GRID_G MIN(hd->deviceProp.maxGridSize[0], ((li(hh, "G")[0]/ BLOCK_G) + 1))
+#define GRID   MIN(hd->deviceProp.maxGridSize[0], ((MAX(li(hh, "N")[0], li(hh, "G")[0])/ MIN(BLOCK_N, BLOCK_G)) + 1))
 
 #define CUDA_CALL(x) {if((x) != cudaSuccess){ \
   REprintf("CUDA error at %s:%d\n",__FILE__,__LINE__); \
@@ -82,9 +82,24 @@ extern "C" SEXP RsetDevice(SEXP device) {
   return result;
 }
 
-__global__ void device_info(Chain *dd){
-  cudaGetDevice(&(dd.deviceIndex));
-  cudaGetDeviceProperties(&(dd->deviceProp), dd.deviceIndex);
+void device_info(chain_t *hd){
+  int dev;
+  cudaDeviceProp deviceProp;
+  cudaGetDevice(&dev);
+  cudaGetDeviceProperties(&deviceProp, dev);
+
+  hd->deviceIndex = dev;
+  hd->deviceProp = deviceProp;
+
+/*  hd->maxGridSizeX = deviceProp.maxGridSize[0];
+  hd->maxGridSizeY = deviceProp.maxGridSize[1];
+  hd->maxGridSizeZ = deviceProp.maxGridSize[2];
+  hd->maxThreadsDimX = deviceProp.maxThreadsDim[0];
+  hd->maxThreadsDimY = deviceProp.maxThreadsDim[1];
+  hd->maxThreadsDimZ = deviceProp.maxThreadsDim[2];
+  */
+
+
 }
 
 #endif // UTIL_CUDA_USAGE_H

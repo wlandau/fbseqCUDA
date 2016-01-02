@@ -44,16 +44,15 @@ extern "C" SEXP fbseqCUDA(SEXP arg){
 
   chain_t *hd = alloc_hd(hh);
   hh2hd(hh, hd);
+  device_info(hd);
 
   chain_t *dd;
   CUDA_CALL(cudaMalloc((void**) &dd, sizeof(chain_t)));
   CUDA_CALL(cudaMemcpy(dd, hd, sizeof(chain_t), cudaMemcpyHostToDevice));
 
-  device_info<<<1, 1>>>(dd);
   dim3 grid(GRID_G, GRID_N), block(BLOCK_G, BLOCK_N);
   curand_setup_kernel<<<grid, block>>>(dd);
-
-  estimates_initialize(hh, dd);
+  estimates_initialize(hh, hd, dd);
 
   burnin(hh, hd, dd);
   mcmc(hh, hd, dd);
