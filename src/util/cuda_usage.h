@@ -87,19 +87,8 @@ void device_info(chain_t *hd){
   cudaDeviceProp deviceProp;
   cudaGetDevice(&dev);
   cudaGetDeviceProperties(&deviceProp, dev);
-
   hd->deviceIndex = dev;
   hd->deviceProp = deviceProp;
-
-/*  hd->maxGridSizeX = deviceProp.maxGridSize[0];
-  hd->maxGridSizeY = deviceProp.maxGridSize[1];
-  hd->maxGridSizeZ = deviceProp.maxGridSize[2];
-  hd->maxThreadsDimX = deviceProp.maxThreadsDim[0];
-  hd->maxThreadsDimY = deviceProp.maxThreadsDim[1];
-  hd->maxThreadsDimZ = deviceProp.maxThreadsDim[2];
-  */
-
-
 }
 
 #endif // UTIL_CUDA_USAGE_H
