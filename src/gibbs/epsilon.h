@@ -4,7 +4,7 @@
 __global__ void epsilon_kernel1(chain_t *dd, int sampler){
   int n, g;
 
-  for(n = IDX; n < dd->N; g += NTHREADSX){
+  for(n = IDX; n < dd->N; n += NTHREADSX){
     for(g = IDY; g < dd->G; g += NTHREADSY){
 
       args_t args;
