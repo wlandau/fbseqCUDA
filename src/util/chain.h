@@ -21,7 +21,9 @@ typedef struct {
   double *probs;
   int    *seeds;
 
-  double *a,
+  double *loglik,
+
+         *a,
          *b,
          *c,
          *d,

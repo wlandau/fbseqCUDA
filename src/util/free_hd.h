@@ -16,6 +16,8 @@ void free_hd(chain_t *hd){
   CUDA_CALL(cudaFree(hd->probs));
   CUDA_CALL(cudaFree(hd->seeds));
 
+  CUDA_CALL(cudaFree(hd->loglik));
+
   CUDA_CALL(cudaFree(hd->a));
   CUDA_CALL(cudaFree(hd->b));
   CUDA_CALL(cudaFree(hd->c));
