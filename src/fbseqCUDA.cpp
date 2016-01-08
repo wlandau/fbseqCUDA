@@ -36,6 +36,9 @@
 #include "stage/mcmc.h"
 #include "stage/end.h"
 
+#include "diag/loglik.h"
+#include "diag/logpost.h"
+
 extern "C" SEXP fbseqCUDA(SEXP arg){
   SEXP hh = PROTECT(duplicate(arg));
 

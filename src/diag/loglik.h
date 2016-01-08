@@ -1,5 +1,5 @@
-#ifndef UTIL_LOGLIK_H
-#define UTIL_LOGLIK_H
+#ifndef DIAG_LOGLIK_H
+#define DIAG_LOGLIK_H
 
 __global__ void loglik_kernel1(chain_t *dd){
   int n, g;
@@ -13,7 +13,7 @@ __global__ void loglik_kernel1(chain_t *dd){
   }
 }
 
-__global__ void loglik_kernel2(chain_t *dd){
+__global__ void loglik_kernel2(chain_t *dd, double ll){
   dd->loglik[0] = ll;
 }
 
@@ -26,4 +26,4 @@ void loglik(SEXP hh, chain_t *hd, chain_t *dd){
   loglik_kernel2<<<1, 1>>>(dd, ll);
 }
 
-#endif // UTIL_LOGLIK_H
+#endif // DIAG_LOGLIK_H
