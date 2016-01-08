@@ -8,7 +8,7 @@ __global__ void loglik_kernel1(chain_t *dd){
   for(n = IDY; n < dd->N; n += NTHREADSY){
     for(g = IDX; g < dd->G; g += NTHREADSX){
       lambda = dd->h[n] + dd->epsilon[I(n, g)] + Xbeta(dd, n, g);
-      dd->aux[I(n, g)] = -lambda + dd->y[I(n, g)] * log(lambda);
+      dd->aux[I(n, g)] = -lambda + dd->y[I(n, g)] * log(lambda) - lgamma(dd->y[I(n, g)] + 1);
     }
   }
 }
