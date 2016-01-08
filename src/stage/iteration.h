@@ -13,6 +13,8 @@ void iteration(SEXP hh, chain_t *hd, chain_t *dd, int m){
   thetaSample(hh, hd, dd);
   sigmaSquaredSample(hh, hd, dd);
   xiSample(hh, hd, dd);
+
+  loglik(hh, hd, dd);
 }
 
 #endif // STAGE_ITERATION_H

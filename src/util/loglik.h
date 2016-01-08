@@ -17,7 +17,7 @@ __global__ void loglik_kernel2(chain_t *dd){
   dd->loglik[0] = ll;
 }
 
-void nuSample(SEXP hh, chain_t *hd, chain_t *dd){
+void loglik(SEXP hh, chain_t *hd, chain_t *dd){
   int N = li(hh, "N")[0], G = li(hh, "G")[0];
   dim3 grid(GRID_G, GRID_N), block(BLOCK_G, BLOCK_N);
   loglik_kernel1<<<grid, block>>>(dd);
