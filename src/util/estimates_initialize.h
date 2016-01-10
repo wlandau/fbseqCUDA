@@ -4,6 +4,7 @@
 __global__ void estimates_initialize_kernel1(chain_t *dd){
   int l;
 
+  dd->loglikPostMean[0] = 0.0;
   dd->nuPostMean[0] = 0.0;
   dd->tauPostMean[0] = 0.0;
 

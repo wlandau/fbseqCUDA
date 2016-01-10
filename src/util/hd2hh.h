@@ -21,7 +21,6 @@ void hd2hh(SEXP hh, chain_t *hd, int m){
       *libraries_return_epsilon = li(hh, "libraries_return_epsilon");
 
   SEXP parameter_sets_return = le(hh, "parameter_sets_return");
-  CUDA_CALL(cudaMemcpy(lr(hh, "loglik") + m, hd->loglik, sizeof(double), cudaMemcpyDeviceToHost));
 
   if(vi(parameter_sets_return, "beta"))
     for(l = 0; l < L; ++l)

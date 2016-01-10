@@ -21,9 +21,7 @@ typedef struct {
   double *probs;
   int    *seeds;
 
-  double *loglik,
-
-         *a,
+  double *a,
          *b,
          *c,
          *d,
@@ -51,6 +49,7 @@ typedef struct {
          *thetaStart,
          *xiStart,
 
+         *loglikPostMean,
          *betaPostMean,
          *epsilonPostMean,
          *gammaPostMean,
@@ -88,7 +87,8 @@ typedef struct {
          *xiTuneAux,
 
          *aux,
-         *D;
+         *D,
+         *loglik;
 
   int adapt, deviceIndex, m;
   curandState_t *states;

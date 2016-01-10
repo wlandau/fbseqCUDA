@@ -23,8 +23,6 @@ chain_t *alloc_hd(SEXP hh){
   CUDA_CALL(cudaMalloc((void**) &(hd->probs), P * G * sizeof(double)));
   CUDA_CALL(cudaMalloc((void**) &(hd->seeds), N * G * sizeof(int)));
 
-  CUDA_CALL(cudaMalloc((void**) &(hd->loglik), sizeof(double)));
-
   CUDA_CALL(cudaMalloc((void**) &(hd->a), sizeof(double)));
   CUDA_CALL(cudaMalloc((void**) &(hd->b), sizeof(double)));
   CUDA_CALL(cudaMalloc((void**) &(hd->c), L * sizeof(double)));
@@ -53,6 +51,7 @@ chain_t *alloc_hd(SEXP hh){
   CUDA_CALL(cudaMalloc((void**) &(hd->thetaStart), L * sizeof(double)));
   CUDA_CALL(cudaMalloc((void**) &(hd->xiStart), L * G * sizeof(double)));
 
+  CUDA_CALL(cudaMalloc((void**) &(hd->loglikPostMean), sizeof(double)));
   CUDA_CALL(cudaMalloc((void**) &(hd->betaPostMean), L * G * sizeof(double)));
   CUDA_CALL(cudaMalloc((void**) &(hd->epsilonPostMean), N * G * sizeof(double)));
   CUDA_CALL(cudaMalloc((void**) &(hd->gammaPostMean), G * sizeof(double)));
@@ -89,9 +88,10 @@ chain_t *alloc_hd(SEXP hh){
   CUDA_CALL(cudaMalloc((void**) &(hd->thetaTuneAux), L * sizeof(double)));
   CUDA_CALL(cudaMalloc((void**) &(hd->xiTuneAux), L * G * sizeof(double)));
 
-  CUDA_CALL(cudaMalloc((void**) &(hd->states), N * G * sizeof(curandState_t)));
   CUDA_CALL(cudaMalloc((void**) &(hd->aux), N * G * sizeof(double)));
   CUDA_CALL(cudaMalloc((void**) &(hd->D), N * G * sizeof(double)));
+  CUDA_CALL(cudaMalloc((void**) &(hd->loglik), sizeof(double)));
+  CUDA_CALL(cudaMalloc((void**) &(hd->states), N * G * sizeof(curandState_t)));
 
   return hd;
 }

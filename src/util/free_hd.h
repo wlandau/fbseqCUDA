@@ -16,8 +16,6 @@ void free_hd(chain_t *hd){
   CUDA_CALL(cudaFree(hd->probs));
   CUDA_CALL(cudaFree(hd->seeds));
 
-  CUDA_CALL(cudaFree(hd->loglik));
-
   CUDA_CALL(cudaFree(hd->a));
   CUDA_CALL(cudaFree(hd->b));
   CUDA_CALL(cudaFree(hd->c));
@@ -46,6 +44,7 @@ void free_hd(chain_t *hd){
   CUDA_CALL(cudaFree(hd->thetaStart));
   CUDA_CALL(cudaFree(hd->xiStart));
 
+  CUDA_CALL(cudaFree(hd->loglikPostMean));
   CUDA_CALL(cudaFree(hd->betaPostMean));
   CUDA_CALL(cudaFree(hd->epsilonPostMean));
   CUDA_CALL(cudaFree(hd->gammaPostMean));
