@@ -3,11 +3,11 @@
 
 __global__ void loglik_kernel1(chain_t *dd){
   int n, g;
-  double lambda;
+  double loglambda;
   for(n = IDY; n < dd->N; n += NTHREADSY){
     for(g = IDX; g < dd->G; g += NTHREADSX){
-      lambda = dd->h[n] + dd->epsilon[I(n, g)] + Xbeta(dd, n, g);
-      dd->aux[I(n, g)] = -lambda + dd->counts[I(n, g)] * log(lambda) - lgamma((double) dd->counts[I(n, g)] + 1.0);
+      loglambda = dd->h[n] + dd->epsilon[I(n, g)] + Xbeta(dd, n, g);
+      dd->aux[I(n, g)] = -exp(loglambda) + dd->counts[I(n, g)] * loglambda - lgamma((double) dd->counts[I(n, g)] + 1.0);
     }
   }
 }
