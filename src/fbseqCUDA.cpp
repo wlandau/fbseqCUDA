@@ -16,7 +16,6 @@
 #include "util/curand_usage.h"
 #include "util/reset_starts.h"
 #include "util/set.h"
-#include "util/loglik.h"
 
 #include "sampler/args.h"
 #include "sampler/targets.h"
