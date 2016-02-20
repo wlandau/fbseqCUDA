@@ -62,48 +62,55 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <li><a href="#purpose"><span class="toc-section-number">1</span> Purpose</a></li>
 <li><a href="#system-requirements"><span class="toc-section-number">2</span> System requirements</a></li>
 <li><a href="#installation"><span class="toc-section-number">3</span> Installation</a><ul>
-<li><a href="#option-1-install-directly-from-github."><span class="toc-section-number">3.1</span> Option 1: install directly from GitHub.</a></li>
-<li><a href="#option-2-install-from-the-source."><span class="toc-section-number">3.2</span> Option 2: install from the source.</a></li>
+<li><a href="#option-1-install-a-stable-release-recommended."><span class="toc-section-number">3.1</span> Option 1: install a stable release (recommended).</a></li>
+<li><a href="#option-2-use-install_github-to-install-the-development-version."><span class="toc-section-number">3.2</span> Option 2: use <code>install_github</code> to install the development version.</a></li>
+<li><a href="#option-3-build-the-development-version-from-the-source."><span class="toc-section-number">3.3</span> Option 3: build the development version from the source.</a></li>
+<li><a href="#troubleshooting"><span class="toc-section-number">3.4</span> Troubleshooting</a></li>
 </ul></li>
 </ul>
 </div>
 
 <div id="purpose" class="section level1">
 <h1><span class="header-section-number">1</span> Purpose</h1>
-<p><code>fbseqCUDA</code> is the internal engine of the <a href="https://github.com/wlandau/fbseq"><code>fbseq</code> package</a> package, and it is implemented in <a href="http://www.nvidia.com/object/cuda_home_new.html">CUDA</a> to provide necessary acceleration for the underlying Markov chain Monte Carlo (MCMC) procedure. <code>fbseq</code> and <code>fbseqCUDA</code> are kept separate for convenience. For example, you can set up input with <code>fbseq</code> and without <code>fbseqCUDA</code> on a low-end laptop, run the MCMC remotely with both <code>fbseq</code> and <code>fbseqCUDA</code> on a CUDA-enabled <a href="http://www.nvidia.com/object/gpu-cloud-computing-services.html">cloud computing enterprise</a> such as <a href="http://aws.amazon.com/ec2/instance-types/">Amazon Web Services</a>, and analyze the output locally with <code>fbseq</code> and without <code>fbseqCUDA</code>. <code>fbseqCUDA</code> is not meant to be directly accessed by the user, so there are no usage instructions. However, it is important to understand the system requirements and installation instructions below.</p>
+<p><code>fbseqCUDA</code> is the internal engine of the <a href="https://github.com/wlandau/fbseq"><code>fbseq</code> package</a>, and it is implemented in <a href="http://www.nvidia.com/object/cuda_home_new.html">CUDA</a> to provide necessary acceleration for the underlying Markov chain Monte Carlo (MCMC) procedure. <code>fbseq</code> and <code>fbseqCUDA</code> are kept separate for convenience. A user may use <code>fbseq</code> on a personal laptop, for example, to set up a workflow and analyze results. <code>fbseqCUDA</code> is only necessary to actually run the Markov chain Monte Carlo (MCMC) procedure, which can be done remotely with a CUDA-enabled node on a shared cluster or a <a href="http://www.nvidia.com/object/gpu-cloud-computing-services.html">cloud computing enterprise</a>. <code>fbseqCUDA</code> is not meant to be directly accessed by the user, so there are no usage instructions. However, the following system requirements and installation instructions are important.</p>
 </div>
 <div id="system-requirements" class="section level1">
 <h1><span class="header-section-number">2</span> System requirements</h1>
 <ul>
 <li>R <span class="math">\(\ge\)</span> 3.2.0</li>
 <li>R packages <code>methods</code> and <code>knitr</code>, available through the <a href="https://cran.r-project.org/">Comprehensive R Archive Network (CRAN</a>.</li>
-<li>R package <code>fbseq</code>, available through GitHub. (See the <code>fbseq</code> package installation vignette).</li>
-<li>A CUDA-enabled NVIDIA graphics processing unit (GPU) with compute capability 2.0 or greater.</li>
-<li>CUDA version 6.0 or greater.</li>
+<li>R <a href="https://github.com/wlandau/fbseq">package <code>fbseq</code></a>, available through GitHub. (See the <a href="https://github.com/wlandau/fbseq/blob/master/vignettes/model.html"><code>fbseq</code> package tutorial vignette</a> for installation instructions. For best viewing, download the html vignette to your desktop and open it with a browser).</li>
+<li>A <a href="http://www.nvidia.com/object/cuda_home_new.html">CUDA</a>-capable <a href="https://developer.nvidia.com/cuda-gpus">NVIDIA graphics processing unit (GPU)</a> with compute capability 2.0 or greater.</li>
+<li><a href="http://www.nvidia.com/object/cuda_home_new.html">CUDA</a> version 6.0 or greater.</li>
+<li>Optional: the code uses double precision values for computation, so GPUs that natively support double precision will be much faster than ones that do not.</li>
 </ul>
-<p>More information about CUDA is available through <a href="http://www.nvidia.com/object/cuda_home_new.html">NVIDIA</a>. If your computer does not have these features, you can rent GPU time from <a href="http://www.nvidia.com/object/gpu-cloud-computing-services.html">cloud computing enterprises</a> such as <a href="http://aws.amazon.com/ec2/instance-types/">Amazon Web Services</a>.</p>
+<p>More information about CUDA is available through <a href="http://www.nvidia.com/">NVIDIA</a>. If your computer does not have these features, you can rent GPU time from <a href="http://www.nvidia.com/object/gpu-cloud-computing-services.html">cloud computing enterprises</a> such as <a href="http://aws.amazon.com/ec2/instance-types/">Amazon Web Services</a>.</p>
 </div>
 <div id="installation" class="section level1">
 <h1><span class="header-section-number">3</span> Installation</h1>
-<div id="option-1-install-directly-from-github." class="section level2">
-<h2><span class="header-section-number">3.1</span> Option 1: install directly from GitHub.</h2>
-<p>For this option, you need the <code>devtools</code> package, available from CRAN. Just open R and run</p>
+<div id="option-1-install-a-stable-release-recommended." class="section level2">
+<h2><span class="header-section-number">3.1</span> Option 1: install a stable release (recommended).</h2>
+<p>Navigate to a <a href="https://github.com/wlandau/fbseqCUDA/releases">list of stable releases</a> on the project’s <a href="https://github.com/wlandau/fbseqCUDA">GitHub page</a>. Download the desired <code>tar.gz</code> bundle, then install it either with <code>install.packages(..., repos = NULL, type=&quot;source&quot;)</code> from within R <code>R CMD INSTALL</code> from the Unix/Linux command line.</p>
+</div>
+<div id="option-2-use-install_github-to-install-the-development-version." class="section level2">
+<h2><span class="header-section-number">3.2</span> Option 2: use <code>install_github</code> to install the development version.</h2>
+<p>For this option, you need the <code>devtools</code> package, available from CRAN or GitHub. Open R and run</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(devtools)
 <span class="kw">install_github</span>(<span class="st">&quot;wlandau/fbseqCUDA&quot;</span>)</code></pre>
-<p>If the installation fails and reports CUDA-related errors, you may have to modify <code>src/Makevars</code> in the package source. <code>CUDA_HOME</code> should be set to your installation of CUDA, very commonly <code>/usr/local/cuda</code> (the default). Alternatively, file paths that use <code>/</code>’s may need to use <code>\</code>’s for Windows machines. If you need to make either adjustment, try option 2.</p>
 </div>
-<div id="option-2-install-from-the-source." class="section level2">
-<h2><span class="header-section-number">3.2</span> Option 2: install from the source.</h2>
+<div id="option-3-build-the-development-version-from-the-source." class="section level2">
+<h2><span class="header-section-number">3.3</span> Option 3: build the development version from the source.</h2>
 <p>Open a command line program such as Terminal in Mac/Linux and enter the following commands.</p>
-<pre><code>git clone git@github.com:wlandau/fbseq.git
-git clone git@github.com:wlandau/fbseqCUDA.git
-</code></pre>
-<p>In your current working directory (check with <code>pwd</code>), open <code>fbseqCUDA/src/Makevars</code> in a text editor. The top line should read</p>
+<pre><code>git clone git@github.com:wlandau/fbseqCUDA.git
+R CMD build fbseqCUDA
+R CMD INSTALL ...</code></pre>
+<p>where <code>...</code> is replaced by the name of the tarball produced by <code>R CMD build</code>.</p>
+</div>
+<div id="troubleshooting" class="section level2">
+<h2><span class="header-section-number">3.4</span> Troubleshooting</h2>
+<p>If CUDA is not found, open <code>fbseqCUDA/src/Makevars</code> in a text editor. The top line reads</p>
 <pre><code>CUDA_HOME = /usr/local/cuda</code></pre>
-<p>Make sure <code>CUDA_HOME</code> points to your installation of CUDA. In addition, if you use Windows, you may need to go through the rest of <code>Makevars</code> to replace <code>/</code>’s with <code>\</code>’s in file paths. Next, run</p>
-<pre><code>R CMD build fbseqCUDA
-R CMD INSTALL fbseqCUDA_0.0.tar.gz</code></pre>
-<p>You may have to replace <code>fbseqCUDA_0.0.tar.gz</code> by the name of whatever tarball comes out of <code>R CMD build</code>.</p>
+<p>but this may not be correct for your system. Replace <code>/usr/local/cuda</code> to the installation of CUDA on your computer.</p>
 </div>
 </div>
 
