@@ -1,5 +1,4 @@
-fbseqCUDA
-==========
+# fbseqCUDA
 
 `fbseqCUDA` is the internal engine of the [`fbseq` package](https://github.com/wlandau/fbseq), and it is implemented in [CUDA](http://www.nvidia.com/object/cuda_home_new.html) to provide necessary acceleration for the underlying Markov chain Monte Carlo (MCMC) procedure. `fbseq` and `fbseqCUDA` are kept separate for convenience. A user may use `fbseq` on a personal laptop, for example, to set up a workflow and analyze results. `fbseqCUDA` is only necessary to actually run the Markov chain Monte Carlo (MCMC) procedure, which can be done remotely with a CUDA-enabled node on a shared cluster or a [cloud computing enterprise](http://www.nvidia.com/object/gpu-cloud-computing-services.html). `fbseqCUDA` is not meant to be directly accessed by the user, so there are no usage instructions. However, the following system requirements and installation instructions are important.
 
