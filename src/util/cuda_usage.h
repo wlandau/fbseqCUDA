@@ -1,15 +1,15 @@
 #ifndef UTIL_CUDA_USAGE_H
 #define UTIL_CUDA_USAGE_H
 
-#define ROOT_BLOCK 16
+#define ROOT_BLOCK 1 // 16
 
-#define BLOCK_N MIN(hd->deviceProp.maxThreadsDim[1], ROOT_BLOCK)
-#define BLOCK_G MIN(hd->deviceProp.maxThreadsDim[0], ROOT_BLOCK)
-#define BLOCK   MIN(hd->deviceProp.maxThreadsDim[0], ROOT_BLOCK * ROOT_BLOCK)
+#define BLOCK_N 1 // MIN(hd->deviceProp.maxThreadsDim[1], ROOT_BLOCK)
+#define BLOCK_G 1 // MIN(hd->deviceProp.maxThreadsDim[0], ROOT_BLOCK)
+#define BLOCK   1 // MIN(hd->deviceProp.maxThreadsDim[0], ROOT_BLOCK * ROOT_BLOCK)
 
-#define GRID_N MIN(hd->deviceProp.maxGridSize[1], ((li(hh, "N")[0]/ BLOCK_N) + 1))
-#define GRID_G MIN(hd->deviceProp.maxGridSize[0], ((li(hh, "G")[0]/ BLOCK_G) + 1))
-#define GRID   MIN(hd->deviceProp.maxGridSize[0], ((MAX(li(hh, "N")[0], li(hh, "G")[0])/ BLOCK) + 1))
+#define GRID_N 1 // MIN(hd->deviceProp.maxGridSize[1], ((li(hh, "N")[0]/ BLOCK_N) + 1))
+#define GRID_G 1 // MIN(hd->deviceProp.maxGridSize[0], ((li(hh, "G")[0]/ BLOCK_G) + 1))
+#define GRID   1 // MIN(hd->deviceProp.maxGridSize[0], ((MAX(li(hh, "N")[0], li(hh, "G")[0])/ BLOCK) + 1))
 
 #define MAX(a, b) (a > b ? a : b)
 #define MIN(a, b) (a < b ? a : b)
