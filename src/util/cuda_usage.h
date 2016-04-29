@@ -1,6 +1,17 @@
 #ifndef UTIL_CUDA_USAGE_H
 #define UTIL_CUDA_USAGE_H
 
+#define PAR_ROOT_BLOCK 16
+
+#define PAR_BLOCK_N MIN(hd->deviceProp.maxThreadsDim[1], PAR_ROOT_BLOCK)
+#define PAR_BLOCK_G MIN(hd->deviceProp.maxThreadsDim[0], PAR_ROOT_BLOCK)
+#define PAR_BLOCK   MIN(hd->deviceProp.maxThreadsDim[0], PAR_ROOT_BLOCK * PAR_ROOT_BLOCK)
+
+#define PAR_GRID_N MIN(hd->deviceProp.maxGridSize[1], ((li(hh, "N")[0]/ PAR_BLOCK_N) + 1))
+#define PAR_GRID_G MIN(hd->deviceProp.maxGridSize[0], ((li(hh, "G")[0]/ PAR_BLOCK_G) + 1))
+#define PAR_GRID   MIN(hd->deviceProp.maxGridSize[0], ((MAX(li(hh, "N")[0], li(hh, "G")[0])/ PAR_BLOCK) + 1))
+
+
 #define ROOT_BLOCK 1 // 16
 
 #define BLOCK_N 1 // MIN(hd->deviceProp.maxThreadsDim[1], ROOT_BLOCK)
@@ -20,11 +31,14 @@
 #define NTHREADSX 1 // (blockDim.x * gridDim.x)
 #define NTHREADSY 1 // (blockDim.y * gridDim.y)
 
-#define CUDA_CALL(x) {if((x) != cudaSuccess){ \
-  REprintf("CUDA error at %s:%d\n",__FILE__,__LINE__); \
-  REprintf("  %s\n", cudaGetErrorString(cudaGetLastError()));}}
+#define CUDA_CALL(x) { \
+  REprintf("CUDA_CALL at %s:%i\n", __FILE__, __LINE__); \
+  if((x) != cudaSuccess){ \
+    REprintf("CUDA error at %s:%d\n",__FILE__,__LINE__); \
+    REprintf("  %s\n", cudaGetErrorString(cudaGetLastError()));}}
 
 #define KERNEL_CHECK { \
+  REprintf("KERNEL_CHECK at %s:%i\n", __FILE__, __LINE__); \
   cudaError err = cudaGetLastError(); \
   if (cudaSuccess != err) \
     REprintf("cudaCheckError() failed at %s:%i : %s\n", \
