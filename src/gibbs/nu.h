@@ -3,8 +3,9 @@
 
 __global__ void nu_kernel1(chain_t *dd){
   int g;
-  for(g = IDX; g < dd->G; g += NTHREADSX)
+  for(g = IDX; g < dd->G; g += NTHREADSX){ printf("      NU g = %d\n", g);
     dd->aux[g] = log(dd->gamma[g]) + dd->tau[0] / dd->gamma[g];
+  }
 }
 
 __global__ void nu_kernel2(chain_t *dd, int sampler){

@@ -3,7 +3,7 @@
 
 __global__ void xi_kernel1(chain_t *dd, int prior, int l, int sampler){
   int g;
-  for(g = IDX; g < dd->G; g += NTHREADSX){
+  for(g = IDX; g < dd->G; g += NTHREADSX){ printf("      XI g = %d\n", g);
 
     args_t args;
     args.idx = g;

@@ -3,14 +3,16 @@
 
 __global__ void theta_kernel1(chain_t *dd, int l){
   int g;
-  for(g = IDX; g < dd->G; g += NTHREADSX)
+  for(g = IDX; g < dd->G; g += NTHREADSX){ printf("      THETA g = %d\n", g);
     dd->aux[g] = 1.0 / dd->xi[I(l, g)];
+  }
 }
 
 __global__ void theta_kernel2(chain_t *dd, int l){
   int g;
-  for(g = IDX; g < dd->G; g += NTHREADSX)
+  for(g = IDX; g < dd->G; g += NTHREADSX){ printf("      THETA g = %d\n", g);
     dd->aux[g] = dd->beta[I(l, g)] / dd->xi[I(l, g)];
+  }
 }
 
 __global__ void theta_kernel3(chain_t *dd, double A0, double B0, int l){ // single thread

@@ -3,8 +3,9 @@
 
 __global__ void tau_kernel1(chain_t *dd){
   int g;
-  for(g = IDX; g < dd->G; g += NTHREADSX)
+  for(g = IDX; g < dd->G; g += NTHREADSX){ printf("      TAU g = %d\n", g);
     dd->aux[g] = 1.0/dd->gamma[g];
+  }
 }
 
 __global__ void tau_kernel2(chain_t *dd, int sampler){

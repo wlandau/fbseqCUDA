@@ -4,8 +4,8 @@
 __global__ void epsilon_kernel1(chain_t *dd, int sampler){
   int n, g;
 
-  for(n = IDY; n < dd->N; n += NTHREADSY){
-    for(g = IDX; g < dd->G; g += NTHREADSX){
+  for(n = IDY; n < dd->N; n += NTHREADSY){ printf("    EPSILON n = %d\n", n);
+    for(g = IDX; g < dd->G; g += NTHREADSX){ printf("      EPSILON g = %d\n", g);
       args_t args;
       args.idx = I(n, g);
       args.lowerbound = -CUDART_INF;

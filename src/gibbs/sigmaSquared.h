@@ -4,7 +4,7 @@
 __global__ void sigmaSquared_kernel1(chain_t *dd, int l){
   int g;
   double x;
-  for(g = IDX; g < dd->G; g += NTHREADSX){
+  for(g = IDX; g < dd->G; g += NTHREADSX){ printf("      SIGMASQUARED g = %d\n", g);
     x = dd->beta[I(l, g)] - dd->theta[l];
     dd->aux[g] = x * x / dd->xi[I(l, g)];
   }
