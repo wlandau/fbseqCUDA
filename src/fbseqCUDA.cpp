@@ -51,7 +51,7 @@ extern "C" SEXP fbseqCUDA(SEXP arg){
   CUDA_CALL(cudaMemcpy(dd, hd, sizeof(chain_t), cudaMemcpyHostToDevice));
 
   dim3 grid(GRID_G, GRID_N), block(BLOCK_G, BLOCK_N);
-  curand_setup_kernel<<<grid, block>>>(dd);
+  curand_setup_kernel<<<grid, block>>>(dd); KERNEL_CHECK;
   estimates_initialize(hh, hd, dd);
 
   burnin(hh, hd, dd);

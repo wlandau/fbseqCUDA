@@ -24,21 +24,21 @@ void thetaSample(SEXP hh, chain_t *hd, chain_t *dd){
   if(!(vi(le(hh, "parameter_sets_update"), "theta"))) return;
 
   for(l = 0; l < li(hh, "L")[0]; ++l){
-    theta_kernel1<<<GRID, BLOCK>>>(dd, l);
+    theta_kernel1<<<GRID, BLOCK>>>(dd, l); KERNEL_CHECK;
 //    thrust::device_ptr<double> tmpA(hd->aux);
 //    double A0 = thrust::reduce(tmpA, tmpA + G);
-    serial_reduce_aux<<<1, 1>>>(dd);
+    serial_reduce_aux<<<1, 1>>>(dd); KERNEL_CHECK;
     double A0;
     CUDA_CALL(cudaMemcpy(&A0, hd->aux, sizeof(double), cudaMemcpyDeviceToHost));
 
-    theta_kernel2<<<GRID, BLOCK>>>(dd, l);
+    theta_kernel2<<<GRID, BLOCK>>>(dd, l); KERNEL_CHECK;
 //    thrust::device_ptr<double> tmpB(hd->aux);
 //    double B0 = thrust::reduce(tmpB, tmpB + G);
-    serial_reduce_aux<<<1, 1>>>(dd);
+    serial_reduce_aux<<<1, 1>>>(dd); KERNEL_CHECK;
     double B0;
     CUDA_CALL(cudaMemcpy(&B0, hd->aux, sizeof(double), cudaMemcpyDeviceToHost));
 
-    theta_kernel3<<<1, 1>>>(dd, A0, B0, l);
+    theta_kernel3<<<1, 1>>>(dd, A0, B0, l); KERNEL_CHECK;
   }
 }
 

@@ -52,7 +52,7 @@ void xiSample(SEXP hh, chain_t *hd, chain_t *dd){
   int l;
   if(!(vi(le(hh, "parameter_sets_update"), "xi"))) return;
   for(l = 0; l < li(hh, "L")[0]; ++l)
-    xi_kernel1<<<GRID, BLOCK>>>(dd, li(hh, "priors")[l], l, li(hh, "xiSampler")[0]);
+    xi_kernel1<<<GRID, BLOCK>>>(dd, li(hh, "priors")[l], l, li(hh, "xiSampler")[0]); KERNEL_CHECK;
 }
 
 #endif // GIBBS_XI_H

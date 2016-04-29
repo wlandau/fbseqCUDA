@@ -7,7 +7,7 @@ void burnin(SEXP hh, chain_t *hd, chain_t *dd){
     print_every = burnin + 2,
     verbose = li(hh, "verbose")[0];
 
-  set_adapt<<<1, 1>>>(dd, 1);
+  set_adapt<<<1, 1>>>(dd, 1); KERNEL_CHECK;
 
   if(burnin && verbose){
     print_every = burnin/verbose + (burnin < verbose);

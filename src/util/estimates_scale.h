@@ -60,11 +60,11 @@ __global__ void estimates_scale_kernel5(chain_t *dd, double iterations){
 
 void estimates_scale(SEXP hh, chain_t *hd, chain_t *dd){
   double M = (double) (li(hh, "iterations")[0] * li(hh, "thin")[0]);
-  estimates_scale_kernel1<<<1, 1>>>(dd, M);
-  estimates_scale_kernel2<<<1, 1>>>(dd, M);
-  estimates_scale_kernel3<<<GRID, BLOCK>>>(dd, M);
-  estimates_scale_kernel4<<<GRID, BLOCK>>>(dd, M);
-  estimates_scale_kernel5<<<GRID, BLOCK>>>(dd, M);
+  estimates_scale_kernel1<<<1, 1>>>(dd, M); KERNEL_CHECK;
+  estimates_scale_kernel2<<<1, 1>>>(dd, M); KERNEL_CHECK;
+  estimates_scale_kernel3<<<GRID, BLOCK>>>(dd, M); KERNEL_CHECK;
+  estimates_scale_kernel4<<<GRID, BLOCK>>>(dd, M); KERNEL_CHECK;
+  estimates_scale_kernel5<<<GRID, BLOCK>>>(dd, M); KERNEL_CHECK;
 }
 
 #endif // UTIL_ESTIMATES_SCALE_H

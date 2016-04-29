@@ -109,15 +109,15 @@ __global__ void estimates_initialize_kernel9(chain_t *dd){
 }
 
 void estimates_initialize(SEXP hh, chain_t *hd, chain_t *dd){
-  estimates_initialize_kernel1<<<1, 1>>>(dd);
-  estimates_initialize_kernel2<<<1, 1>>>(dd);
-  estimates_initialize_kernel3<<<1, 1>>>(dd);
-  estimates_initialize_kernel4<<<1, 1>>>(dd);
-  estimates_initialize_kernel5<<<GRID, BLOCK>>>(dd);
-  estimates_initialize_kernel6<<<GRID, BLOCK>>>(dd);
-  estimates_initialize_kernel7<<<GRID, BLOCK>>>(dd);
-  estimates_initialize_kernel8<<<GRID, BLOCK>>>(dd);
-  estimates_initialize_kernel9<<<GRID, BLOCK>>>(dd);
+  estimates_initialize_kernel1<<<1, 1>>>(dd); KERNEL_CHECK;
+  estimates_initialize_kernel2<<<1, 1>>>(dd); KERNEL_CHECK;
+  estimates_initialize_kernel3<<<1, 1>>>(dd); KERNEL_CHECK;
+  estimates_initialize_kernel4<<<1, 1>>>(dd); KERNEL_CHECK;
+  estimates_initialize_kernel5<<<GRID, BLOCK>>>(dd); KERNEL_CHECK;
+  estimates_initialize_kernel6<<<GRID, BLOCK>>>(dd); KERNEL_CHECK;
+  estimates_initialize_kernel7<<<GRID, BLOCK>>>(dd); KERNEL_CHECK;
+  estimates_initialize_kernel8<<<GRID, BLOCK>>>(dd); KERNEL_CHECK;
+  estimates_initialize_kernel9<<<GRID, BLOCK>>>(dd); KERNEL_CHECK;
 }
 
 #endif // UTIL_ESTIMATES_INITIALIZE_H

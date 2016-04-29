@@ -31,14 +31,14 @@ __global__ void tau_kernel2(chain_t *dd, int sampler){
 void tauSample(SEXP hh, chain_t *hd, chain_t *dd){
   if(!(vi(le(hh, "parameter_sets_update"), "tau"))) return;
 
-  tau_kernel1<<<GRID, BLOCK>>>(dd);
+  tau_kernel1<<<GRID, BLOCK>>>(dd); KERNEL_CHECK;
 
 //  thrust::device_ptr<double> tmp(hd->aux);
 //  double sum = thrust::reduce(tmp, tmp + li(hh, "G")[0]);
 //  CUDA_CALL(cudaMemcpy(hd->aux, &sum, sizeof(double), cudaMemcpyHostToDevice));
-  serial_reduce_aux<<<1, 1>>>(dd);
+  serial_reduce_aux<<<1, 1>>>(dd); KERNEL_CHECK;
 
-  tau_kernel2<<<1, 1>>>(dd, li(hh, "tauSampler")[0]);
+  tau_kernel2<<<1, 1>>>(dd, li(hh, "tauSampler")[0]); KERNEL_CHECK;
 }
 
 #endif // GIBBS_TAU_H

@@ -33,7 +33,7 @@ __global__ void epsilon_kernel1(chain_t *dd, int sampler){
 void epsilonSample(SEXP hh, chain_t *hd, chain_t *dd){
   if(!(vi(le(hh, "parameter_sets_update"), "epsilon"))) return;
   dim3 grid(GRID_G, GRID_N), block(BLOCK_G, BLOCK_N);
-  epsilon_kernel1<<<grid, block>>>(dd, li(hh, "epsilonSampler")[0]);
+  epsilon_kernel1<<<grid, block>>>(dd, li(hh, "epsilonSampler")[0]); KERNEL_CHECK;
 }
 
 #endif // GIBBS_EPSILON_H
