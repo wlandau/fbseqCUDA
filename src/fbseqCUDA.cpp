@@ -50,6 +50,7 @@ extern "C" SEXP fbseqCUDA(SEXP arg){
   CUDA_CALL(cudaMalloc((void**) &dd, sizeof(chain_t)));
   CUDA_CALL(cudaMemcpy(dd, hd, sizeof(chain_t), cudaMemcpyHostToDevice));
 
+  printf("parms = %d %d %d %d\n", PAR_GRID_G, PAR_GRID_N, PAR_BLOCK_G, PAR_BLOCK_N);
   dim3 grid(PAR_GRID_G, PAR_GRID_N), block(PAR_BLOCK_G, PAR_BLOCK_N);
   curand_setup_kernel<<<grid, block>>>(dd); KERNEL_CHECK;
   estimates_initialize(hh, hd, dd);
