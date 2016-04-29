@@ -14,11 +14,11 @@
 #define MAX(a, b) (a > b ? a : b)
 #define MIN(a, b) (a < b ? a : b)
 
-#define IDX ((blockIdx.x * blockDim.x) + threadIdx.x)
-#define IDY ((blockIdx.y * blockDim.y) + threadIdx.y)
+#define IDX 0 // ((blockIdx.x * blockDim.x) + threadIdx.x)
+#define IDY 0 // ((blockIdx.y * blockDim.y) + threadIdx.y)
 
-#define NTHREADSX (blockDim.x * gridDim.x)
-#define NTHREADSY (blockDim.y * gridDim.y)
+#define NTHREADSX 1 // (blockDim.x * gridDim.x)
+#define NTHREADSY 1 // (blockDim.y * gridDim.y)
 
 #define CUDA_CALL(x) {if((x) != cudaSuccess){ \
   REprintf("CUDA error at %s:%d\n",__FILE__,__LINE__); \
