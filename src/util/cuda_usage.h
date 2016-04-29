@@ -93,4 +93,10 @@ void device_info(chain_t *hd){
   hd->deviceProp = deviceProp;
 }
 
+__global__ void serial_reduce_aux(chain_t *dd){
+  int g;
+  for(g = 1; g < dd->G; ++g)
+    dd->aux[0] = dd->aux[0] + dd->aux[g];
+}
+
 #endif // UTIL_CUDA_USAGE_H
