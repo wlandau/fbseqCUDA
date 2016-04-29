@@ -1,6 +1,17 @@
 #ifndef UTIL_CUDA_USAGE_H
 #define UTIL_CUDA_USAGE_H
 
+#define PAR_ROOT_BLOCK 16
+
+#define PAR_BLOCK_N MIN(hd->deviceProp.maxThreadsDim[1], PAR_ROOT_BLOCK)
+#define PAR_BLOCK_G MIN(hd->deviceProp.maxThreadsDim[0], PAR_ROOT_BLOCK)
+#define PAR_BLOCK   MIN(hd->deviceProp.maxThreadsDim[0], PAR_ROOT_BLOCK * PAR_ROOT_BLOCK)
+
+#define PAR_GRID_N MIN(hd->deviceProp.maxGridSize[1], ((li(hh, "N")[0]/ PAR_BLOCK_N) + 1))
+#define PAR_GRID_G MIN(hd->deviceProp.maxGridSize[0], ((li(hh, "G")[0]/ PAR_BLOCK_G) + 1))
+#define PAR_GRID   MIN(hd->deviceProp.maxGridSize[0], ((MAX(li(hh, "N")[0], li(hh, "G")[0])/ PAR_BLOCK) + 1))
+
+
 #define ROOT_BLOCK 1 // 16
 
 #define BLOCK_N 1 // MIN(hd->deviceProp.maxThreadsDim[1], ROOT_BLOCK)
@@ -14,11 +25,11 @@
 #define MAX(a, b) (a > b ? a : b)
 #define MIN(a, b) (a < b ? a : b)
 
-#define IDX 0 // ((blockIdx.x * blockDim.x) + threadIdx.x)
-#define IDY 0 // ((blockIdx.y * blockDim.y) + threadIdx.y)
+#define IDX ((blockIdx.x * blockDim.x) + threadIdx.x)
+#define IDY ((blockIdx.y * blockDim.y) + threadIdx.y)
 
-#define NTHREADSX 1 // (blockDim.x * gridDim.x)
-#define NTHREADSY 1 // (blockDim.y * gridDim.y)
+#define NTHREADSX (blockDim.x * gridDim.x)
+#define NTHREADSY (blockDim.y * gridDim.y)
 
 #define CUDA_CALL(x) {if((x) != cudaSuccess){ \
   REprintf("CUDA error at %s:%d\n",__FILE__,__LINE__); \
