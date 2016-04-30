@@ -1,7 +1,7 @@
 Package: fbseqCUDA
 Title: fbseqCUDA
 Description: Internal CUDA code for package fbseq.
-URL: https://github.com/wlandau/heterosisCUDA
+URL: https://github.com/wlandau/fbseqCUDA
 Version: 0.0
 Author: Will Landau <will.landau@gmail.com>
 Maintainer: Will Landau <will.landau@gmail.com>
@@ -10,6 +10,8 @@ Depends:
 Imports:
     fbseq,
     methods
-Suggests: knitr
+Suggests:
+    knitr
 VignetteBuilder: knitr
 License: GPL (>= 3)
+RoxygenNote: 5.0.1
