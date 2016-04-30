@@ -7,34 +7,34 @@ void estimates_save(SEXP hh, chain_t *hd){
       N = (double) li(hh, "N")[0],
       P = (double) li(hh, "P")[0];
 
-  CUDA_CALL(cudaMemcpy(lr(hh, "probs"), hd->probs, P * G * sizeof(double), cudaMemcpyDeviceToHost));
+  memcpy(lr(hh, "probs"), hd->probs, P * G * sizeof(double));
 
-  CUDA_CALL(cudaMemcpy(lr(hh, "betaPostMean"), hd->betaPostMean, L * G * sizeof(double), cudaMemcpyDeviceToHost));
-  CUDA_CALL(cudaMemcpy(lr(hh, "epsilonPostMean"), hd->epsilonPostMean, N * G * sizeof(double), cudaMemcpyDeviceToHost));
-  CUDA_CALL(cudaMemcpy(lr(hh, "gammaPostMean"), hd->gammaPostMean, G * sizeof(double), cudaMemcpyDeviceToHost));
-  CUDA_CALL(cudaMemcpy(lr(hh, "nuPostMean"), hd->nuPostMean, sizeof(double), cudaMemcpyDeviceToHost));
-  CUDA_CALL(cudaMemcpy(lr(hh, "sigmaSquaredPostMean"), hd->sigmaSquaredPostMean, L * sizeof(double), cudaMemcpyDeviceToHost));
-  CUDA_CALL(cudaMemcpy(lr(hh, "tauPostMean"), hd->tauPostMean, sizeof(double), cudaMemcpyDeviceToHost));
-  CUDA_CALL(cudaMemcpy(lr(hh, "thetaPostMean"), hd->thetaPostMean, L * sizeof(double), cudaMemcpyDeviceToHost));
-  CUDA_CALL(cudaMemcpy(lr(hh, "xiPostMean"), hd->xiPostMean, L * G * sizeof(double), cudaMemcpyDeviceToHost));
+  memcpy(lr(hh, "betaPostMean"), hd->betaPostMean, L * G * sizeof(double));
+  memcpy(lr(hh, "epsilonPostMean"), hd->epsilonPostMean, N * G * sizeof(double));
+  memcpy(lr(hh, "gammaPostMean"), hd->gammaPostMean, G * sizeof(double));
+  memcpy(lr(hh, "nuPostMean"), hd->nuPostMean, sizeof(double));
+  memcpy(lr(hh, "sigmaSquaredPostMean"), hd->sigmaSquaredPostMean, L * sizeof(double));
+  memcpy(lr(hh, "tauPostMean"), hd->tauPostMean, sizeof(double));
+  memcpy(lr(hh, "thetaPostMean"), hd->thetaPostMean, L * sizeof(double));
+  memcpy(lr(hh, "xiPostMean"), hd->xiPostMean, L * G * sizeof(double));
 
-  CUDA_CALL(cudaMemcpy(lr(hh, "betaPostMeanSquare"), hd->betaPostMeanSquare, L * G * sizeof(double), cudaMemcpyDeviceToHost));
-  CUDA_CALL(cudaMemcpy(lr(hh, "epsilonPostMeanSquare"), hd->epsilonPostMeanSquare, N * G * sizeof(double), cudaMemcpyDeviceToHost));
-  CUDA_CALL(cudaMemcpy(lr(hh, "gammaPostMeanSquare"), hd->gammaPostMeanSquare, G * sizeof(double), cudaMemcpyDeviceToHost));
-  CUDA_CALL(cudaMemcpy(lr(hh, "nuPostMeanSquare"), hd->nuPostMeanSquare, sizeof(double), cudaMemcpyDeviceToHost));
-  CUDA_CALL(cudaMemcpy(lr(hh, "sigmaSquaredPostMeanSquare"), hd->sigmaSquaredPostMeanSquare, L * sizeof(double), cudaMemcpyDeviceToHost));
-  CUDA_CALL(cudaMemcpy(lr(hh, "tauPostMeanSquare"), hd->tauPostMeanSquare, sizeof(double), cudaMemcpyDeviceToHost));
-  CUDA_CALL(cudaMemcpy(lr(hh, "thetaPostMeanSquare"), hd->thetaPostMeanSquare, L * sizeof(double), cudaMemcpyDeviceToHost));
-  CUDA_CALL(cudaMemcpy(lr(hh, "xiPostMeanSquare"), hd->xiPostMeanSquare, L * G * sizeof(double), cudaMemcpyDeviceToHost));
+  memcpy(lr(hh, "betaPostMeanSquare"), hd->betaPostMeanSquare, L * G * sizeof(double));
+  memcpy(lr(hh, "epsilonPostMeanSquare"), hd->epsilonPostMeanSquare, N * G * sizeof(double));
+  memcpy(lr(hh, "gammaPostMeanSquare"), hd->gammaPostMeanSquare, G * sizeof(double));
+  memcpy(lr(hh, "nuPostMeanSquare"), hd->nuPostMeanSquare, sizeof(double));
+  memcpy(lr(hh, "sigmaSquaredPostMeanSquare"), hd->sigmaSquaredPostMeanSquare, L * sizeof(double));
+  memcpy(lr(hh, "tauPostMeanSquare"), hd->tauPostMeanSquare, sizeof(double));
+  memcpy(lr(hh, "thetaPostMeanSquare"), hd->thetaPostMeanSquare, L * sizeof(double));
+  memcpy(lr(hh, "xiPostMeanSquare"), hd->xiPostMeanSquare, L * G * sizeof(double));
 
-  CUDA_CALL(cudaMemcpy(lr(hh, "betaTune"), hd->betaTune, L * G * sizeof(double), cudaMemcpyDeviceToHost));
-  CUDA_CALL(cudaMemcpy(lr(hh, "epsilonTune"), hd->epsilonTune, N * G * sizeof(double), cudaMemcpyDeviceToHost));
-  CUDA_CALL(cudaMemcpy(lr(hh, "gammaTune"), hd->gammaTune, G * sizeof(double), cudaMemcpyDeviceToHost));
-  CUDA_CALL(cudaMemcpy(lr(hh, "nuTune"), hd->nuTune, sizeof(double), cudaMemcpyDeviceToHost));
-  CUDA_CALL(cudaMemcpy(lr(hh, "sigmaSquaredTune"), hd->sigmaSquaredTune, L * sizeof(double), cudaMemcpyDeviceToHost));
-  CUDA_CALL(cudaMemcpy(lr(hh, "tauTune"), hd->tauTune, sizeof(double), cudaMemcpyDeviceToHost));
-  CUDA_CALL(cudaMemcpy(lr(hh, "thetaTune"), hd->thetaTune, L * sizeof(double), cudaMemcpyDeviceToHost));
-  CUDA_CALL(cudaMemcpy(lr(hh, "xiTune"), hd->xiTune, L * G * sizeof(double), cudaMemcpyDeviceToHost));
+  memcpy(lr(hh, "betaTune"), hd->betaTune, L * G * sizeof(double));
+  memcpy(lr(hh, "epsilonTune"), hd->epsilonTune, N * G * sizeof(double));
+  memcpy(lr(hh, "gammaTune"), hd->gammaTune, G * sizeof(double));
+  memcpy(lr(hh, "nuTune"), hd->nuTune, sizeof(double));
+  memcpy(lr(hh, "sigmaSquaredTune"), hd->sigmaSquaredTune, L * sizeof(double));
+  memcpy(lr(hh, "tauTune"), hd->tauTune, sizeof(double));
+  memcpy(lr(hh, "thetaTune"), hd->thetaTune, L * sizeof(double));
+  memcpy(lr(hh, "xiTune"), hd->xiTune, L * G * sizeof(double));
 }
 
 #endif // UTIL_ESTIMATES_SAVE_H

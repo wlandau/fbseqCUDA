@@ -40,18 +40,15 @@ extern "C" SEXP fbseqCUDA(SEXP arg){
   SEXP hh = PROTECT(duplicate(arg));
 
   if(li(hh, "verbose")[0])
-    Rprintf("Loading MCMC on GPU %d.\n", getDevice());
+    Rprintf("Loading MCMC.\n");
 
   chain_t *hd = alloc_hd(hh);
   hh2hd(hh, hd);
-  device_info(hd);
 
   chain_t *dd;
-  CUDA_CALL(cudaMalloc((void**) &dd, sizeof(chain_t)));
-  CUDA_CALL(cudaMemcpy(dd, hd, sizeof(chain_t), cudaMemcpyHostToDevice));
+  dd = (chain_t*) calloc(1, sizeof(chain_t));
+  memcpy(dd, hd, sizeof(chain_t));
 
-  dim3 grid(PAR_GRID_G, PAR_GRID_N), block(PAR_BLOCK_G, PAR_BLOCK_N);
-  curand_setup_kernel<<<grid, block>>>(dd);
   estimates_initialize(hh, hd, dd);
 
   burnin(hh, hd, dd);

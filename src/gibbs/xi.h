@@ -1,7 +1,7 @@
 #ifndef GIBBS_XI_H
 #define GIBBS_XI_H
 
-__global__ void xi_kernel1(chain_t *dd, int prior, int l, int sampler){
+void xi_kernel1(chain_t *dd, int prior, int l, int sampler){
   int g;
   for(g = IDX; g < dd->G; g += NTHREADSX){
 
@@ -12,7 +12,7 @@ __global__ void xi_kernel1(chain_t *dd, int prior, int l, int sampler){
     args.sampler = sampler;
     args.tuneAux = dd->xiTuneAux[I(l, g)];
     args.tune = dd->xiTune[I(l, g)];
-    args.upperbound = CUDART_INF;
+    args.upperbound = INFINITY;
     args.x0 = dd->xi[I(l, g)];
 
     double z = dd->beta[I(l, g)] - dd->theta[l];
@@ -52,7 +52,7 @@ void xiSample(SEXP hh, chain_t *hd, chain_t *dd){
   int l;
   if(!(vi(le(hh, "parameter_sets_update"), "xi"))) return;
   for(l = 0; l < li(hh, "L")[0]; ++l)
-    xi_kernel1<<<GRID, BLOCK>>>(dd, li(hh, "priors")[l], l, li(hh, "xiSampler")[0]);
+    xi_kernel1(dd, li(hh, "priors")[l], l, li(hh, "xiSampler")[0]);
 }
 
 #endif // GIBBS_XI_H

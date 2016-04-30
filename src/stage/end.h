@@ -7,12 +7,10 @@ void end(SEXP hh, chain_t *hd, chain_t *dd){
   reset_starts(hh, hd);
 
   free_hd(hd);
-  CUDA_CALL(cudaFree(dd));
+  free_hd(dd);
 
   if(li(hh, "verbose")[0])
-    Rprintf("Finished MCMC on GPU %d.\n", getDevice());
-
-  cudaDeviceReset();
+    Rprintf("Finished MCMC..\n");
 }
 
 #endif // STAGE_END_H

@@ -1,7 +1,7 @@
 #ifndef UTIL_XBETA_H
 #define UTIL_XBETA_H
 
-__device__ double Xbeta(chain_t *dd, int n, int g){
+double Xbeta(chain_t *dd, int n, int g){
   int l;
   double out = 0.0;
   for(l = 0; l < dd->L; ++l)

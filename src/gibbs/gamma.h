@@ -1,7 +1,7 @@
 #ifndef GIBBS_GAMMA_H
 #define GIBBS_GAMMA_H
 
-__global__ void gamma_kernel1(chain_t *dd, int sampler){
+void gamma_kernel1(chain_t *dd, int sampler){
   int n, g;
   double sum, z;
 
@@ -21,7 +21,7 @@ __global__ void gamma_kernel1(chain_t *dd, int sampler){
     args.tuneAux = dd->gammaTuneAux[g];
     args.target_type = LTARGET_INV_GAMMA;
     args.tune = dd->gammaTune[g];
-    args.upperbound = CUDART_INF;
+    args.upperbound = INFINITY;
     args.x0 = dd->gamma[g];
 
     args.shape = 0.5 * (dd->N + dd->nu[0]);
@@ -36,7 +36,7 @@ __global__ void gamma_kernel1(chain_t *dd, int sampler){
 
 void gammaSample(SEXP hh, chain_t *hd, chain_t *dd){
   if(!(vi(le(hh, "parameter_sets_update"), "gamma"))) return;
-  gamma_kernel1<<<GRID, BLOCK>>>(dd, li(hh, "gammaSampler")[0]);
+  gamma_kernel1(dd, li(hh, "gammaSampler")[0]);
 }
 
 #endif // GIBBS_GAMMA_H

@@ -2,7 +2,7 @@
 #define STAGE_ITERATION_H
 
 void iteration(SEXP hh, chain_t *hd, chain_t *dd, int m){
-  set_m<<<1, 1>>>(dd, m);
+  set_m(dd, m);
 
   epsilonSample(hh, hd, dd);
   gammaSample(hh, hd, dd);

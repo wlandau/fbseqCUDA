@@ -1,7 +1,7 @@
 #ifndef UTIL_ESTIMATES_UPDATE_H
 #define UTIL_ESTIMATES_UPDATE_H
 
-__global__ void estimates_update_kernel1(chain_t *dd){
+void estimates_update_kernel1(chain_t *dd){
   int l;
 
   dd->nuPostMean[0] += dd->nu[0];
@@ -13,7 +13,7 @@ __global__ void estimates_update_kernel1(chain_t *dd){
   }
 }
 
-__global__ void estimates_update_kernel2(chain_t *dd){
+void estimates_update_kernel2(chain_t *dd){
   int l;
 
   dd->nuPostMeanSquare[0] += dd->nu[0]*dd->nu[0];
@@ -25,7 +25,7 @@ __global__ void estimates_update_kernel2(chain_t *dd){
   }
 }
 
-__global__ void estimates_update_kernel3(chain_t *dd){
+void estimates_update_kernel3(chain_t *dd){
   int id, l, n;
   for(id = IDX; id < dd->G; id += NTHREADSX){
     dd->gammaPostMean[id] += dd->gamma[id];
@@ -38,7 +38,7 @@ __global__ void estimates_update_kernel3(chain_t *dd){
   }
 }
 
-__global__ void estimates_update_kernel4(chain_t *dd){
+void estimates_update_kernel4(chain_t *dd){
   int id, l, n;
   for(id = IDX; id < dd->G; id += NTHREADSX){
     dd->gammaPostMeanSquare[id] += dd->gamma[id]*dd->gamma[id];
@@ -51,7 +51,7 @@ __global__ void estimates_update_kernel4(chain_t *dd){
   }
 }
 
-__global__ void estimates_update_kernel5(chain_t *dd){
+void estimates_update_kernel5(chain_t *dd){
   int c, g, truth, l, p;
   double contrast;
   for(g = IDX; g < dd->G; g += NTHREADSX){
@@ -72,11 +72,11 @@ __global__ void estimates_update_kernel5(chain_t *dd){
 }
 
 void estimates_update(SEXP hh, chain_t *hd, chain_t *dd){
-  estimates_update_kernel1<<<1, 1>>>(dd);
-  estimates_update_kernel2<<<1, 1>>>(dd);
-  estimates_update_kernel3<<<GRID, BLOCK>>>(dd);
-  estimates_update_kernel4<<<GRID, BLOCK>>>(dd);
-  estimates_update_kernel5<<<GRID, BLOCK>>>(dd);
+  estimates_update_kernel1(dd);
+  estimates_update_kernel2(dd);
+  estimates_update_kernel3(dd);
+  estimates_update_kernel4(dd);
+  estimates_update_kernel5(dd);
 }
 
 #endif // UTIL_ESTIMATES_UPDATE_H

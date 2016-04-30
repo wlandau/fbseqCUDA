@@ -1,7 +1,7 @@
 #ifndef SAMPLER_SLICE_STEP_H
 #define SAMPLER_SLICE_STEP_H
 
-__device__ args_t slice_step(chain_t *dd, args_t args){
+args_t slice_step(chain_t *dd, args_t args){
 
   double iter, sum_length, x;
   double lu = ltarget(dd, args, args.x0) + log(runiform(dd, args.idx, 0.0, 1.0));

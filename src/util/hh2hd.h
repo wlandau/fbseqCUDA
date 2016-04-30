@@ -14,37 +14,37 @@ void hh2hd(SEXP hh, chain_t *hd){
   hd->N = N;
   hd->P = P;
 
-  CUDA_CALL(cudaMemcpy(hd->bounds, lr(hh, "bounds"), C * sizeof(double), cudaMemcpyHostToDevice));
-  CUDA_CALL(cudaMemcpy(hd->contrasts, lr(hh, "contrasts"), C * L * sizeof(double), cudaMemcpyHostToDevice));
-  CUDA_CALL(cudaMemcpy(hd->counts, li(hh, "counts"), N * G * sizeof(int), cudaMemcpyHostToDevice));
-  CUDA_CALL(cudaMemcpy(hd->design, lr(hh, "design"), L * N * sizeof(double), cudaMemcpyHostToDevice));
-  CUDA_CALL(cudaMemcpy(hd->propositions, li(hh, "propositions"), P * C * sizeof(int), cudaMemcpyHostToDevice));
+  memcpy(hd->bounds, lr(hh, "bounds"), C * sizeof(double));
+  memcpy(hd->contrasts, lr(hh, "contrasts"), C * L * sizeof(double));
+  memcpy(hd->counts, li(hh, "counts"), N * G * sizeof(int));
+  memcpy(hd->design, lr(hh, "design"), L * N * sizeof(double));
+  memcpy(hd->propositions, li(hh, "propositions"), P * C * sizeof(int));
 
-  CUDA_CALL(cudaMemcpy(hd->countSums_g, li(hh, "countSums_g"), G * sizeof(int), cudaMemcpyHostToDevice));
-  CUDA_CALL(cudaMemcpy(hd->countSums_n, li(hh, "countSums_n"), N * sizeof(int), cudaMemcpyHostToDevice));
-  CUDA_CALL(cudaMemcpy(hd->designUnique, lr(hh, "designUnique"), L * N * sizeof(double), cudaMemcpyHostToDevice));
-  CUDA_CALL(cudaMemcpy(hd->designUniqueN, li(hh, "designUniqueN"), L * sizeof(int), cudaMemcpyHostToDevice));
-  CUDA_CALL(cudaMemcpy(hd->probs, lr(hh, "probs"), P * G * sizeof(double), cudaMemcpyHostToDevice));
-  CUDA_CALL(cudaMemcpy(hd->seeds, li(hh, "seeds"), N * G * sizeof(int), cudaMemcpyHostToDevice));
+  memcpy(hd->countSums_g, li(hh, "countSums_g"), G * sizeof(int));
+  memcpy(hd->countSums_n, li(hh, "countSums_n"), N * sizeof(int));
+  memcpy(hd->designUnique, lr(hh, "designUnique"), L * N * sizeof(double));
+  memcpy(hd->designUniqueN, li(hh, "designUniqueN"), L * sizeof(int));
+  memcpy(hd->probs, lr(hh, "probs"), P * G * sizeof(double));
+  memcpy(hd->seeds, li(hh, "seeds"), N * G * sizeof(int));
 
-  CUDA_CALL(cudaMemcpy(hd->a, lr(hh, "a"), sizeof(double), cudaMemcpyHostToDevice));
-  CUDA_CALL(cudaMemcpy(hd->b, lr(hh, "b"), sizeof(double), cudaMemcpyHostToDevice));
-  CUDA_CALL(cudaMemcpy(hd->c, lr(hh, "c"), L * sizeof(double), cudaMemcpyHostToDevice));
-  CUDA_CALL(cudaMemcpy(hd->d, lr(hh, "d"), sizeof(double), cudaMemcpyHostToDevice));
-  CUDA_CALL(cudaMemcpy(hd->h, lr(hh, "h"), N * sizeof(double), cudaMemcpyHostToDevice));
-  CUDA_CALL(cudaMemcpy(hd->k, lr(hh, "k"), L * sizeof(double), cudaMemcpyHostToDevice));
-  CUDA_CALL(cudaMemcpy(hd->q, lr(hh, "q"), L * sizeof(double), cudaMemcpyHostToDevice));
-  CUDA_CALL(cudaMemcpy(hd->r, lr(hh, "r"), L * sizeof(double), cudaMemcpyHostToDevice));
-  CUDA_CALL(cudaMemcpy(hd->s, lr(hh, "s"), L * sizeof(double), cudaMemcpyHostToDevice));
+  memcpy(hd->a, lr(hh, "a"), sizeof(double));
+  memcpy(hd->b, lr(hh, "b"), sizeof(double));
+  memcpy(hd->c, lr(hh, "c"), L * sizeof(double));
+  memcpy(hd->d, lr(hh, "d"), sizeof(double));
+  memcpy(hd->h, lr(hh, "h"), N * sizeof(double));
+  memcpy(hd->k, lr(hh, "k"), L * sizeof(double));
+  memcpy(hd->q, lr(hh, "q"), L * sizeof(double));
+  memcpy(hd->r, lr(hh, "r"), L * sizeof(double));
+  memcpy(hd->s, lr(hh, "s"), L * sizeof(double));
 
-  CUDA_CALL(cudaMemcpy(hd->beta, lr(hh, "betaStart"), L * G * sizeof(double), cudaMemcpyHostToDevice));
-  CUDA_CALL(cudaMemcpy(hd->epsilon, lr(hh, "epsilonStart"), N * G * sizeof(double), cudaMemcpyHostToDevice));
-  CUDA_CALL(cudaMemcpy(hd->gamma, lr(hh, "gammaStart"), G * sizeof(double), cudaMemcpyHostToDevice));
-  CUDA_CALL(cudaMemcpy(hd->nu, lr(hh, "nuStart"), sizeof(double), cudaMemcpyHostToDevice));
-  CUDA_CALL(cudaMemcpy(hd->sigmaSquared, lr(hh, "sigmaSquaredStart"), L * sizeof(double), cudaMemcpyHostToDevice));
-  CUDA_CALL(cudaMemcpy(hd->tau, lr(hh, "tauStart"), sizeof(double), cudaMemcpyHostToDevice));
-  CUDA_CALL(cudaMemcpy(hd->theta, lr(hh, "thetaStart"), L * sizeof(double), cudaMemcpyHostToDevice));
-  CUDA_CALL(cudaMemcpy(hd->xi, lr(hh, "xiStart"), L * G * sizeof(double), cudaMemcpyHostToDevice));
+  memcpy(hd->beta, lr(hh, "betaStart"), L * G * sizeof(double));
+  memcpy(hd->epsilon, lr(hh, "epsilonStart"), N * G * sizeof(double));
+  memcpy(hd->gamma, lr(hh, "gammaStart"), G * sizeof(double));
+  memcpy(hd->nu, lr(hh, "nuStart"), sizeof(double));
+  memcpy(hd->sigmaSquared, lr(hh, "sigmaSquaredStart"), L * sizeof(double));
+  memcpy(hd->tau, lr(hh, "tauStart"), sizeof(double));
+  memcpy(hd->theta, lr(hh, "thetaStart"), L * sizeof(double));
+  memcpy(hd->xi, lr(hh, "xiStart"), L * G * sizeof(double));
 }
 
 #endif // UTIL_HH2HD_H

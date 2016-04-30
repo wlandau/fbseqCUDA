@@ -91,8 +91,6 @@ typedef struct {
          *loglik;
 
   int adapt, deviceIndex, m;
-  curandState_t *states;
-  cudaDeviceProp deviceProp;
 } chain_t;
 
 #endif // UTIL_CHAIN_H

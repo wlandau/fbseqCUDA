@@ -1,7 +1,7 @@
 #ifndef GIBBS_BETA_H
 #define GIBBS_BETA_H
 
-__device__ double beta_coef(chain_t *dd, int l, int g, double x){
+double beta_coef(chain_t *dd, int l, int g, double x){
   int i, n;
   double aux, out = 0.0, tol = 1e-9;
   for(n = 0; n < dd->N; ++n)
@@ -15,19 +15,19 @@ __device__ double beta_coef(chain_t *dd, int l, int g, double x){
   return out;
 }
 
-__global__ void beta_kernel1(chain_t *dd, int l, int sampler){
+void beta_kernel1(chain_t *dd, int l, int sampler){
   int g, j, n;
 
   for(g = IDX; g < dd->G; g += NTHREADSX){
     args_t args;
     args.idx = g;
-    args.lowerbound = -CUDART_INF;
+    args.lowerbound = -INFINITY;
     args.m = dd->m;
     args.sampler = sampler;
     args.tuneAux = dd->betaTuneAux[I(l, g)];
     args.target_type = LTARGET_BETA;
     args.tune = dd->betaTune[I(l, g)];
-    args.upperbound = CUDART_INF;
+    args.upperbound = INFINITY;
     args.x0 = dd->beta[I(l, g)];
 
     args.A = 0.0;
@@ -57,7 +57,7 @@ void betaSample(SEXP hh, chain_t *hd, chain_t *dd){
   if(!(vi(le(hh, "parameter_sets_update"), "beta"))) return;
   for(i = 0; i < li(hh, "Lupdate_beta")[0]; ++i){
     l = li(hh, "effects_update_beta")[i] - 1;
-    beta_kernel1<<<GRID, BLOCK>>>(dd, l, li(hh, "betaSampler")[0]);
+    beta_kernel1(dd, l, li(hh, "betaSampler")[0]);
   }
 }
 

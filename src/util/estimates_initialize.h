@@ -1,7 +1,7 @@
 #ifndef UTIL_ESTIMATES_INITIALIZE_H
 #define UTIL_ESTIMATES_INITIALIZE_H
 
-__global__ void estimates_initialize_kernel1(chain_t *dd){
+void estimates_initialize_kernel1(chain_t *dd){
   int l;
 
   dd->nuPostMean[0] = 0.0;
@@ -13,7 +13,7 @@ __global__ void estimates_initialize_kernel1(chain_t *dd){
   }
 }
 
-__global__ void estimates_initialize_kernel2(chain_t *dd){
+void estimates_initialize_kernel2(chain_t *dd){
   int l;
 
   dd->nuPostMeanSquare[0] = 0.0;
@@ -25,7 +25,7 @@ __global__ void estimates_initialize_kernel2(chain_t *dd){
   }
 }
 
-__global__ void estimates_initialize_kernel3(chain_t *dd){
+void estimates_initialize_kernel3(chain_t *dd){
   int l;
 
   dd->nuTune[0] = INIT_TUNE;
@@ -37,7 +37,7 @@ __global__ void estimates_initialize_kernel3(chain_t *dd){
   }
 }
 
-__global__ void estimates_initialize_kernel4(chain_t *dd){
+void estimates_initialize_kernel4(chain_t *dd){
   int l;
 
   dd->nuTuneAux[0] = INIT_TUNE_AUX;
@@ -49,7 +49,7 @@ __global__ void estimates_initialize_kernel4(chain_t *dd){
   }
 }
 
-__global__ void estimates_initialize_kernel5(chain_t *dd){
+void estimates_initialize_kernel5(chain_t *dd){
   int id, l, n;
   for(id = IDX; id < dd->G; id += NTHREADSX){
     dd->gammaPostMean[id] = 0.0;
@@ -62,7 +62,7 @@ __global__ void estimates_initialize_kernel5(chain_t *dd){
   }
 }
 
-__global__ void estimates_initialize_kernel6(chain_t *dd){
+void estimates_initialize_kernel6(chain_t *dd){
   int id, l, n;
   for(id = IDX; id < dd->G; id += NTHREADSX){
     dd->gammaPostMeanSquare[id] = 0.0;
@@ -75,7 +75,7 @@ __global__ void estimates_initialize_kernel6(chain_t *dd){
   }
 }
 
-__global__ void estimates_initialize_kernel7(chain_t *dd){
+void estimates_initialize_kernel7(chain_t *dd){
   int id, l, n;
   for(id = IDX; id < dd->G; id += NTHREADSX){
     dd->gammaTune[id] = INIT_TUNE;
@@ -88,7 +88,7 @@ __global__ void estimates_initialize_kernel7(chain_t *dd){
   }
 }
 
-__global__ void estimates_initialize_kernel8(chain_t *dd){
+void estimates_initialize_kernel8(chain_t *dd){
   int id, l, n;
   for(id = IDX; id < dd->G; id += NTHREADSX){
     dd->gammaTuneAux[id] = INIT_TUNE_AUX;
@@ -101,7 +101,7 @@ __global__ void estimates_initialize_kernel8(chain_t *dd){
   }
 }
 
-__global__ void estimates_initialize_kernel9(chain_t *dd){
+void estimates_initialize_kernel9(chain_t *dd){
   int g, p;
   for(g = IDX; g < dd->G; g += NTHREADSX)
     for(p = 0; p < dd->P; ++p)
@@ -109,15 +109,15 @@ __global__ void estimates_initialize_kernel9(chain_t *dd){
 }
 
 void estimates_initialize(SEXP hh, chain_t *hd, chain_t *dd){
-  estimates_initialize_kernel1<<<1, 1>>>(dd);
-  estimates_initialize_kernel2<<<1, 1>>>(dd);
-  estimates_initialize_kernel3<<<1, 1>>>(dd);
-  estimates_initialize_kernel4<<<1, 1>>>(dd);
-  estimates_initialize_kernel5<<<GRID, BLOCK>>>(dd);
-  estimates_initialize_kernel6<<<GRID, BLOCK>>>(dd);
-  estimates_initialize_kernel7<<<GRID, BLOCK>>>(dd);
-  estimates_initialize_kernel8<<<GRID, BLOCK>>>(dd);
-  estimates_initialize_kernel9<<<GRID, BLOCK>>>(dd);
+  estimates_initialize_kernel1(dd);
+  estimates_initialize_kernel2(dd);
+  estimates_initialize_kernel3(dd);
+  estimates_initialize_kernel4(dd);
+  estimates_initialize_kernel5(dd);
+  estimates_initialize_kernel6(dd);
+  estimates_initialize_kernel7(dd);
+  estimates_initialize_kernel8(dd);
+  estimates_initialize_kernel9(dd);
 }
 
 #endif // UTIL_ESTIMATES_INITIALIZE_H
