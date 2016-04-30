@@ -8,7 +8,7 @@ chain_t *alloc_hd(SEXP hh){
       N = li(hh, "N")[0],
       P = li(hh, "P")[0];
 
-  chain_t *hd = (chain_t *) (chain_t*) calloc(1, sizeof(chain_t));
+  chain_t *hd = (chain_t *) calloc(1, sizeof(chain_t));
 
   hd->bounds = (double*) calloc(C , sizeof(double));
   hd->contrasts = (double*) calloc(C * L , sizeof(double));

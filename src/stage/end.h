@@ -7,10 +7,10 @@ void end(SEXP hh, chain_t *hd, chain_t *dd){
   reset_starts(hh, hd);
 
   free_hd(hd);
-  free_hd(dd);
+  free(dd);
 
   if(li(hh, "verbose")[0])
-    Rprintf("Finished MCMC..\n");
+    Rprintf("Finished MCMC.\n");
 }
 
 #endif // STAGE_END_H
