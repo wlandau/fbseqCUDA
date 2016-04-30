@@ -14,7 +14,7 @@ chain_t *alloc_hd(SEXP hh){
   CUDA_CALL(cudaMalloc((void**) &(hd->contrasts), C * L * sizeof(double)));
   CUDA_CALL(cudaMalloc((void**) &(hd->counts), N * G * sizeof(int)));
   CUDA_CALL(cudaMalloc((void**) &(hd->design), L * N * sizeof(double)));
-  CUDA_CALL(cudaMalloc((void**) &(hd->propositions), P * C * sizeof(double)));
+  CUDA_CALL(cudaMalloc((void**) &(hd->propositions), P * C * sizeof(int)));
 
   CUDA_CALL(cudaMalloc((void**) &(hd->countSums_g), G * sizeof(int)));
   CUDA_CALL(cudaMalloc((void**) &(hd->countSums_n), N * sizeof(int)));
