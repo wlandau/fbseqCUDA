@@ -4,14 +4,10 @@ The [`fbseqCUDA` package](https://github.com/wlandau/fbseqCUDA) is an internal b
 
 # System requirements
 
-- R 3.2.0 or higher.
-- R packages `methods` and `knitr`, available through the [Comprehensive R Archive Network (CRAN](https://cran.r-project.org/).
-- R [package `fbseq`](https://github.com/wlandau/fbseq), available through GitHub. 
+- The R version and R packages listed in the  "Depends", "Imports", and "Suggests" fields of the "package's [DESCRIPTION](https://github.com/wlandau/fbseqCUDA/blob/master/DESCRIPTION) file.
 - A [CUDA](http://www.nvidia.com/object/cuda_home_new.html)-capable [NVIDIA graphics processing unit (GPU)](https://developer.nvidia.com/cuda-gpus) with compute capability 2.0 or greater.
-- [CUDA](http://www.nvidia.com/object/cuda_home_new.html) version 6.0 or greater.
+- [CUDA](http://www.nvidia.com/object/cuda_home_new.html) version 6.0 or greater. More information about CUDA is available through [NVIDIA](http://www.nvidia.com/).
 - Optional: the code uses double precision values for computation, so GPUs that natively support double precision will be much faster than ones that do not.
-
-More information about CUDA is available through [NVIDIA](http://www.nvidia.com/). If your computer does not have these features, you can rent GPU time from [cloud computing enterprises](http://www.nvidia.com/object/gpu-cloud-computing-services.html) such as [Amazon Web Services](http://aws.amazon.com/ec2/instance-types/). 
 
 # Installation
 
