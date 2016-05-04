@@ -12,7 +12,7 @@
 
 <meta name="date" content="2015-01-01" />
 
-<title>fbseqCUDA package installation guide</title>
+<title>fbseqCUDA package package installation guide</title>
 
 
 
@@ -52,7 +52,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
 
 
 <div id="header">
-<h1 class="title"><code>fbseqCUDA</code> package installation guide</h1>
+<h1 class="title"><a href="https://github.com/wlandau/fbseqCUDA"><code>fbseqCUDA</code> package</a> package installation guide</h1>
 <h4 class="author"><em>Will Landau</em></h4>
 <h4 class="date"><em>2015</em></h4>
 </div>
@@ -72,14 +72,14 @@ code > span.er { color: #ff0000; font-weight: bold; }
 
 <div id="purpose" class="section level1">
 <h1><span class="header-section-number">1</span> Purpose</h1>
-<p><code>fbseqCUDA</code> is the internal engine of the <a href="https://github.com/wlandau/fbseq"><code>fbseq</code> package</a>, and it is implemented in <a href="http://www.nvidia.com/object/cuda_home_new.html">CUDA</a> to provide necessary acceleration for the underlying Markov chain Monte Carlo (MCMC) procedure. <code>fbseq</code> and <code>fbseqCUDA</code> are kept separate for convenience. A user may use <code>fbseq</code> on a personal laptop, for example, to set up a workflow and analyze results. <code>fbseqCUDA</code> is only necessary to actually run the Markov chain Monte Carlo (MCMC) procedure, which can be done remotely with a CUDA-enabled node on a shared cluster or a <a href="http://www.nvidia.com/object/gpu-cloud-computing-services.html">cloud computing enterprise</a>. <code>fbseqCUDA</code> is not meant to be directly accessed by the user, so there are no usage instructions. However, the following system requirements and installation instructions are important.</p>
+<p>The <a href="https://github.com/wlandau/fbseqCUDA"><code>fbseqCUDA</code> package</a> is an internal backend of <a href="https://github.com/wlandau/fbseq"><code>fbseq</code> package</a> that runs the Markov chain Monte Carlo (MCMC) procedure behind the scenes. It is implemented with <a href="http://www.nvidia.com/object/cuda_home_new.html">CUDA</a> for acceleration with parallel computing. For installation, CUDA must be installed. To use <a href="https://github.com/wlandau/fbseqCUDA"><code>fbseqCUDA</code> package</a> in an MCMC, <a href="https://github.com/wlandau/fbseq"><code>fbseq</code> package</a> must be installed, and a CUDA-capable general-purpose graphics processing unit (GPU) must be installed on your machine.</p>
 </div>
 <div id="system-requirements" class="section level1">
 <h1><span class="header-section-number">2</span> System requirements</h1>
 <ul>
-<li>R <span class="math">\(\ge\)</span> 3.2.0</li>
+<li>R 3.2.0 or higher</li>
 <li>R packages <code>methods</code> and <code>knitr</code>, available through the <a href="https://cran.r-project.org/">Comprehensive R Archive Network (CRAN</a>.</li>
-<li>R <a href="https://github.com/wlandau/fbseq">package <code>fbseq</code></a>, available through GitHub. (See the <a href="https://github.com/wlandau/fbseq/blob/master/vignettes/model.html"><code>fbseq</code> package tutorial vignette</a> for installation instructions. For best viewing, download the html vignette to your desktop and open it with a browser).</li>
+<li>R <a href="https://github.com/wlandau/fbseq">package <code>fbseq</code></a>, available through GitHub.</li>
 <li>A <a href="http://www.nvidia.com/object/cuda_home_new.html">CUDA</a>-capable <a href="https://developer.nvidia.com/cuda-gpus">NVIDIA graphics processing unit (GPU)</a> with compute capability 2.0 or greater.</li>
 <li><a href="http://www.nvidia.com/object/cuda_home_new.html">CUDA</a> version 6.0 or greater.</li>
 <li>Optional: the code uses double precision values for computation, so GPUs that natively support double precision will be much faster than ones that do not.</li>
@@ -110,7 +110,7 @@ R CMD INSTALL ...</code></pre>
 <h2><span class="header-section-number">3.4</span> Troubleshooting</h2>
 <p>If CUDA is not found, open <code>fbseqCUDA/src/Makevars</code> in a text editor. The top line reads</p>
 <pre><code>CUDA_HOME = /usr/local/cuda</code></pre>
-<p>but this may not be correct for your system. Replace <code>/usr/local/cuda</code> to the installation of CUDA on your computer.</p>
+<p>but this may not be correct for your system. Replace <code>/usr/local/cuda</code> with the correct path to the installation of CUDA on your computer.</p>
 </div>
 </div>
 

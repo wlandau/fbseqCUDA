@@ -1,12 +1,12 @@
-# fbseqCUDA
+# Purpose
 
-`fbseqCUDA` is the internal engine of the [`fbseq` package](https://github.com/wlandau/fbseq), and it is implemented in [CUDA](http://www.nvidia.com/object/cuda_home_new.html) to provide necessary acceleration for the underlying Markov chain Monte Carlo (MCMC) procedure. `fbseq` and `fbseqCUDA` are kept separate for convenience. A user may use `fbseq` on a personal laptop, for example, to set up a workflow and analyze results. `fbseqCUDA` is only necessary to actually run the Markov chain Monte Carlo (MCMC) procedure, which can be done remotely with a CUDA-enabled node on a shared cluster or a [cloud computing enterprise](http://www.nvidia.com/object/gpu-cloud-computing-services.html). `fbseqCUDA` is not meant to be directly accessed by the user, so there are no usage instructions. However, the following system requirements and installation instructions are important.
+The [`fbseqCUDA` package](https://github.com/wlandau/fbseqCUDA) is an internal backend of [`fbseq` package](https://github.com/wlandau/fbseq) that runs the Markov chain Monte Carlo (MCMC) procedure behind the scenes. It is implemented with [CUDA](http://www.nvidia.com/object/cuda_home_new.html) for acceleration with parallel computing. For installation, CUDA must be installed. To use [`fbseqCUDA` package](https://github.com/wlandau/fbseqCUDA) in an MCMC, [`fbseq` package](https://github.com/wlandau/fbseq) must be installed, and a CUDA-capable general-purpose graphics processing unit (GPU) must be installed on your machine. 
 
 # System requirements
 
-- R $\ge$ 3.2.0
+- R 3.2.0 or higher
 - R packages `methods` and `knitr`, available through the [Comprehensive R Archive Network (CRAN](https://cran.r-project.org/).
-- R [package `fbseq`](https://github.com/wlandau/fbseq), available through GitHub. (See the [`fbseq` package tutorial vignette](https://github.com/wlandau/fbseq/blob/master/vignettes/model.html) for installation instructions. For best viewing, download the html vignette to your desktop and open it with a browser).
+- R [package `fbseq`](https://github.com/wlandau/fbseq), available through GitHub. 
 - A [CUDA](http://www.nvidia.com/object/cuda_home_new.html)-capable [NVIDIA graphics processing unit (GPU)](https://developer.nvidia.com/cuda-gpus) with compute capability 2.0 or greater.
 - [CUDA](http://www.nvidia.com/object/cuda_home_new.html) version 6.0 or greater.
 - Optional: the code uses double precision values for computation, so GPUs that natively support double precision will be much faster than ones that do not.
@@ -48,4 +48,4 @@ If CUDA is not found, open  `fbseqCUDA/src/Makevars` in a text editor. The top l
 CUDA_HOME = /usr/local/cuda
 ```
 
-but this may not be correct for your system. Replace `/usr/local/cuda` to the installation of CUDA on your computer.
+but this may not be correct for your system. Replace `/usr/local/cuda` with the correct path to the installation of CUDA on your computer.
