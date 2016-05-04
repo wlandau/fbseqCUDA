@@ -4,7 +4,7 @@ The [`fbseqCUDA` package](https://github.com/wlandau/fbseqCUDA) is an internal b
 
 # System requirements
 
-- R 3.2.0 or higher
+- R 3.2.0 or higher.
 - R packages `methods` and `knitr`, available through the [Comprehensive R Archive Network (CRAN](https://cran.r-project.org/).
 - R [package `fbseq`](https://github.com/wlandau/fbseq), available through GitHub. 
 - A [CUDA](http://www.nvidia.com/object/cuda_home_new.html)-capable [NVIDIA graphics processing unit (GPU)](https://developer.nvidia.com/cuda-gpus) with compute capability 2.0 or greater.
