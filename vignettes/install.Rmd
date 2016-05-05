@@ -33,7 +33,7 @@ Navigate to a [list of stable releases](https://github.com/wlandau/fbseqCUDA/rel
 
 For this option, you need the `devtools` package, available from CRAN or GitHub. Open R and run 
 
-```{r, eval=F}
+```
 library(devtools)
 install_github("wlandau/fbseqCUDA")
 ```
