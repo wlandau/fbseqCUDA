@@ -69,12 +69,14 @@ __device__ double ltarget_xi_t(chain_t *dd, args_t args, double x){
   return ret;
 }
 
-__device__ double ltarget_xi_horseshoe(chain_t *dd, args_t args, double x){
-  double ret = -CUDART_INF;
+// Sample 1/xi rather than xi because many xi's are huge.
+double ltarget_xi_horseshoe(chain_t *dd, args_t args, double x){
+  double ret = -INFINITY;
   if(x > args.lowerbound)
-    ret = -log(x * (1.0 + x)) - args.A / x;
+//    ret = -log(x * (1.0 + x)) - args.A / x;
+    ret = -log(1.0 + x) - args.A * x;
   if(isnan(ret))
-    ret = -CUDART_INF;
+    ret = -INFINITY;
   return ret;
 }
 
