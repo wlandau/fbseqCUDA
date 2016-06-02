@@ -20,6 +20,7 @@
 #include "sampler/args.h"
 #include "sampler/targets.h"
 #include "sampler/slice_step.h"
+#include "sampler/slice_horseshoe.h"
 #include "sampler/sampler_wrap.h"
 
 #include "gibbs/beta.h"
