@@ -22,6 +22,7 @@ __device__ args_t slice_horseshoe(chain_t *dd, args_t args){
   double u2 = runiform(dd, args.idx, 0.0, upper);
   eta = exp_invcdf(u2, args.A);
   args.x = 1.0/eta;
+  if(!isfinite(args.x)) args.x = args.x0;
   return args;
 }
 
