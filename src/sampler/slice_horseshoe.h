@@ -12,7 +12,8 @@ __device__ double exp_cdf(double x, double rate){
 }
 
 __device__ double exp_invcdf(double u, double rate){
-  return -log(1.0 - u)/rate;
+  double tol = 1e-12;
+  return -log(1.0 - u - tol)/(rate + tol);
 }
 
 __device__ args_t slice_horseshoe(chain_t *dd, args_t args){
