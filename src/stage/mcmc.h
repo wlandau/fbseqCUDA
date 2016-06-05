@@ -21,7 +21,7 @@ void mcmc(SEXP hh, chain_t *hd, chain_t *dd){
 
     for(i = 0; i < thin; ++i){
       iteration(hh, hd, dd, m);
-      estimates_update(hh, hd, dd);
+      estimates_update(hh, hd, dd, m*thin + i + 1);
     }
 
     hd2hh(hh, hd, m);

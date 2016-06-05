@@ -9,7 +9,6 @@
 #include "util/hh2hd.h"
 #include "util/estimates_initialize.h"
 #include "util/estimates_save.h"
-#include "util/estimates_scale.h"
 #include "util/estimates_update.h"
 #include "util/xbeta.h"
 #include "util/priors.h"
