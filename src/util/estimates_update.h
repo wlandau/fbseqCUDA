@@ -105,6 +105,7 @@ void estimates_update(SEXP hh, chain_t *hd, chain_t *dd, int m){
   estimates_update_kernel3<<<GRID, BLOCK>>>(dd, m);
   estimates_update_kernel4<<<GRID, BLOCK>>>(dd, m);
   estimates_update_kernel5<<<GRID, BLOCK>>>(dd, m);
+  estimates_update_kernel6<<<GRID, BLOCK>>>(dd, m);
 }
 
 #endif // UTIL_ESTIMATES_UPDATE_H

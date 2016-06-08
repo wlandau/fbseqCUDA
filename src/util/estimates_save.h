@@ -2,14 +2,15 @@
 #define UTIL_ESTIMATES_SAVE_H
 
 void estimates_save(SEXP hh, chain_t *hd){
-  int G = (double) li(hh, "G")[0],
+  int C = (double) li(hh, "C")[0],
+      G = (double) li(hh, "G")[0],
       L = (double) li(hh, "L")[0],
       N = (double) li(hh, "N")[0],
       P = (double) li(hh, "P")[0];
 
   CUDA_CALL(cudaMemcpy(lr(hh, "probs"), hd->probs, P * G * sizeof(double), cudaMemcpyDeviceToHost));
-  CUDA_CALL(cudaMemcpy(lr(hh, "contrastsPostMean"), hd->contrastsPostMean, P * G * sizeof(double), cudaMemcpyDeviceToHost));
-  CUDA_CALL(cudaMemcpy(lr(hh, "contrastsPostMeanSquare"), hd->contrastsPostMeanSquare, P * G * sizeof(double), cudaMemcpyDeviceToHost));
+  CUDA_CALL(cudaMemcpy(lr(hh, "contrastsPostMean"), hd->contrastsPostMean, C * G * sizeof(double), cudaMemcpyDeviceToHost));
+  CUDA_CALL(cudaMemcpy(lr(hh, "contrastsPostMeanSquare"), hd->contrastsPostMeanSquare, C * G * sizeof(double), cudaMemcpyDeviceToHost));
 
   CUDA_CALL(cudaMemcpy(lr(hh, "betaPostMean"), hd->betaPostMean, L * G * sizeof(double), cudaMemcpyDeviceToHost));
   CUDA_CALL(cudaMemcpy(lr(hh, "epsilonPostMean"), hd->epsilonPostMean, N * G * sizeof(double), cudaMemcpyDeviceToHost));
