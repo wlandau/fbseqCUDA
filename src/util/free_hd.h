@@ -14,6 +14,8 @@ void free_hd(chain_t *hd){
   CUDA_CALL(cudaFree(hd->designUnique));
   CUDA_CALL(cudaFree(hd->designUniqueN));
   CUDA_CALL(cudaFree(hd->probs));
+  CUDA_CALL(cudaFree(hd->contrastsPostMean));
+  CUDA_CALL(cudaFree(hd->contrastsPostMeanSquare));
   CUDA_CALL(cudaFree(hd->seeds));
 
   CUDA_CALL(cudaFree(hd->a));

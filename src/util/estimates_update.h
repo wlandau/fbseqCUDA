@@ -75,11 +75,26 @@ __global__ void estimates_update_kernel5(chain_t *dd, int m){
         if(!dd->propositions[Ipropositions(p, c)]) continue;
         contrast = 0.0;
         for(l = 0; l < dd->L; ++l)
-          contrast = pcs(dd->contrasts[Icontrasts(c, l)] * dd->beta[I(l, g)], contrast, l + 1);
+          contrast += dd->contrasts[Icontrasts(c, l)] * dd->beta[I(l, g)];
         truth *= (contrast > dd->bounds[c]);
       }
 
       dd->probs[I(p, g)] = pcs(truth, dd->probs[I(p, g)], m);
+    }
+  }
+}
+
+__global__ void estimates_update_kernel6(chain_t *dd, int m){
+  int c, g, l;
+  double contrast;
+  for(g = IDX; g < dd->G; g += NTHREADSX){
+    for(c = 0; c < dd->C; ++c){
+      contrast = 0.0;
+      for(l = 0; l < dd->L; ++l){
+        contrast += dd->contrasts[Icontrasts(c, l)] * dd->beta[I(l, g)];
+      }
+      dd->contrastsPostMean[I(c, g)] = pcs(contrast, dd->contrastsPostMean[I(c, g)], m);
+      dd->contrastsPostMeanSquare[I(c, g)] = pcs(contrast*contrast, dd->contrastsPostMeanSquare[I(c, g)], m);
     }
   }
 }

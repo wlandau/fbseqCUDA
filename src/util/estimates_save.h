@@ -8,6 +8,8 @@ void estimates_save(SEXP hh, chain_t *hd){
       P = (double) li(hh, "P")[0];
 
   CUDA_CALL(cudaMemcpy(lr(hh, "probs"), hd->probs, P * G * sizeof(double), cudaMemcpyDeviceToHost));
+  CUDA_CALL(cudaMemcpy(lr(hh, "contrastsPostMean"), hd->contrastsPostMean, P * G * sizeof(double), cudaMemcpyDeviceToHost));
+  CUDA_CALL(cudaMemcpy(lr(hh, "contrastsPostMeanSquare"), hd->contrastsPostMeanSquare, P * G * sizeof(double), cudaMemcpyDeviceToHost));
 
   CUDA_CALL(cudaMemcpy(lr(hh, "betaPostMean"), hd->betaPostMean, L * G * sizeof(double), cudaMemcpyDeviceToHost));
   CUDA_CALL(cudaMemcpy(lr(hh, "epsilonPostMean"), hd->epsilonPostMean, N * G * sizeof(double), cudaMemcpyDeviceToHost));

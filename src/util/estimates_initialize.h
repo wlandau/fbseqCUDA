@@ -102,10 +102,15 @@ __global__ void estimates_initialize_kernel8(chain_t *dd){
 }
 
 __global__ void estimates_initialize_kernel9(chain_t *dd){
-  int g, p;
-  for(g = IDX; g < dd->G; g += NTHREADSX)
+  int c, g, p;
+  for(g = IDX; g < dd->G; g += NTHREADSX){
     for(p = 0; p < dd->P; ++p)
       dd->probs[I(p, g)] = 0.0;
+    for(c = 0; c < dd->C; ++c){
+      dd->contrastsPostMean[I(c, g)] = 0.0;
+      dd->contrastsPostMeanSquare[I(c, g)] = 0.0;
+    }
+  }
 }
 
 void estimates_initialize(SEXP hh, chain_t *hd, chain_t *dd){

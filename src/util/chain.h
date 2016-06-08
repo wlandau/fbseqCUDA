@@ -18,7 +18,9 @@ typedef struct {
          L,
          N,
          P;
-  double *probs;
+  double *probs,
+         *contrastsPostMean,
+         *contrastsPostMeanSquare;
   int    *seeds;
 
   double *a,

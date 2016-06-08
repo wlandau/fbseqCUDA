@@ -25,6 +25,8 @@ void hh2hd(SEXP hh, chain_t *hd){
   CUDA_CALL(cudaMemcpy(hd->designUnique, lr(hh, "designUnique"), L * N * sizeof(double), cudaMemcpyHostToDevice));
   CUDA_CALL(cudaMemcpy(hd->designUniqueN, li(hh, "designUniqueN"), L * sizeof(int), cudaMemcpyHostToDevice));
   CUDA_CALL(cudaMemcpy(hd->probs, lr(hh, "probs"), P * G * sizeof(double), cudaMemcpyHostToDevice));
+  CUDA_CALL(cudaMemcpy(hd->contrastsPostMean, lr(hh, "contrastsPostMean"), C * G * sizeof(double), cudaMemcpyHostToDevice));
+  CUDA_CALL(cudaMemcpy(hd->contrastsPostMeanSquare, lr(hh, "contrastsPostMeanSquare"), C * G * sizeof(double), cudaMemcpyHostToDevice));
   CUDA_CALL(cudaMemcpy(hd->seeds, li(hh, "seeds"), N * G * sizeof(int), cudaMemcpyHostToDevice));
 
   CUDA_CALL(cudaMemcpy(hd->a, lr(hh, "a"), sizeof(double), cudaMemcpyHostToDevice));
