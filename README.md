@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/22809/wlandau/fbseqCUDA.svg)](https://zenodo.org/badge/latestdoi/22809/wlandau/fbseqCUDA)
+
 # Purpose
 
 The [`fbseqCUDA` package](https://github.com/wlandau/fbseqCUDA) is an internal backend of [`fbseq` package](https://github.com/wlandau/fbseq) that runs the Markov chain Monte Carlo (MCMC) procedure behind the scenes. It is implemented with [CUDA](http://www.nvidia.com/object/cuda_home_new.html) for acceleration with parallel computing. For installation, CUDA must be installed. To use [`fbseqCUDA` package](https://github.com/wlandau/fbseqCUDA) in an MCMC, [`fbseq` package](https://github.com/wlandau/fbseq) must be installed, and a CUDA-capable general-purpose graphics processing unit (GPU) must be installed on your machine. 
