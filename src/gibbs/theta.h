@@ -23,12 +23,8 @@ void thetaSample(SEXP hh, chain_t *hd, chain_t *dd){
   int l, G = li(hh, "G")[0];
   if(!(vi(le(hh, "parameter_sets_update"), "theta"))) return;
 
-  for(l = 0; l < li(hh, "L")[0]; ++l){
-
-    if(li(hh, "priors")[l] == PRIOR_HORSESHOE){
-      set_theta<<<1, 1>>>(dd, l, 0.0);
-      continue;
-    }
+  for(i = 0; i < li(hh, "Lupdate_theta")[0]; ++i){
+    l = li(hh, "theta_update")[i] - 1;
 
     theta_kernel1<<<GRID, BLOCK>>>(dd, l);
     thrust::device_ptr<double> tmpA(hd->aux);
