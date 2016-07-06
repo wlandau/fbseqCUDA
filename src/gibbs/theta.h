@@ -20,7 +20,7 @@ __global__ void theta_kernel3(chain_t *dd, double A0, double B0, int l){ // sing
 }
 
 void thetaSample(SEXP hh, chain_t *hd, chain_t *dd){
-  int l, G = li(hh, "G")[0];
+  int i, l, G = li(hh, "G")[0];
   if(!(vi(le(hh, "parameter_sets_update"), "theta"))) return;
 
   for(i = 0; i < li(hh, "Lupdate_theta")[0]; ++i){
