@@ -2,7 +2,7 @@ Package: fbseqCUDA
 Title: fbseqCUDA
 Description: Internal CUDA code for package fbseq.
 URL: https://github.com/wlandau/fbseqCUDA
-Version: 0.1
+Version: 1.0.0
 Author: Will Landau <will.landau@gmail.com>
 Maintainer: Will Landau <will.landau@gmail.com>
 Depends:
